@@ -1,0 +1,24 @@
+{
+  "name": "richard-imaoka",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "browser-sync": "^2.11.0",
+    "gulp": "^3.9.0"
+  },
+  "scripts": {
+    "default": "gulp default"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/richard-imaoka/richard-imaoka.github.io.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/richard-imaoka/richard-imaoka.github.io/issues"
+  },
+  "homepage": "https://github.com/richard-imaoka/richard-imaoka.github.io#readme"
+}
