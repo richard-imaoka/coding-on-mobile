@@ -38,7 +38,7 @@ var html_base_tpl =
     "</body>\n" +
     "</html>";
 
-var html_boxes =
+var html_boxes1 =
 "  <ul class='container flex-container-base'>\n" +
 "    <li class='flex-item-base'>1</li>\n" +
 "    <li class='flex-item-base'>2</li>\n" +
@@ -69,7 +69,7 @@ var write_iframe = function(iframe_id, src){
 }
 
 
-var renderZ = function(iframe_id, code_id, container_css) {
+var renderZ = function(html_boxes, iframe_id, code_id, container_css) {
 
   var html = html_base_tpl.replace('</body>', html_boxes + '</body>');
 
@@ -91,13 +91,13 @@ var render_by_selection = function(iframe_id, code_id, flex_css_property, flex_s
 
   var container_css = css_container_rule(flex_css_property, flex_css_value);
 
-  renderZ(iframe_id, code_id, container_css);
+  renderZ(html_boxes1, iframe_id, code_id, container_css);
 }
 
 
 var render_by_property_and_value = function(iframe_id, code_id, flex_css_property, flex_css_value) {
   var container_css = css_container_rule(flex_css_property, flex_css_value);
-  renderZ(iframe_id, code_id, container_css);
+  renderZ(html_boxes1, iframe_id, code_id, container_css);
 }
 
 
@@ -114,12 +114,12 @@ var render = function(enable) {
       "\n" +
       "}";
 
-  renderZ('output iframe', 'css_code', container_css);
+  renderZ(html_boxes1, 'output iframe', 'css_code', container_css);
 };
+
 
 var render_align_content = function() {
   var html_boxes2 =
-   "<div style='width:100%;background-color:purple'>\n" +
    "  <ul class='container flex-container-base' style='height: 300px'>\n" +
    "    <li class='flex-item-base' style='order: 1'>1</li>\n" +
    "    <li class='flex-item-base' style='order: 2'>2</li>\n" +
@@ -127,8 +127,7 @@ var render_align_content = function() {
    "    <li class='flex-item-base' style='order: 4'>4</li>\n" +
    "    <li class='flex-item-base' style='order: 5'>5</li>\n" +
    "    <li class='flex-item-base' style='order: 6'>6</li>\n" +
-   "  </ul>\n" +
-   "</div>\n";
+   "  </ul>\n";
 
   var html = html_base_tpl.replace('</body>', html_boxes2 + '</body>');
 
