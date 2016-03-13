@@ -7,18 +7,21 @@
 </head>
 <body>
 
-<h2>Properties for the Parent (flex Container)</h2>
+<div class="container-fluid">
 
-<div class='section1'>
-  <h3>display</h2>
-  <button type="button" onclick='r();'>Remove</button>
-  <button type="button" onclick='a();'>Add</button>
+  <h1>A Complete "Interactive" Guide to Flexbox</h1>
+  <h2>Properties for the Parent (flex Container)</h2>
+
+  <div class='section1'>
+    <h3>display</h2>
+    <button type="button" class="btn btn-default" onclick='r();'>Remove "display: flex;"</button>
+    <button type="button" class="btn btn-default" onclick='a();'>Add "display: flex;"</button>
 <pre class="line-numbers" data-line="2"><code id="css_code" class="language-css">.container {
     display: flex;
 }</code></pre>
-    <iframe id="output iframe" style='width:400px; height:450px; '>
-    </iframe>
-</div>
+      <iframe id="output iframe" style='width:400px; height:450px; '>
+      </iframe>
+  </div>
 
 <div class="section2">
   <h2>flex-direction</h2>
@@ -195,6 +198,7 @@
   </iframe>
 </div>
 
+</div>
 
 </body>
 <script src="js/prism.js"></script>
