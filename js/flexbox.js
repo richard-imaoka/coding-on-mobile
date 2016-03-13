@@ -118,30 +118,40 @@ var render = function(enable) {
 };
 
 
-var render_align_content = function() {
+
+var render_align_items = function(iframe_id, code_id, flex_css_property, flex_css_value) {
   var html_boxes2 =
-   "  <ul class='container flex-container-base' style='height: 300px'>\n" +
-   "    <li class='flex-item-base' style='order: 1'>1</li>\n" +
-   "    <li class='flex-item-base' style='order: 2'>2</li>\n" +
-   "    <li class='flex-item-base' style='order: 3'>3</li>\n" +
-   "    <li class='flex-item-base' style='order: 4'>4</li>\n" +
-   "    <li class='flex-item-base' style='order: 5'>5</li>\n" +
-   "    <li class='flex-item-base' style='order: 6'>6</li>\n" +
-   "  </ul>\n";
+      "  <ul class='container flex-container-base' style='height: 300px'>\n" +
+      "    <li class='flex-item-base' style='order: 1; height: 50px;  line-height: 50px'>1</li>\n" +
+      "    <li class='flex-item-base' style='order: 2; height: 80px;  line-height: 80px'>2</li>\n" +
+      "    <li class='flex-item-base' style='order: 3; height: 70px;  line-height: 70px'>3</li>\n" +
+      "    <li class='flex-item-base' style='order: 5; height: 90px;  line-height: 90px'>5</li>\n" +
+      "    <li class='flex-item-base' style='order: 6; height: 100px; line-height: 100px'>6</li>\n" +
+      "  </ul>\n";
 
-  var html = html_base_tpl.replace('</body>', html_boxes2 + '</body>');
+  var container_css = css_container_rule(flex_css_property, flex_css_value);
+  renderZ(html_boxes2, iframe_id, code_id, container_css);
+}
 
-  var flex_select_element = document.getElementById('flex-align-content-select');
-  var flex_select_idx = flex_select_element.selectedIndex;
-  var flex_css_value  = flex_select_element.options[flex_select_idx].text;
+var render_align_content = function(css_value) {
+  var html_boxes2 =
+      "  <ul class='container flex-container-base' style='height: 300px'>\n" +
+      "    <li class='flex-item-base' style='order: 1'>1</li>\n" +
+      "    <li class='flex-item-base' style='order: 2'>2</li>\n" +
+      "    <li class='flex-item-base' style='order: 3'>3</li>\n" +
+      "    <li class='flex-item-base' style='order: 4'>4</li>\n" +
+      "    <li class='flex-item-base' style='order: 5'>5</li>\n" +
+      "    <li class='flex-item-base' style='order: 6'>6</li>\n" +
+      "  </ul>\n";
 
-  var css_element = document.getElementById('css_code7');
-  var css_code = css_element.innerText;
-  var css = '<style>' + css_tpl + css_code.replace('align-content: ', "align-content: " + flex_css_value)  + '</style>';
+  var container_css =
+    ".container {\n" +
+    "  display: flex;\n" +
+    "  flex-wrap: wrap;\n" +
+    "  align-content: " + css_value + ";\n" +
+    "}\n";
 
-  var src = html.replace('</head>', css + '</head>');
-
-  write_iframe('output iframe7', src);
+  renderZ(html_boxes2, 'output iframe7', 'css_code7', container_css);
 }
 
 
