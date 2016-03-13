@@ -42,17 +42,16 @@
     <h3>flex-direction</h3>
     <pre><code id="css_code2" class="language-css"></code></pre>
     <div class="btn-group" data-toggle="buttons">
-      <label class="btn btn-default active" onClick='renderB("output iframe2", "css_code2", "flex-direction", "row")'>
+      <label class="btn btn-default active" onClick='render_by_property_and_value("output iframe2", "css_code2", "flex-direction", "row")'>
         <input type="radio" autocomplete="off" checked>row
       </label>
-      <label class="btn btn-default" onClick='renderB("output iframe2", "css_code2", "flex-direction", "row-reverse")'>
+      <label class="btn btn-default" onClick='render_by_property_and_value("output iframe2", "css_code2", "flex-direction", "row-reverse")'>
         <input type="radio" autocomplete="off">row-reverse
       </label>
-      <label class="btn btn-default" onClick='renderB("output iframe2", "css_code2", "flex-direction", "column")'>
+      <label class="btn btn-default" onClick='render_by_property_and_value("output iframe2", "css_code2", "flex-direction", "column")'>
         <input type="radio" autocomplete="off">column
       </label>
-      <label class="btn btn-default"
-             onClick='renderB("output iframe2", "css_code2", "flex-direction", "column-reverse")'>
+      <label class="btn btn-default" onClick='render_by_property_and_value("output iframe2", "css_code2", "flex-direction", "column-reverse")'>
         <input type="radio" autocomplete="off">column-reverse
       </label>
     </div>
@@ -67,13 +66,13 @@
     <h3>flex-wrap</h3>
     <pre><code id="css_code3" class="language-css"></code></pre>
     <div class="btn-group" data-toggle="buttons">
-      <label class="btn btn-default active" onClick='renderB("output iframe3", "css_code3", "flex-wrap", "wrap")'>
+      <label class="btn btn-default active" onClick='render_by_property_and_value("output iframe3", "css_code3", "flex-wrap", "wrap")'>
         <input type="radio" autocomplete="off" checked>wrap
       </label>
-      <label class="btn btn-default" onClick='renderB("output iframe3", "css_code3", "flex-wrap", "wrap-reverse")'>
+      <label class="btn btn-default" onClick='render_by_property_and_value("output iframe3", "css_code3", "flex-wrap", "wrap-reverse")'>
         <input type="radio" autocomplete="off">wrap-reverse
       </label>
-      <label class="btn btn-default" onClick='renderB("output iframe3", "css_code3", "flex-wrap", "none")'>
+      <label class="btn btn-default" onClick='render_by_property_and_value("output iframe3", "css_code3", "flex-wrap", "none")'>
         <input type="radio" autocomplete="off">none
       </label>
     </div>
@@ -87,7 +86,7 @@
   <div class="section1">
     <h3>flex-flow</h3>
     <pre><code id="css_code4" class="language-css"></code></pre>
-    <select id='flex-flow-select' onChange='renderB("output iframe4", "css_code4", "flex-wrap", this.select)'>
+    <select id='flex-flow-select' onChange='render_by_selection("output iframe4", "css_code4", "flex-flow", this)'>
       <option value="row">row</option>
       <option value="row-reverse">row-reverse</option>
       <option value="column">column</option>
@@ -99,13 +98,11 @@
       <option value="column wrap">column wrap</option>
       <option value="column-reverse wrap-reverse">column-reverse wrap-reverse</option>
     </select>
-
     <div>
       <iframe id="output iframe4" style='width:300px;height:100%;'>
       </iframe>
     </div>
   </div>
-</div>
 
 
 <div class="section1">
@@ -270,12 +267,11 @@
 <script src="js/bootstrap.min.js"></script>
 <script src="js/flexbox.js"></script>
 <script>render(true);</script>
-<script>renderB("output iframe2", "css_code2", "flex-direction", "row")</script>
-<script>renderB("output iframe3", "css_code3", "flex-wrap", "wrap")</script>
-<script>renderA('output iframe3', 'flex-wrap', 'flex-wrap-select');</script>
-<script>renderA('output iframe4', 'flex-flow', 'flex-flow-select');</script>
-<script>renderA('output iframe5', 'justify-content', 'flex-justify-content-select');</script>
-<script>renderA('output iframe6', 'align-items', 'flex-align-items-select');</script>
+<script>render_by_property_and_value("output iframe2", "css_code2", "flex-direction", "row")</script>
+<script>render_by_property_and_value("output iframe3", "css_code3", "flex-wrap", "wrap")</script>
+<script>render_by_property_and_value("output iframe4", "css_code4", "flex-flow", "row")</script>
+<script>render_by_property_and_value('output iframe5', 'justify-content', 'flex-justify-content-select');</script>
+<script>render_by_property_and_value('output iframe6', 'align-items', 'flex-align-items-select');</script>
 <script>render_align_content()</script>
 <script>render_order_item();</script>
 <script>render_grow_item();</script>

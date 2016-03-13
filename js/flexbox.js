@@ -68,18 +68,6 @@ var write_iframe = function(iframe_id, src){
   iframe_doc.close();
 }
 
-var renderA = function(iframe_id, flex_css_property, select_id) {
-  var html = html_base_tpl.replace('</body>', html_boxes + '</body>');
-
-  var flex_select_element = document.getElementById(select_id);
-  var flex_select_idx = flex_select_element.selectedIndex;
-  var flex_css_value  = flex_select_element.options[flex_select_idx].text;
-  var css = '<style>' + css_tpl + css_container_rule(flex_css_property, flex_css_value)  + '</style>';
-
-  var src = html.replace('</head>', css + '</head>');
-
-  write_iframe(iframe_id, src);
-}
 
 var renderZ = function(iframe_id, code_id, container_css) {
 
@@ -96,7 +84,18 @@ var renderZ = function(iframe_id, code_id, container_css) {
   Prism.highlightElement(css_elem);
 }
 
-var renderB = function(iframe_id, code_id, flex_css_property, flex_css_value) {
+var render_by_selection = function(iframe_id, code_id, flex_css_property, flex_select_element) {
+
+  var flex_select_idx = flex_select_element.selectedIndex;
+  var flex_css_value  = flex_select_element.options[flex_select_idx].text;
+
+  var container_css = css_container_rule(flex_css_property, flex_css_value);
+
+  renderZ(iframe_id, code_id, container_css);
+}
+
+
+var render_by_property_and_value = function(iframe_id, code_id, flex_css_property, flex_css_value) {
   var container_css = css_container_rule(flex_css_property, flex_css_value);
   renderZ(iframe_id, code_id, container_css);
 }
