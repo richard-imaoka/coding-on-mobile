@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="css/flexbox.css">
+  <link href="css/prism.css" rel="stylesheet" />
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<h2>Properties for the Parent (flex Container)</h2>
+
+<div class='section1'>
+  <h3>display</h2>
+  <button type="button" onclick='r();'>Remove</button>
+  <button type="button" onclick='a();'>Add</button>
+<pre class="line-numbers" data-line="2"><code id="css_code" class="language-css">.container {
+    display: flex;
+}</code></pre>
+    <iframe id="output iframe" style='width:400px; height:450px; '>
+    </iframe>
+</div>
+
+<div class="section2">
+  <h2>flex-direction</h2>
+  <pre><code id="css_code2">.container {
+      display: flex;
+      flex-direction: <select id='flex-direction-select' onChange="renderA('output iframe2', 'flex-direction', 'flex-direction-select');">
+        <option value="row">row</option>
+        <option value="row-reverse">row-reverse</option>
+        <option value="column">column</option>
+        <option value="column-reverse">column-reverse</option>
+      </select>;
+  }</code></pre>
+  <div>
+    <iframe id="output iframe2"  style='width:100%;height:100%;'>
+    </iframe>
+  </div>
+</div>
+
+  <pre><code id="css_code3">.container {
+      display: flex;
+      flex-wrap: <select id='flex-wrap-select' onChange="renderA('output iframe3', 'flex-wrap', 'flex-wrap-select');">
+        <option value="wrap">wrap</option>
+        <option value="wrap-reverse">wrap-reverse</option>
+        <option value="nowrap">nowrap</option>
+      </select>;
+  }</code></pre>
+  <div>
+    <iframe id="output iframe3"  style='width:300px;height:100%;'>
+    </iframe>
+  </div>
+
+  <pre><code id="css_code4">.container {
+      display: flex;
+      flex-flow: <select id='flex-flow-select' onChange="renderA('output iframe4', 'flex-flow', 'flex-flow-select');">
+        <option value="row">row</option>
+        <option value="row-reverse">row-reverse</option>
+        <option value="column">column</option>
+        <option value="column-reverse">column-reverse</option>
+        <option value="wrap">wrap</option>
+        <option value="wrap-reverse">wrap-reverse</option>
+        <option value="nowrap">nowrap</option>
+        <option value="row nowrap">row nowrap</option>
+        <option value="column wrap">column wrap</option>
+        <option value="column-reverse wrap-reverse">column-reverse wrap-reverse</option>
+      </select>;
+  }</code></pre>
+  <div>
+    <iframe id="output iframe4"  style='width:300px;height:100%;'>
+    </iframe>
+  </div>
+
+  <pre><code id="css_code5">.container {
+      display: flex;
+      justify-content: <select id='flex-justify-content-select' onChange="renderA('output iframe5', 'justify-content', 'flex-justify-content-select');">
+        <option value="flex-start">flex-start</option>
+        <option value="flex-end ">flex-end </option>
+        <option value="center">center</option>
+        <option value="space-between">space-between</option>
+        <option value="space-around">space-around</option>
+      </select>;
+  }</code></pre>
+  <div>
+    <iframe id="output iframe5"  style='width:100%;height:100%;'>
+    </iframe>
+  </div>
+
+  <pre><code id="css_code6">.container {
+      display: flex;
+      align-items: <select id='flex-align-items-select' onChange="renderA('output iframe6', 'align-items', 'flex-align-items-select');">
+        <option value="flex-start">flex-start</option>
+        <option value="flex-end">flex-end</option>
+        <option value="center">center</option>
+        <option value="baseline">baseline</option>
+        <option value="stretch">stretch</option>
+      </select>;
+  }</code></pre>
+  <div>
+    <iframe id="output iframe6" style='width:100%;height:100%;'>
+    </iframe>
+  </div>
+
+
+<pre><code id="css_code7">.container {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: <select id='flex-align-content-select' onChange="render_align_content();">
+      <option value="flex-start">flex-start</option>
+      <option value="flex-end">flex-end</option>
+      <option value="center">center</option>
+      <option value="space-between">space-between</option>
+      <option value="space-around">space-around</option>
+      <option value="stretch">stretch</option>
+    </select>;
+}</code></pre>
+  <div>
+    <iframe id="output iframe7" style='width:200px;height:100%;'>
+    </iframe>
+  </div>
+
+
+<pre><code id="css_code8">.container{
+  display: flex;
+}
+
+.item {
+  order: <input type="number" id='order-select' min="0" value="10" onChange="render_order_item();" >;
+}</code></pre>
+<div>
+  <iframe id="output iframe8" style='width:100%;height:100%;'>
+  </iframe>
+</div>
+
+
+<pre><code id="css_code9">.container{
+  display: flex;
+}
+
+.item {
+  flex-grow: <input type="number" id='flex-grow-select' min="0" value="2" onChange="render_grow_item();" >;
+}</code></pre>
+<div>
+  <iframe id="output iframe9" style='width:100%;height:100%;'>
+  </iframe>
+</div>
+
+
+<pre><code id="css_code10">.container{
+  display: flex;
+}
+
+.item {
+  flex-basis: <select id='flex-basis-select' onChange="render_basis_item();" >;
+   <option value="20 percent">20%</option>
+   <option value="20 percent">40%</option>
+   <option value="10rem">10rem</option>
+ </select>;
+}</code></pre>
+<div>
+  <iframe id="output iframe10" style='width:100%;height:100%;'>
+  </iframe>
+</div>
+
+
+<pre><code id="css_code11">.container{
+  display: flex;
+}
+
+.item {
+  flex: <select id='item-flex-select' onChange="render_item_flex();">
+      <option value="none">none</option>
+    </select>;
+}</code></pre>
+<div>
+  <iframe id="output iframe11" style='width:100%;height:100%;'>
+  </iframe>
+</div>
+
+<pre><code id="css_code12">.container{
+  display: flex;
+}
+
+.item {
+  align-self: <select id='flex-align-self-select' onChange="render_align_self();">
+    <option value="flex-start">flex-start</option>
+    <option value="flex-end">flex-end</option>
+    <option value="center">center</option>
+    <option value="baseline">baseline</option>
+    <option value="stretch">stretch</option>
+    <option value="auto">auto</option>
+  </select>;
+}</code></pre>
+<div>
+  <iframe id="output iframe12" style='width:100%;height:100%;'>
+  </iframe>
+</div>
+
+
+</body>
+<script src="js/prism.js"></script>
+<!-- jQuery -->
+<script src="js/jquery.js"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="js/bootstrap.min.js"></script>
+<script src="js/flexbox.js"></script>
+<script>render();</script>
+<script>renderA('output iframe2', 'flex-direction', 'flex-direction-select');</script>
+<script>renderA('output iframe3', 'flex-wrap', 'flex-wrap-select');</script>
+<script>renderA('output iframe4', 'flex-flow', 'flex-flow-select');</script>
+<script>renderA('output iframe5', 'justify-content', 'flex-justify-content-select');</script>
+<script>renderA('output iframe6', 'align-items', 'flex-align-items-select');</script>
+<script>render_align_content()</script>
+<script>render_order_item();</script>
+<script>render_grow_item();</script>
+<script>render_basis_item();</script>
+<script>render_item_flex();</script>
+<script>render_align_self();</script>
+<script>
+  function r(){
+      var css_elem = document.getElementById('css_code');
+      css_elem.innerText  =
+        ".container {\n" +
+        "}";
+      render();
+      Prism.highlightElement(css_elem);
+  }
+  function a(){
+      var css_elem = document.getElementById('css_code');
+      css_elem.innerText  =
+        ".container {\n" +
+        "    display: flex;\n" +
+        "}";
+      render();
+      Prism.highlightElement(css_elem);
+  }
+</script>
+</html>

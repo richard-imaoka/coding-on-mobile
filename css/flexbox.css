@@ -1,0 +1,18 @@
+body {
+  max-width: 800px;
+}
+
+iframe {
+  background-color:purple;
+  border-width: 0px;
+}
+
+.section1 {
+  padding: 10px;
+  background: rgba(147,81,166,0.2);
+}
+
+.section2 {
+  padding: 10px;
+  background: linear-gradient(rgba(225,135,40,0.2), #fff);
+}
