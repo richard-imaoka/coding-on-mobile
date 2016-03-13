@@ -11,10 +11,36 @@ iframe {
 
 .section1 {
   padding: 10px;
-  background: rgba(147,81,166,0.2);
-}
-
-.section2 {
-  padding: 10px;
+  font-size: 2em;
   background: linear-gradient(rgba(225,135,40,0.2), #fff);
 }
+
+h3{
+  font-size: 1.5em;
+  border-bottom: thin solid #000000;
+  border-left: thick solid #000000;
+  padding-left: 8px;
+}
+
+.btn {
+  font-size: 1.5em;
+}
+
+.btn-default{
+  color: lightgray;
+}
+
+.btn-default.active{
+  color: white;
+  background-color: dodgerblue;
+}
+
+.btn-group{
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+pre code {
+  font-size: 2em;
+}
+

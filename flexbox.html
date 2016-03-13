@@ -1,39 +1,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel="stylesheet" type="text/css" href="css/flexbox.css">
-  <link href="css/prism.css" rel="stylesheet" />
   <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/prism.css" rel="stylesheet">
+  <link href="css/flexbox.css" rel="stylesheet">
 </head>
 <body>
 
 <div class="container-fluid">
 
   <h1>A Complete "Interactive" Guide to Flexbox</h1>
-  <h2>Properties for the Parent (flex Container)</h2>
 
   <div class='section1'>
-    <h3>display</h3>
+    <h2>Properties for the Parent (flex Container)</h2>
+    <img src="img/flex_container_items.png">
+    </p>
+  </div>
 
+
+
+
+
+<div class='section1'>
+<h3>display</h3>
+<pre><code id="css_code" class="language-css">.container {
+  display: flex;
+}</code></pre>
     <div class="btn-group" data-toggle="buttons">
       <label class="btn btn-default active" onClick='a()'>
-        <input type="radio" autocomplete="off" checked>Add
+        <input type="radio" autocomplete="off" checked>Enable
       </label>
       <label class="btn btn-default" onClick='r()'>
-        <input type="radio" autocomplete="off">Remove
+        <input type="radio" autocomplete="off">Disable
       </label>
     </div>
-<pre><code id="css_code" class="language-css">.container {
-    display: flex;
-}</code></pre>
+    <div>
       <iframe id="output iframe" style='width:400px; height:450px; '>
       </iframe>
+    </div>
   </div>
   <script>
     function r(){
       var css_elem = document.getElementById('css_code');
       css_elem.innerText  =
               ".container {\n" +
+              "\n" +
               "}";
       render();
       Prism.highlightElement(css_elem);
@@ -49,10 +60,12 @@
     }
   </script>
 
-  
-<div class="section2">
-  <h2>flex-direction</h2>
-  <pre><code id="css_code2">.container {
+
+
+
+<div class="section1">
+<h3>flex-direction</h3>
+<pre><code id="css_code2">.container {
       display: flex;
       flex-direction: <select id='flex-direction-select' onChange="renderA('output iframe2', 'flex-direction', 'flex-direction-select');">
         <option value="row">row</option>
@@ -60,26 +73,35 @@
         <option value="column">column</option>
         <option value="column-reverse">column-reverse</option>
       </select>;
-  }</code></pre>
+}</code></pre>
   <div>
-    <iframe id="output iframe2"  style='width:100%;height:100%;'>
+    <iframe id="output iframe2"  style='width:400px; height:500px;'>
     </iframe>
   </div>
 </div>
 
-  <pre><code id="css_code3">.container {
+
+
+<div class="section1">
+<h3>flex-wrap</h3>
+<pre><code id="css_code3">.container {
       display: flex;
       flex-wrap: <select id='flex-wrap-select' onChange="renderA('output iframe3', 'flex-wrap', 'flex-wrap-select');">
         <option value="wrap">wrap</option>
         <option value="wrap-reverse">wrap-reverse</option>
         <option value="nowrap">nowrap</option>
       </select>;
-  }</code></pre>
+}</code></pre>
   <div>
-    <iframe id="output iframe3"  style='width:300px;height:100%;'>
+    <iframe id="output iframe3"  style='width:300px;height:200px;'>
     </iframe>
   </div>
+</div>
 
+
+
+<div class="section1">
+<h3>flex-flow</h3>
   <pre><code id="css_code4">.container {
       display: flex;
       flex-flow: <select id='flex-flow-select' onChange="renderA('output iframe4', 'flex-flow', 'flex-flow-select');">
@@ -99,7 +121,13 @@
     <iframe id="output iframe4"  style='width:300px;height:100%;'>
     </iframe>
   </div>
+</div>
 
+
+
+
+<div class="section1">
+<h3>justify content</h3>
   <pre><code id="css_code5">.container {
       display: flex;
       justify-content: <select id='flex-justify-content-select' onChange="renderA('output iframe5', 'justify-content', 'flex-justify-content-select');">
@@ -114,7 +142,13 @@
     <iframe id="output iframe5"  style='width:100%;height:100%;'>
     </iframe>
   </div>
+</div>
 
+
+
+
+  <div class="section1">
+    <h3>flex-direction</h3>
   <pre><code id="css_code6">.container {
       display: flex;
       align-items: <select id='flex-align-items-select' onChange="renderA('output iframe6', 'align-items', 'flex-align-items-select');">
@@ -129,8 +163,13 @@
     <iframe id="output iframe6" style='width:100%;height:100%;'>
     </iframe>
   </div>
+</div>
 
 
+
+
+  <div class="section1">
+    <h3>align-content</h3>
 <pre><code id="css_code7">.container {
     display: flex;
     flex-wrap: wrap;
@@ -147,8 +186,12 @@
     <iframe id="output iframe7" style='width:200px;height:100%;'>
     </iframe>
   </div>
+</div>
 
 
+
+  <div class="section1">
+    <h3>order</h3>
 <pre><code id="css_code8">.container{
   display: flex;
 }
@@ -160,8 +203,13 @@
   <iframe id="output iframe8" style='width:100%;height:100%;'>
   </iframe>
 </div>
+</div>
 
 
+
+
+  <div class="section1">
+    <h3>flex-grow</h3>
 <pre><code id="css_code9">.container{
   display: flex;
 }
@@ -173,8 +221,12 @@
   <iframe id="output iframe9" style='width:100%;height:100%;'>
   </iframe>
 </div>
+</div>
 
 
+
+  <div class="section1">
+    <h3>flex-basis</h3>
 <pre><code id="css_code10">.container{
   display: flex;
 }
@@ -190,8 +242,10 @@
   <iframe id="output iframe10" style='width:100%;height:100%;'>
   </iframe>
 </div>
+</div>
 
-
+  <div class="section1">
+    <h3>flex</h3>
 <pre><code id="css_code11">.container{
   display: flex;
 }
@@ -205,7 +259,13 @@
   <iframe id="output iframe11" style='width:100%;height:100%;'>
   </iframe>
 </div>
+</div>
 
+
+
+
+  <div class="section1">
+    <h3>align-self</h3>
 <pre><code id="css_code12">.container{
   display: flex;
 }
@@ -223,6 +283,7 @@
 <div>
   <iframe id="output iframe12" style='width:100%;height:100%;'>
   </iframe>
+</div>
 </div>
 
 </div>
