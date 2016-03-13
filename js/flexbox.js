@@ -81,16 +81,41 @@ var renderA = function(iframe_id, flex_css_property, select_id) {
   write_iframe(iframe_id, src);
 }
 
-var render = function() {
-    var html = html_base_tpl.replace('</body>', html_boxes + '</body>');
+var renderZ = function(iframe_id, code_id, container_css) {
 
-    var css_element = document.getElementById('css_code');
-    var css_code = css_element.innerText;
-    var css = '<style>' + css_tpl + css_code  + '</style>';
+  var html = html_base_tpl.replace('</body>', html_boxes + '</body>');
 
-    var src = html.replace('</head>', css + '</head>');
+  var css = css_tpl + container_css;
 
-    write_iframe('output iframe', src);
+  var css_elem = document.getElementById(code_id);
+  css_elem.innerText = container_css;
+
+  var src = html.replace('</head>', '<style>' + css + '</style></head>');
+
+  write_iframe(iframe_id, src);
+  Prism.highlightElement(css_elem);
+}
+
+var renderB = function(iframe_id, code_id, flex_css_property, flex_css_value) {
+  var container_css = css_container_rule(flex_css_property, flex_css_value);
+  renderZ(iframe_id, code_id, container_css);
+}
+
+
+var render = function(enable) {
+  var container_css = "";
+  if(enable)
+    container_css =
+        ".container {\n" +
+        "    display: flex;\n" +
+        "}";
+  else
+    container_css =
+      ".container {\n" +
+      "\n" +
+      "}";
+
+  renderZ('output iframe', 'css_code', container_css);
 };
 
 var render_align_content = function() {

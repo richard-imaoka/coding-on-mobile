@@ -27,10 +27,10 @@
   display: flex;
 }</code></pre>
     <div class="btn-group" data-toggle="buttons">
-      <label class="btn btn-default active" onClick='a()'>
+      <label class="btn btn-default active" onClick='render(true)'>
         <input type="radio" autocomplete="off" checked>Enable
       </label>
-      <label class="btn btn-default" onClick='r()'>
+      <label class="btn btn-default" onClick='render(false)'>
         <input type="radio" autocomplete="off">Disable
       </label>
     </div>
@@ -39,41 +39,27 @@
       </iframe>
     </div>
   </div>
-  <script>
-    function r(){
-      var css_elem = document.getElementById('css_code');
-      css_elem.innerText  =
-              ".container {\n" +
-              "\n" +
-              "}";
-      render();
-      Prism.highlightElement(css_elem);
-    }
-    function a(){
-      var css_elem = document.getElementById('css_code');
-      css_elem.innerText  =
-              ".container {\n" +
-              "    display: flex;\n" +
-              "}";
-      render();
-      Prism.highlightElement(css_elem);
-    }
-  </script>
 
 
 
 
 <div class="section1">
-<h3>flex-direction</h3>
-<pre><code id="css_code2">.container {
-      display: flex;
-      flex-direction: <select id='flex-direction-select' onChange="renderA('output iframe2', 'flex-direction', 'flex-direction-select');">
-        <option value="row">row</option>
-        <option value="row-reverse">row-reverse</option>
-        <option value="column">column</option>
-        <option value="column-reverse">column-reverse</option>
-      </select>;
-}</code></pre>
+  <h3>flex-direction</h3>
+  <pre><code id="css_code2" class="language-css"></code></pre>
+  <div class="btn-group" data-toggle="buttons">
+    <label class="btn btn-default active" onClick='renderB("output iframe2", "css_code2", "flex-direction", "row")'>
+      <input type="radio" autocomplete="off" checked>row
+    </label>
+    <label class="btn btn-default" onClick='renderB("output iframe2", "css_code2", "flex-direction", "row-reverse")'>
+      <input type="radio" autocomplete="off">row-reverse
+    </label>
+    <label class="btn btn-default" onClick='renderB("output iframe2", "css_code2", "flex-direction", "column")'>
+      <input type="radio" autocomplete="off">column
+    </label>
+    <label class="btn btn-default" onClick='renderB("output iframe2", "css_code2", "flex-direction", "column-reverse")'>
+      <input type="radio" autocomplete="off">column-reverse
+    </label>
+  </div>
   <div>
     <iframe id="output iframe2"  style='width:400px; height:500px;'>
     </iframe>
@@ -83,15 +69,19 @@
 
 
 <div class="section1">
-<h3>flex-wrap</h3>
-<pre><code id="css_code3">.container {
-      display: flex;
-      flex-wrap: <select id='flex-wrap-select' onChange="renderA('output iframe3', 'flex-wrap', 'flex-wrap-select');">
-        <option value="wrap">wrap</option>
-        <option value="wrap-reverse">wrap-reverse</option>
-        <option value="nowrap">nowrap</option>
-      </select>;
-}</code></pre>
+  <h3>flex-wrap</h3>
+  <pre><code id="css_code3" class="language-css"></code></pre>
+  <div class="btn-group" data-toggle="buttons">
+    <label class="btn btn-default active" onClick='renderB("output iframe3", "css_code3", "flex-wrap", "wrap")'>
+      <input type="radio" autocomplete="off" checked>row
+    </label>
+    <label class="btn btn-default" onClick='renderB("output iframe3", "css_code3", "flex-wrap", "wrap-reverse")'>
+      <input type="radio" autocomplete="off">row-reverse
+    </label>
+    <label class="btn btn-default" onClick='renderB("output iframe3", "css_code3", "flex-wrap", "none")'>
+      <input type="radio" autocomplete="off">column
+    </label>
+  </div>
   <div>
     <iframe id="output iframe3"  style='width:300px;height:200px;'>
     </iframe>
@@ -101,25 +91,24 @@
 
 
 <div class="section1">
-<h3>flex-flow</h3>
-  <pre><code id="css_code4">.container {
-      display: flex;
-      flex-flow: <select id='flex-flow-select' onChange="renderA('output iframe4', 'flex-flow', 'flex-flow-select');">
-        <option value="row">row</option>
-        <option value="row-reverse">row-reverse</option>
-        <option value="column">column</option>
-        <option value="column-reverse">column-reverse</option>
-        <option value="wrap">wrap</option>
-        <option value="wrap-reverse">wrap-reverse</option>
-        <option value="nowrap">nowrap</option>
-        <option value="row nowrap">row nowrap</option>
-        <option value="column wrap">column wrap</option>
-        <option value="column-reverse wrap-reverse">column-reverse wrap-reverse</option>
-      </select>;
-  }</code></pre>
-  <div>
-    <iframe id="output iframe4"  style='width:300px;height:100%;'>
-    </iframe>
+  <h3>flex-flow</h3>
+  <pre><code id="css_code4" class="language-css"></code></pre>
+    <select id='flex-flow-select' onChange='renderB("output iframe4", "css_code4", "flex-wrap", this.select)'>
+      <option value="row">row</option>
+      <option value="row-reverse">row-reverse</option>
+      <option value="column">column</option>
+      <option value="column-reverse">column-reverse</option>
+      <option value="wrap">wrap</option>
+      <option value="wrap-reverse">wrap-reverse</option>
+      <option value="nowrap">nowrap</option>
+      <option value="row nowrap">row nowrap</option>
+      <option value="column wrap">column wrap</option>
+      <option value="column-reverse wrap-reverse">column-reverse wrap-reverse</option>
+    </select>
+    <div>
+      <iframe id="output iframe4"  style='width:300px;height:100%;'>
+      </iframe>
+    </div>
   </div>
 </div>
 
@@ -295,8 +284,8 @@
 <!-- Bootstrap Core JavaScript -->
 <script src="js/bootstrap.min.js"></script>
 <script src="js/flexbox.js"></script>
-<script>render();</script>
-<script>renderA('output iframe2', 'flex-direction', 'flex-direction-select');</script>
+<script>render(true);</script>
+<script>renderB("output iframe2", "css_code2", "flex-direction", "row")</script>
 <script>renderA('output iframe3', 'flex-wrap', 'flex-wrap-select');</script>
 <script>renderA('output iframe4', 'flex-flow', 'flex-flow-select');</script>
 <script>renderA('output iframe5', 'justify-content', 'flex-justify-content-select');</script>
