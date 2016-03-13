@@ -13,16 +13,43 @@
   <h2>Properties for the Parent (flex Container)</h2>
 
   <div class='section1'>
-    <h3>display</h2>
-    <button type="button" class="btn btn-default" onclick='r();'>Remove "display: flex;"</button>
-    <button type="button" class="btn btn-default" onclick='a();'>Add "display: flex;"</button>
-<pre class="line-numbers" data-line="2"><code id="css_code" class="language-css">.container {
+    <h3>display</h3>
+
+    <div class="btn-group" data-toggle="buttons">
+      <label class="btn btn-default active" onClick='a()'>
+        <input type="radio" autocomplete="off" checked>Add
+      </label>
+      <label class="btn btn-default" onClick='r()'>
+        <input type="radio" autocomplete="off">Remove
+      </label>
+    </div>
+<pre><code id="css_code" class="language-css">.container {
     display: flex;
 }</code></pre>
       <iframe id="output iframe" style='width:400px; height:450px; '>
       </iframe>
   </div>
+  <script>
+    function r(){
+      var css_elem = document.getElementById('css_code');
+      css_elem.innerText  =
+              ".container {\n" +
+              "}";
+      render();
+      Prism.highlightElement(css_elem);
+    }
+    function a(){
+      var css_elem = document.getElementById('css_code');
+      css_elem.innerText  =
+              ".container {\n" +
+              "    display: flex;\n" +
+              "}";
+      render();
+      Prism.highlightElement(css_elem);
+    }
+  </script>
 
+  
 <div class="section2">
   <h2>flex-direction</h2>
   <pre><code id="css_code2">.container {
@@ -219,23 +246,5 @@
 <script>render_basis_item();</script>
 <script>render_item_flex();</script>
 <script>render_align_self();</script>
-<script>
-  function r(){
-      var css_elem = document.getElementById('css_code');
-      css_elem.innerText  =
-        ".container {\n" +
-        "}";
-      render();
-      Prism.highlightElement(css_elem);
-  }
-  function a(){
-      var css_elem = document.getElementById('css_code');
-      css_elem.innerText  =
-        ".container {\n" +
-        "    display: flex;\n" +
-        "}";
-      render();
-      Prism.highlightElement(css_elem);
-  }
-</script>
+
 </html>
