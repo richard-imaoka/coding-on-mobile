@@ -194,7 +194,7 @@ var render_order_item = function(iframe_id, code_id, flex_css_property, flex_css
       "}\n" +
       "\n" +
       ".item {\n" +
-      "  " + flex_css_property + ": " + flex_css_value+ ";\n" +
+      "  " + flex_css_property + ": " + flex_css_value + ";\n" +
       "}";
 
     renderZ(html_boxes2, iframe_id, code_id, container_css);
@@ -218,6 +218,32 @@ var render_grow_item = function(iframe_id, code_id, flex_css_property, flex_css_
       "}\n" +
       "\n" +
       ".item {\n" +
+      "  " + flex_css_property + ": " + flex_css_value+ ";\n" +
+      "}";
+
+  renderZ(html_boxes2, iframe_id, code_id, container_css);
+}
+
+
+var render_shrink_item = function(iframe_id, code_id, flex_css_property, flex_css_value) {
+
+  var html_boxes2 =
+      "<div style='width:300px%;background-color:purple'>\n" +
+      "  <ul class='container flex-container-base'>\n" +
+      "    <li class='flex-item-base'      style='flex-basis: 100px; flex-shrink: 1'>1</li>\n" +
+      "    <li class='flex-item-base item' style='background-color:yellow; color: blue'>" + flex_css_value  + "</li>\n" +
+      "    <li class='flex-item-base'      style='flex-basis: 100px; flex-shrink: 1'>1</li>\n" +
+      "  </ul>\n" +
+      "</div>\n";
+
+
+  var container_css =
+      ".container {\n" +
+      "    display: flex;\n" +
+      "}\n" +
+      "\n" +
+      ".item {\n" +
+      "  flex-basis: 100px; \n" +
       "  " + flex_css_property + ": " + flex_css_value+ ";\n" +
       "}";
 
