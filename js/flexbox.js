@@ -117,7 +117,25 @@ var render = function(enable) {
   renderZ(html_boxes1, 'output iframe', 'css_code', container_css);
 };
 
+var render_flex_flow = function(iframe_id, code_id, flex_css_property, flex_select_element) {
 
+  var flex_select_idx = flex_select_element.selectedIndex;
+  var flex_css_value  = flex_select_element.options[flex_select_idx].text;
+
+  var container_css = css_container_rule(flex_css_property, flex_css_value);
+
+  var html_boxes2 =
+      "  <ul class='container flex-container-base' style='width: 300px;height: 300px'>\n" +
+      "    <li class='flex-item-base' style='order: 1'>1</li>\n" +
+      "    <li class='flex-item-base' style='order: 2'>2</li>\n" +
+      "    <li class='flex-item-base' style='order: 3'>3</li>\n" +
+      "    <li class='flex-item-base' style='order: 4'>4</li>\n" +
+      "    <li class='flex-item-base' style='order: 5'>5</li>\n" +
+      "    <li class='flex-item-base' style='order: 6'>6</li>\n" +
+      "  </ul>\n";
+
+  renderZ(html_boxes2, iframe_id, code_id, container_css);
+}
 
 var render_align_items = function(iframe_id, code_id, flex_css_property, flex_css_value) {
   var html_boxes2 =
@@ -155,8 +173,7 @@ var render_align_content = function(css_value) {
 }
 
 
-var render_order_item = function(){
-  var order = document.getElementById('order-select').value;
+var render_order_item = function(iframe_id, code_id, flex_css_property, flex_css_value) {
 
    var html_boxes2 =
     "<div style='width:100%;background-color:purple'>\n" +
@@ -164,23 +181,23 @@ var render_order_item = function(){
     "    <li class='flex-item-base' style='order: 1'>1</li>\n" +
     "    <li class='flex-item-base' style='order: 2'>2</li>\n" +
     "    <li class='flex-item-base' style='order: 3'>3</li>\n" +
-    "    <li class='flex-item-base item' style='background-color:yellow; color: blue'>" + order  + "</li>\n" +
+    "    <li class='flex-item-base item' style='background-color:yellow; color: blue'>" + flex_css_value  + "</li>\n" +
     "    <li class='flex-item-base' style='order: 4'>4</li>\n" +
     "    <li class='flex-item-base' style='order: 5'>5</li>\n" +
     "    <li class='flex-item-base' style='order: 6'>6</li>\n" +
     "  </ul>\n" +
     "</div>\n";
 
-    var html = html_base_tpl.replace('</body>', html_boxes2 + '</body>');
+    var container_css =
+      ".container {\n" +
+      "    display: flex;\n" +
+      "}\n" +
+      "\n" +
+      ".item {\n" +
+      "  " + flex_css_property + ": " + flex_css_value+ ";\n" +
+      "}";
 
-    var css_element = document.getElementById('css_code8');
-    var css_code = css_element.innerText;
-    var css = '<style>' + css_tpl + css_code.replace("order: ", "order: " + order)  + '</style>';
-
-
-    var src = html.replace('</head>', css + '</head>');
-
-    write_iframe('output iframe8', src);
+    renderZ(html_boxes2, iframe_id, code_id, container_css);
 }
 
 var render_grow_item = function(){
