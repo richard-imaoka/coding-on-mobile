@@ -327,16 +327,17 @@
 <script src="js/bootstrap.min.js"></script>
 <script src="js/flexbox.js"></script>
 
-<script>render_item_flex();</script>
-<script>render(true);</script>
-<script>render_by_property_and_value("output iframe2", "css_code2", "flex-direction", "row")</script>
-<script>render_by_property_and_value("output iframe3", "css_code3", "flex-wrap", "wrap")</script>
-<script>render_by_property_and_value("output iframe4", "css_code4", "flex-flow", "row")</script>
-<script>render_by_property_and_value('output iframe5', "css_code5", 'justify-content', 'flex-start');</script>
-<script>render_align_items('output iframe6', "css_code6", 'align-items', 'flex-align-items-select');</script>
-<script>render_align_content("flex-start")</script>
-<script>render_order_item('output iframe8', "css_code8", 'order', '1');</script>
-<script>render_grow_item("output iframe9", "css_code9", "flex-grow", "1");</script>
-<script>render_basis_item("output iframe10", "css_code10", "flex-basis", "20%");</script>
-<script>render_align_self("output iframe12", "css_code12", "flex-align", "flex-start");</script>
+<script>
+  render(true);
+  render_by_property_and_value("output iframe2", "css_code2", "flex-direction", "row");
+  render_by_property_and_value("output iframe3", "css_code3", "flex-wrap", "wrap");
+  render_by_property_and_value("output iframe4", "css_code4", "flex-flow", "row");
+  render_by_property_and_value('output iframe5', "css_code5", 'justify-content', 'flex-start');
+  render_align_items('output iframe6', "css_code6", 'align-items', 'flex-align-items-select');
+  render_align_content("flex-start");
+  render_order_item('output iframe8', "css_code8", 'order', '1');
+  render_grow_item("output iframe9", "css_code9", "flex-grow", "1");
+  render_basis_item("output iframe10", "css_code10", "flex-basis", "20%");
+  render_align_self("output iframe12", "css_code12", "flex-align", "flex-start");
+</script>
 </html>
