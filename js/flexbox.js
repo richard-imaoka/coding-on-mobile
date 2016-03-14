@@ -225,29 +225,26 @@ var render_grow_item = function(iframe_id, code_id, flex_css_property, flex_css_
 }
 
 
-var render_basis_item = function(){
-  var basis_element = document.getElementById('flex-basis-select');
-  var basis_idx = basis_element.selectedIndex;
-  var basis     = basis_element.options[basis_idx].text;
+var render_basis_item = function (iframe_id, code_id, flex_css_property, flex_css_value) {
+  var html_boxes2 =
+      "<div style='width:100%;background-color:purple'>\n" +
+      "  <ul class='container flex-container-base'>\n" +
+      "    <li class='flex-item-base'      style='flex-basis: 1'>1</li>\n" +
+      "    <li class='flex-item-base item' style='background-color:yellow; color: blue'>" + flex_css_value + "</li>\n" +
+      "    <li class='flex-item-base'      style='flex-basis: 1'>1</li>\n" +
+      "  </ul>\n" +
+      "</div>\n";
 
-   var html_boxes2 =
-    "<div style='width:100%;background-color:purple'>\n" +
-    "  <ul class='container flex-container-base'>\n" +
-    "    <li class='flex-item-base'      style='flex-basis: 1'>1</li>\n" +
-    "    <li class='flex-item-base item' style='background-color:yellow; color: blue'>" + basis  + "</li>\n" +
-    "    <li class='flex-item-base'      style='flex-basis: 1'>1</li>\n" +
-    "  </ul>\n" +
-    "</div>\n";
+  var container_css =
+      ".container {\n" +
+      "    display: flex;\n" +
+      "}\n" +
+      "\n" +
+      ".item {\n" +
+      "  " + flex_css_property + ": " + flex_css_value + ";\n" +
+      "}";
 
-    var html = html_base_tpl.replace('</body>', html_boxes2 + '</body>');
-
-    var css_element = document.getElementById('css_code10');
-    var css_code = css_element.innerText;
-    var css = '<style>' + css_tpl + css_code.replace("flex-basis: ", "flex-basis: " + basis)  + '</style>';
-
-    var src = html.replace('</head>', css + '</head>');
-
-    write_iframe('output iframe10', src);
+  renderZ(html_boxes2, iframe_id, code_id, container_css);
 }
 
 var render_item_flex = function(){
@@ -274,27 +271,24 @@ var render_item_flex = function(){
 }
 
 
-var render_align_self = function(){
-  var align_self_element = document.getElementById('flex-align-self-select');
-  var align_self_idx = align_self_element.selectedIndex;
-  var align_self     = align_self_element.options[align_self_idx].text;
-
+var render_align_self = function (iframe_id, code_id, flex_css_property, flex_css_value) {
    var html_boxes2 =
-    "<div style='width:100%;background-color:purple'>\n" +
-    "  <ul class='container flex-container-base' style='height:150px'>\n" +
-    "    <li class='flex-item-base item'>1</li>\n" +
-    "    <li class='flex-item-base item'>1</li>\n" +
-    "    <li class='flex-item-base item'>1</li>\n" +
-    "  </ul>\n" +
-    "</div>\n";
+       "  <ul class='container flex-container-base' style='height: 300px'>\n" +
+       "    <li class='flex-item-base'      style=height: 50px;  line-height: 50px'>1</li>\n" +
+       "    <li class='flex-item-base'      style='height: 80px;  line-height: 80px'>2</li>\n" +
+       "    <li class='flex-item-base item' style='background-color:yellow; color: blue'>3</li>\n" +
+       "    <li class='flex-item-base'      style='height: 90px;  line-height: 90px'>5</li>\n" +
+       "    <li class='flex-item-base'      style='height: 100px; line-height: 100px'>6</li>\n" +
+       "  </ul>\n";
 
-    var html = html_base_tpl.replace('</body>', html_boxes2 + '</body>');
+  var container_css =
+      ".container {\n" +
+      "    display: flex;\n" +
+      "}\n" +
+      "\n" +
+      ".item {\n" +
+      "  " + flex_css_property + ": " + flex_css_value + ";\n" +
+      "}";
 
-    var css_element = document.getElementById('css_code12');
-    var css_code = css_element.innerText;
-    var css = '<style>' + css_tpl + css_code.replace("align-self: ", "align-self: " + align_self)  + '</style>';
-
-    var src = html.replace('</head>', css + '</head>');
-
-    write_iframe('output iframe12', src);
+  renderZ(html_boxes2, iframe_id, code_id, container_css);
 }
