@@ -68,8 +68,7 @@ var write_iframe = function(iframe_id, src){
   iframe_doc.close();
 }
 
-
-var renderZ = function(html_boxes, iframe_id, code_id, container_css) {
+var renderX = function(html_boxes, css_tpl, iframe_id, code_id, container_css) {
 
   var html = html_base_tpl.replace('</body>', html_boxes + '</body>');
 
@@ -83,6 +82,12 @@ var renderZ = function(html_boxes, iframe_id, code_id, container_css) {
   write_iframe(iframe_id, src);
   Prism.highlightElement(css_elem);
 }
+
+var renderZ = function(html_boxes, iframe_id, code_id, container_css) {
+  renderX(html_boxes, css_tpl, iframe_id, code_id, container_css);
+}
+
+
 
 var render_by_selection = function(iframe_id, code_id, flex_css_property, flex_select_element) {
 
@@ -298,13 +303,41 @@ var render_item_flex = function(){
 
 
 var render_align_self = function (iframe_id, code_id, flex_css_property, flex_css_value) {
+  var css_tpl2 =
+      "body {\n" +
+      "  margin: 0px;\n" +
+      "}\n" +
+      "\n" +
+      ".flex-container-base {\n"+
+      "  padding-top:    1px;\n"+
+      "  padding-bottom: 1px;\n"+
+      "  padding-left:   0px;\n"+
+      "  padding-right:  0px;\n"+
+      "  margin: 0px;\n"+
+      "  list-style: none;\n"+
+        //"  justify-content: space-around;\n"+
+      "}\n"+
+      "\n"+
+      ".flex-item-base {\n"+
+      "  background: tomato;\n"+
+      "  padding: 5px;\n"+
+      "  width: 30px;\n"+
+      "  margin: 10px;\n"+
+      "  line-height: 50px;\n"+
+      "  color: white;\n"+
+      "  font-weight: bold;\n"+
+      "  font-size: 3em;\n"+
+      "  text-align: center;\n"+
+      "}\n" +
+      "\n";
+
+
    var html_boxes2 =
        "  <ul class='container flex-container-base' style='height: 300px'>\n" +
-       "    <li class='flex-item-base'      style=height: 50px;  line-height: 50px'>1</li>\n" +
-       "    <li class='flex-item-base'      style='height: 80px;  line-height: 80px'>2</li>\n" +
-       "    <li class='flex-item-base item' style='background-color:yellow; color: blue'>3</li>\n" +
-       "    <li class='flex-item-base'      style='height: 90px;  line-height: 90px'>5</li>\n" +
-       "    <li class='flex-item-base'      style='height: 100px; line-height: 100px'>6</li>\n" +
+       "    <li class='flex-item-base item'      style='align-self: flex-start'>1</li>\n" +
+       "    <li class='flex-item-base item'      style='align-self: flex-start; height: 100px; line-height: 100px;'>2</li>\n" +
+       "    <li class='flex-item-base item' style='background-color:yellow; color: blue;'>3</li>\n" +
+       "    <li class='flex-item-base'      style='align-self: flex-end'>5</li>\n" +
        "  </ul>\n";
 
   var container_css =
@@ -316,5 +349,5 @@ var render_align_self = function (iframe_id, code_id, flex_css_property, flex_cs
       "  " + flex_css_property + ": " + flex_css_value + ";\n" +
       "}";
 
-  renderZ(html_boxes2, iframe_id, code_id, container_css);
+  renderX(html_boxes2, css_tpl2, iframe_id, code_id, container_css);
 }
