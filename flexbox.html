@@ -12,7 +12,28 @@
   <h1>A Complete "Interactive" Guide to Flexbox</h1>
 
   <div class='section1'>
-    <h2>Properties for the Parent (flex Container)</h2>
+    <h2>Huge thanks to <a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/">CSS Trick's "A Complete Guide to Flexbox"</a></h2>
+
+    <p>
+      The entire work on this page is fully inspired by CSS trick's Flex Box guide.
+      The CSS Trick page is very well organized, concise, but still shows all the necessary information about CSS Flex Box.
+    </p>
+
+    <p>
+      As a part of my <a href="http://richard-imaoka.github.io/coding-on-mobile/">"coding <strong>ON</strong> mobile" project,</a>
+      I created this interactive guide for CSS Flex Box. The main aim here is to provide the interactivity by buttons and drop-down list as you can see below.
+      On mobile devices, typing all the text could be tedious, even for a single or a few CSS properties.
+      So, I implemented this experimental page to allow you tweak CSS properties with fewer touches.
+    </p>
+
+  </div>
+
+  <div class='section1'>
+    <h2>Properties for Flex Container</h2>
+    <p>
+      As shown in the below picture, when using CSS Flex Box, a Flex container (parent) encloses Flex items (children).
+      I will firstly cover properties for Flex parent.
+    </p>
     <img src="img/flex_container_items.png">
   </div>
 
@@ -197,7 +218,11 @@
 
 
   <div class='section1'>
-    <h2>Properties for the Parent (flex Container)</h2>
+    <h2>Properties for the items (children)</h2>
+    <p>
+      So far, I went through the container (parent) properties. From here, I cover properties for Flex items (children).
+      You can set flex properties for individual Flex items as you can see below.
+    </p>
     <img src="img/flex_container_items.png">
   </div>
 
@@ -318,6 +343,9 @@
   <div class="section1">
     <h3>align-self</h3>
     <pre><code id="css_code12" class="language-css"></code></pre>
+    <p>
+      Somehow "baseline" is not working as expected... I would fix it some time later.
+    </p>
     <div class="btn-group" data-toggle="buttons">
       <label class="btn btn-default active" onClick='render_align_self("output iframe12", "css_code12", "align-self", "flex-start")'>
         <input type="radio" autocomplete="off">flex-start

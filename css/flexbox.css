@@ -47,3 +47,7 @@ pre code {
 select {
   font-size: 40px;
 }
+
+p {
+  font-size: 0.8em;
+}
