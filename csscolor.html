@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="css/awesomplete.css">
+  <link rel="stylesheet" type="text/css" href="css/prism.css">
+  <style>
+  #custom-templates .empty-message {
+    padding: 5px 10px;
+    text-align: center;
+  }
+  </style>
+</head>
+<body>
+  <input id="myinput" onchange='updateColor( this.value, "output_iframe", "css_code")'/>
+  <div class='section1'>
+    <pre><code id="css_code" class="language-css"></code></pre>
+    <div>
+      <iframe id="output_iframe" style='width:400px; height:450px; '>
+      </iframe>
+    </div>
+  </div>
+
+</body>
+<script src="js/awesomplete.js"></script>
+<script src="js/prism.js"></script>
+<script src="js/csscolor.js"></script>
+<script>
+var input = document.getElementById("myinput");
+
+var colorElement = function(text, input){
+  var color   = extract_hex_color(text);
+  var element = document.createElement("li");
+  element.innerHTML = text;
+  element.style.backgroundColor = color;
+  return element;
+};
+
+// Show label but insert value into the input:
+new Awesomplete(input, {
+	list: [
+    "#B0E0E6, Powder Blue",
+    "#F0F8FF, Alice Blue",
+    "#0000FF, Blue",
+    "#6495ED, Cornflower Blue"
+	],
+  maxItems: 15,
+  minChars: 1,
+  item: colorElement
+});
+
+Awesomplete.$('#myinput').addEventListener("awesomplete-selectcomplete", function() {
+  updateColor( extract_hex_color(this.value), "output_iframe", "css_code")
+});
+
+updateColor( "", "output_iframe", "css_code")
+</script>
+</html>
