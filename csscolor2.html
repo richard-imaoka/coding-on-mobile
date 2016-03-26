@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title></title>
+  <style>
+    .container {
+      display: flex;
+    }
+  </style>
+</head>
+<body>
+
+
+<div>
+  <div>.box {</div>
+  <div >
+    <div id="display_line" class="container">
+      <div style="width:200px;">
+        <span  id="property_span" onclick="focusOnPropertyBox()" >background-color</span>
+        <input id="property_box"  onblur="hidePropertyBox()" hidden>
+      </div>
+      <div>:</div>
+      <div style="width:200px;">
+        <span  id="value_span"    onclick="focusOnValueBox()" >#0000FF</span>
+        <input id="value_box"     onblur="hideValueBox()" hidden>
+      </div>
+      <div>;</div>
+    </div>
+  </div>
+  <div>}</div>
+</div>
+
+
+</body>
+<script src="js/csscolor2.js"></script>
+</html>
