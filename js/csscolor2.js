@@ -28,8 +28,18 @@ function showProperty(parentElement){
 }
 
 function showColor(parentElement){
-  showInput(parentElement, { list: colors, minChars: 1 } )
+  showInput(parentElement, { list: colors, minChars: 1, item: colorElement } )
 }
+
+function colorElement(text, input){
+  var split     = text.split(",");
+  var colorHex  = split[0]
+  var colorName = split[split.length - 1];
+  var element = document.createElement("li");
+  element.innerHTML = colorHex + " " + colorName ;
+  element.style.backgroundColor = colorHex;
+  return element;
+};
 
 var colorAjax = new XMLHttpRequest();
 var colors = "";
