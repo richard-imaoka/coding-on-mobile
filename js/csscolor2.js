@@ -57,4 +57,16 @@ propertyAjax.open("GET", "data/awesomplete-properties.json", true);
 propertyAjax.onload = function () {
   properties = JSON.parse(propertyAjax.responseText);
 };
+
 propertyAjax.send();
+
+function recursive(element){
+
+  if(element.className.includes("css-line"))
+    console.log(element.innerText.replace(/\n/g, " ") + "\n");
+
+  for (var i = 0; i < element.children.length; i++) {
+    var child = element.children[i];
+    recursive(child);
+  }
+}

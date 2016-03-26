@@ -6,24 +6,31 @@
   <style>
     .container {
       display: flex;
+
     }
 
-    .square {
+    .box {
       width: 100px;
       height: 100px;
       background: red;
       margin: 10px;
     }
+
+    .text-center {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
 
     .circle {
       width: 100px;
       height: 100px;
       background: red;
-      -moz-border-radius: 50px;
-      -webkit-border-radius: 50px;
       border-radius: 50px;
       margin: 10px;
     }
+
 
     .css-editor {
       font-size: 40px;
@@ -63,11 +70,11 @@
 <body>
 
 
-<div class="css-editor">
-  <div>.box {</div>
-  <div >
+<div class="css-editor" onclick="recursive(this)">
+  <div class="css-line">#square1 {</div>
+  <div>
 
-    <div class="css-editor-declaration">
+    <div class="css-line css-editor-declaration">
       <div class="css-editor-indent"></div>
       <div class="css-editor-property" onclick="showProperty(this)">
         <span  id="property_span">background-color</span>
@@ -78,23 +85,21 @@
       </div>
       <div class="css-editor-semicolon">;</div>
     </div>
-
-
-
   </div>
-  <div>}</div>
+
+  <div class="css-line">}</div>
 </div>
 
 <div >
   <div class="container">
-    <div id="square1" class="square"></div>
-    <div id="square2" class="square"></div>
-    <div id="square3" class="square"></div>
+    <div id="box1" class="box text-center">BOX 1</div>
+    <div id="box2" class="box text-center">BOX 2</div>
+    <div id="box3" class="box text-center">BOX 1</div>
   </div>
   <div class="container">
-    <div id="circle1" class="circle"></div>
-    <div id="circle2" class="circle"></div>
-    <div id="circle3" class="circle"></div>
+    <div id="circle1" class="circle text-center">CIRCLE 1</div>
+    <div id="circle2" class="circle text-center">CIRCLE 2</div>
+    <div id="circle3" class="circle text-center">CIRCLE 3</div>
   </div>
 </div>
 
