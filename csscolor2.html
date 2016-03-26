@@ -69,14 +69,12 @@
 
     <div class="css-editor-declaration">
       <div class="css-editor-indent"></div>
-      <div class="css-editor-property">
-        <span  id="property_span"  onclick="showInput(this)" >background-color</span>
-        <input id="property_input" onblur="showSpan(this)" hidden class="css-editor-input">
+      <div class="css-editor-property" onclick="showProperty(this)">
+        <span  id="property_span">background-color</span>
       </div>
       <div class="css-editor-colon">:</div>
-      <div class="css-editor-value">
-        <span  id="value_span"    onclick="showInput(this)" >#0000FF</span>
-        <input id="value_input"   onblur="showSpan(this)" hidden class="css-editor-input">
+      <div class="css-editor-value" onclick="showColor(this)">
+        <span  id="value_span"     >#0000FF</span>
       </div>
       <div class="css-editor-semicolon">;</div>
     </div>

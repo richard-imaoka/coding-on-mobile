@@ -1,19 +1,34 @@
-function showInput(spanElement){
-  var spanId = spanElement.id;
-  var inputId  = spanId.replace("span", "input");
+var showSpan = function(parentElement){
+  parentElement.removeChild(parentElement.children[1]);
+  var spanElement = parentElement.children[0];
+  spanElement.removeAttribute("hidden");
 
-  document.getElementById(spanId).hidden = "hidden";
-  document.getElementById(inputId).hidden  = "";
-
-  document.getElementById(inputId).focus();
 }
 
-function showSpan(inputElement){
-  var inputId  = inputElement.id;
-  var spanId = inputId.replace("input", "span");
+function showInput(parentElement, awesomParams){
+  //Just exist if focus -> click on the same input element
+  if(parentElement.children.length > 1)
+    return;
+  else {
+    var inputElement = document.createElement("input");
+    inputElement.addEventListener("blur", function(){ showSpan(parentElement); });
+    inputElement.className = "css-editor-input";
+    parentElement.appendChild(inputElement);
+    new Awesomplete(inputElement, awesomParams);
 
-  document.getElementById(spanId).hidden = "";
-  document.getElementById(inputId).hidden  = "hidden";
+    var spanElement = parentElement.children[0];
+    spanElement.hidden = "hidden";
+
+    inputElement.focus();
+  }
+}
+
+function showProperty(parentElement){
+  showInput(parentElement, { list: properties, minChars: 1 } )
+}
+
+function showColor(parentElement){
+  showInput(parentElement, { list: colors, minChars: 1 } )
 }
 
 var colorAjax = new XMLHttpRequest();
