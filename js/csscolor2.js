@@ -1,17 +1,17 @@
 function showInput(spanElement){
   var spanId = spanElement.id;
-  var boxId  = spanId.replace("span", "box");
+  var inputId  = spanId.replace("span", "input");
 
   document.getElementById(spanId).hidden = "hidden";
-  document.getElementById(boxId).hidden  = "";
+  document.getElementById(inputId).hidden  = "";
 
-  document.getElementById(boxId).focus();
+  document.getElementById(inputId).focus();
 }
 
 function showSpan(inputElement){
-  var boxId  = inputElement.id;
-  var spanId = boxId.replace("box", "span");
+  var inputId  = inputElement.id;
+  var spanId = inputId.replace("input", "span");
 
   document.getElementById(spanId).hidden = "";
-  document.getElementById(boxId).hidden  = "hidden";
+  document.getElementById(inputId).hidden  = "hidden";
 }
