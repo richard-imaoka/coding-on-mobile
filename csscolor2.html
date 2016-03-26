@@ -39,7 +39,7 @@
     }
 
     .css-editor .css-editor-property {
-      flex-basis: 60%;
+      width: 500px;
     }
 
     .css-editor .css-editor-colon {
@@ -47,13 +47,18 @@
     }
 
     .css-editor .css-editor-value {
+      width: 30%;
     }
 
     .css-editor .css-editor-semicolon {
       width: 1em;
     }
 
+    .css-editor .css-editor-input {
+      font-size: 1em;
+    }
   </style>
+  <link rel="stylesheet" type="text/css" href="css/awesomplete.css">
 </head>
 <body>
 
@@ -66,12 +71,12 @@
       <div class="css-editor-indent"></div>
       <div class="css-editor-property">
         <span  id="property_span"  onclick="showInput(this)" >background-color</span>
-        <input id="property_input" onblur="showSpan(this)" hidden>
+        <input id="property_input" onblur="showSpan(this)" hidden class="css-editor-input">
       </div>
       <div class="css-editor-colon">:</div>
       <div class="css-editor-value">
         <span  id="value_span"    onclick="showInput(this)" >#0000FF</span>
-        <input id="value_input"   onblur="showSpan(this)" hidden>
+        <input id="value_input"   onblur="showSpan(this)" hidden class="css-editor-input">
       </div>
       <div class="css-editor-semicolon">;</div>
     </div>
@@ -97,5 +102,6 @@
 
 
 </body>
+<script src="js/awesomplete.js"></script>
 <script src="js/csscolor2.js"></script>
 </html>
