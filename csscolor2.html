@@ -7,6 +7,24 @@
     .container {
       display: flex;
     }
+
+    .square {
+      width: 100px;
+      height: 100px;
+      background: red;
+      margin: 10px;
+    }
+
+    .circle {
+      width: 100px;
+      height: 100px;
+      background: red;
+      -moz-border-radius: 50px;
+      -webkit-border-radius: 50px;
+      border-radius: 50px;
+      margin: 10px;
+    }
+
   </style>
 </head>
 <body>
@@ -29,6 +47,19 @@
     </div>
   </div>
   <div>}</div>
+</div>
+
+<div >
+  <div class="container">
+    <div id="square1" class="square"></div>
+    <div id="square2" class="square"></div>
+    <div id="square3" class="square"></div>
+  </div>
+  <div class="container">
+    <div id="circle1" class="circle"></div>
+    <div id="circle2" class="circle"></div>
+    <div id="circle3" class="circle"></div>
+  </div>
 </div>
 
 
