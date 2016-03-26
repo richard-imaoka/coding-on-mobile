@@ -1,29 +1,17 @@
-function focusOnPropertyBox(){
-  displayPropertyBox();
-  document.getElementById("property_box").focus();
+function showInput(spanElement){
+  var spanId = spanElement.id;
+  var boxId  = spanId.replace("span", "box");
+
+  document.getElementById(spanId).hidden = "hidden";
+  document.getElementById(boxId).hidden  = "";
+
+  document.getElementById(boxId).focus();
 }
 
-function focusOnValueBox(){
-  displayValueBox();
-  document.getElementById("value_box").focus();
-}
+function showSpan(inputElement){
+  var boxId  = inputElement.id;
+  var spanId = boxId.replace("box", "span");
 
-function displayPropertyBox(){
-  document.getElementById("property_span").hidden = "hidden";
-  document.getElementById("property_box").hidden  = "";
-}
-
-function displayValueBox(){
-  document.getElementById("value_span").hidden = "hidden";
-  document.getElementById("value_box").hidden  = "";
-}
-
-function hidePropertyBox(){
-  document.getElementById("property_span").hidden = "";
-  document.getElementById("property_box").hidden  = "hidden";
-}
-
-function hideValueBox(){
-  document.getElementById("value_span").hidden = "";
-  document.getElementById("value_box").hidden  = "hidden";
+  document.getElementById(spanId).hidden = "";
+  document.getElementById(boxId).hidden  = "hidden";
 }

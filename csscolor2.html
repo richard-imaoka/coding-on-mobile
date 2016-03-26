@@ -25,26 +25,59 @@
       margin: 10px;
     }
 
+    .css-editor {
+      font-size: 40px;
+    }
+
+    .css-editor .css-editor-declaration{
+      display: flex;
+      width:   800px;
+    }
+
+    .css-editor .css-editor-indent {
+      width: 2em;
+    }
+
+    .css-editor .css-editor-property {
+      flex-basis: 60%;
+    }
+
+    .css-editor .css-editor-colon {
+      width: 1em;
+    }
+
+    .css-editor .css-editor-value {
+    }
+
+    .css-editor .css-editor-semicolon {
+      width: 1em;
+    }
+
   </style>
 </head>
 <body>
 
 
-<div>
+<div class="css-editor">
   <div>.box {</div>
   <div >
-    <div id="display_line" class="container">
-      <div style="width:200px;">
-        <span  id="property_span" onclick="focusOnPropertyBox()" >background-color</span>
-        <input id="property_box"  onblur="hidePropertyBox()" hidden>
+
+    <div class="css-editor-declaration">
+      <div class="css-editor-indent"></div>
+      <div class="css-editor-property">
+        <span  id="property_span" onclick="showInput(this)" >background-color</span>
+        <input id="property_box"  onblur="showSpan(this)" hidden>
       </div>
-      <div>:</div>
-      <div style="width:200px;">
-        <span  id="value_span"    onclick="focusOnValueBox()" >#0000FF</span>
-        <input id="value_box"     onblur="hideValueBox()" hidden>
+      <div class="css-editor-colon">:</div>
+      <div class="css-editor-value">
+        <span  id="value_span"    onclick="showInput(this)" >#0000FF</span>
+        <input id="value_box"     onblur="showSpan(this)" hidden>
       </div>
-      <div>;</div>
+      <div class="css-editor-semicolon">;</div>
     </div>
+
+
+
   </div>
   <div>}</div>
 </div>
