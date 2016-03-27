@@ -36,7 +36,7 @@
       font-size: 40px;
     }
 
-    .css-editor .css-editor-declaration{
+    .css-editor .css-line{
       display: flex;
       width:   800px;
     }
@@ -71,17 +71,25 @@
 
 
 <div class="css-editor" onclick="recursive(this)">
-  <div class="css-line">#square1 {</div>
-  <div>
 
+  <div class="css-line">
+    <div class="css-editor-selector" onclick="showSelector(this)">
+      <span>#square1</span>
+    </div>
+    <div class="css-editor-curly-bracket">
+      <span> {</span>
+    </div>
+  </div>
+
+  <div>
     <div class="css-line css-editor-declaration">
       <div class="css-editor-indent"></div>
       <div class="css-editor-property" onclick="showProperty(this)">
-        <span  id="property_span">background-color</span>
+        <span>background-color</span>
       </div>
       <div class="css-editor-colon">:</div>
       <div class="css-editor-value" onclick="showColor(this)">
-        <span  id="value_span"     >#0000FF</span>
+        <span>#0000FF</span>
       </div>
       <div class="css-editor-semicolon">;</div>
     </div>
