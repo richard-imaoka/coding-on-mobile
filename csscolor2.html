@@ -4,31 +4,11 @@
   <meta charset="UTF-8">
   <title></title>
   <style>
-    .container {
-      display: flex;
 
-    }
-
-    .box {
-      width: 100px;
-      height: 100px;
-      background: red;
-      margin: 10px;
-    }
-
-    .text-center {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-
-    .circle {
-      width: 100px;
-      height: 100px;
-      background: red;
-      border-radius: 50px;
-      margin: 10px;
+    iframe {
+      border-width: 0px;
+      width:800px;
+      height:600px;
     }
 
 
@@ -43,6 +23,10 @@
 
     .css-editor .css-editor-indent {
       width: 2em;
+    }
+
+    .css-editor .css-editor-space {
+      width: 1em;
     }
 
     .css-editor .css-editor-property {
@@ -70,17 +54,17 @@
 <body>
 
 
-<div class="css-editor" onclick="recursive(this)">
+<div id="css" class="css-editor" onclick="recursive(this)">
 
   <div class="css-line">
     <div class="css-editor-selector" onclick="showSelector(this)">
-      <span>#square1</span>
+      <span>#box1</span>
     </div>
+    <div class="css-editor-space"></div>
     <div class="css-editor-curly-bracket">
-      <span> {</span>
+      <span>{</span>
     </div>
   </div>
-
   <div>
     <div class="css-line css-editor-declaration">
       <div class="css-editor-indent"></div>
@@ -94,11 +78,152 @@
       <div class="css-editor-semicolon">;</div>
     </div>
   </div>
-
   <div class="css-line">}</div>
+
+  <div class="css-line">
+    <div class="css-editor-selector" onclick="showSelector(this)">
+      <span>.box</span>
+    </div>
+    <div class="css-editor-space"></div>
+    <div class="css-editor-curly-bracket">
+      <span>{</span>
+    </div>
+  </div>
+  <div>
+    <div class="css-line css-editor-declaration">
+      <div class="css-editor-indent"></div>
+      <div class="css-editor-property" onclick="showProperty(this)">
+        <span>width</span>
+      </div>
+      <div class="css-editor-colon">:</div>
+      <div class="css-editor-value" onclick="showColor(this)">
+        <span>200px</span>
+      </div>
+      <div class="css-editor-semicolon">;</div>
+    </div>
+  </div>
+  <div>
+    <div class="css-line css-editor-declaration">
+      <div class="css-editor-indent"></div>
+      <div class="css-editor-property" onclick="showProperty(this)">
+        <span>height</span>
+      </div>
+      <div class="css-editor-colon">:</div>
+      <div class="css-editor-value" onclick="showColor(this)">
+        <span>200px</span>
+      </div>
+      <div class="css-editor-semicolon">;</div>
+    </div>
+  </div>
+  <div>
+    <div class="css-line css-editor-declaration">
+      <div class="css-editor-indent"></div>
+      <div class="css-editor-property" onclick="showProperty(this)">
+        <span>background</span>
+      </div>
+      <div class="css-editor-colon">:</div>
+      <div class="css-editor-value" onclick="showColor(this)">
+        <span>red</span>
+      </div>
+      <div class="css-editor-semicolon">;</div>
+    </div>
+  </div>
+  <div>
+    <div class="css-line css-editor-declaration">
+      <div class="css-editor-indent"></div>
+      <div class="css-editor-property" onclick="showProperty(this)">
+        <span>margin</span>
+      </div>
+      <div class="css-editor-colon">:</div>
+      <div class="css-editor-value" onclick="showColor(this)">
+        <span>10px</span>
+      </div>
+      <div class="css-editor-semicolon">;</div>
+    </div>
+  </div>
+  <div class="css-line">}</div>
+
+
+  <div class="css-line">
+    <div class="css-editor-selector" onclick="showSelector(this)">
+      <span>.circle</span>
+    </div>
+    <div class="css-editor-space"></div>
+    <div class="css-editor-curly-bracket">
+      <span>{</span>
+    </div>
+  </div>
+  <div>
+    <div class="css-line css-editor-declaration">
+      <div class="css-editor-indent"></div>
+      <div class="css-editor-property" onclick="showProperty(this)">
+        <span>width</span>
+      </div>
+      <div class="css-editor-colon">:</div>
+      <div class="css-editor-value" onclick="showColor(this)">
+        <span>200px</span>
+      </div>
+      <div class="css-editor-semicolon">;</div>
+    </div>
+  </div>
+  <div>
+    <div class="css-line css-editor-declaration">
+      <div class="css-editor-indent"></div>
+      <div class="css-editor-property" onclick="showProperty(this)">
+        <span>height</span>
+      </div>
+      <div class="css-editor-colon">:</div>
+      <div class="css-editor-value" onclick="showColor(this)">
+        <span>200px</span>
+      </div>
+      <div class="css-editor-semicolon">;</div>
+    </div>
+  </div>
+  <div>
+    <div class="css-line css-editor-declaration">
+      <div class="css-editor-indent"></div>
+      <div class="css-editor-property" onclick="showProperty(this)">
+        <span>background</span>
+      </div>
+      <div class="css-editor-colon">:</div>
+      <div class="css-editor-value" onclick="showColor(this)">
+        <span>red</span>
+      </div>
+      <div class="css-editor-semicolon">;</div>
+    </div>
+  </div>
+  <div>
+    <div class="css-line css-editor-declaration">
+      <div class="css-editor-indent"></div>
+      <div class="css-editor-property" onclick="showProperty(this)">
+        <span>border-radius</span>
+      </div>
+      <div class="css-editor-colon">:</div>
+      <div class="css-editor-value" onclick="showColor(this)">
+        <span>100px</span>
+      </div>
+      <div class="css-editor-semicolon">;</div>
+    </div>
+  </div>
+  <div>
+    <div class="css-line css-editor-declaration">
+      <div class="css-editor-indent"></div>
+      <div class="css-editor-property" onclick="showProperty(this)">
+        <span>margin</span>
+      </div>
+      <div class="css-editor-colon">:</div>
+      <div class="css-editor-value" onclick="showColor(this)">
+        <span>10px</span>
+      </div>
+      <div class="css-editor-semicolon">;</div>
+    </div>
+  </div>
+  <div class="css-line">}</div>
+
+
 </div>
 
-<div >
+<div id="template" hidden>
   <div class="container">
     <div id="box1" class="box text-center">BOX 1</div>
     <div id="box2" class="box text-center">BOX 2</div>
@@ -110,6 +235,8 @@
     <div id="circle3" class="circle text-center">CIRCLE 3</div>
   </div>
 </div>
+
+<iframe id="result"></iframe>
 
 
 </body>

@@ -47,7 +47,7 @@ function showColor(parentElement) {
 }
 
 function showSelector(parentElement) {
-  var selectors = [ ".box", "circle", "#box1", "#box2", "#box3", "#circle1", "#circle2", "#circle3" ];
+  var selectors = [ "#box1", "#box2", "#box3", "#circle1", "#circle2", "#circle3" ];
   showInput(parentElement, {list: selectors, minChars: 0})
 }
 
@@ -79,13 +79,78 @@ propertyAjax.onload = function () {
 
 propertyAjax.send();
 
-function recursive(element) {
 
-  if (element.className.includes("css-line"))
-    console.log(element.innerText.replace(/\n/g, " ") + "\n");
+function getCSS(rootElement){
 
-  for (var i = 0; i < element.children.length; i++) {
-    var child = element.children[i];
-    recursive(child);
+  var output = "";
+
+  function recursive(element) {
+
+    if (element.className.includes("css-line"))
+      output += element.innerText.replace(/\n/g, " ") + "\n";
+
+    for (var i = 0; i < element.children.length; i++) {
+      var child = element.children[i];
+      recursive(child);
+    }
   }
+
+  recursive(rootElement);
+
+  return output;
+
 }
+
+
+var write_iframe = function(iframe_id, src){
+  var iframe = document.getElementById(iframe_id);
+  iframe_doc = iframe.contentDocument;
+  iframe_doc.open();
+  iframe_doc.write(src);
+  iframe_doc.close();
+}
+
+var update_iFrame = function(inside_html, css, iframe_id ) {
+
+  var html_base_tpl =
+      "<!doctype html>\n" +
+      "<html>\n\t" +
+      "<head>\n\t\t" +
+      "<meta charset=\"utf-8\">\n\t\t" +
+      "<title>Test</title>\n\n\t\t\n\t" +
+      "</head>\n\t" +
+      "<body>\n\t\n\t" +
+      "</body>\n" +
+      "</html>";
+
+  var css_tpl =
+  ".container {\n" +
+  "  display: flex;\n" +
+  "}\n" +
+  "\n" +
+  ".text-center {\n" +
+  "  display: flex;\n" +
+  "  align-items: center;\n" +
+  "  justify-content: center;\n" +
+  "}\n" +
+  "\n";
+
+  var innerHTML = document.getElementById("template").innerHTML;
+
+  var css = css_tpl + css;
+  
+  var html = html_base_tpl.replace('</body>', inside_html + '</body>');
+
+  var src = html.replace('</head>', '<style>' + css + '</style></head>');
+
+  write_iframe(iframe_id, src);
+}
+
+function render(){
+  var innerHTML = document.getElementById("template").innerHTML;
+  var cssElem   = document.getElementById("css");
+  var css       = getCSS(cssElem);
+  update_iFrame(innerHTML, css, "result");
+}
+
+render();
