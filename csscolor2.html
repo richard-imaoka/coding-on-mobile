@@ -3,7 +3,36 @@
 <head lang="en">
   <meta charset="UTF-8">
   <title></title>
+  <link rel="stylesheet" type="text/css" href="css/awesomplete.css">
+  <link rel="stylesheet" type="text/css" href="css/animate.css">
   <style>
+    @-webkit-keyframes flash-background {
+      from, 50%, to {
+        background-color: white;
+      }
+
+      25%, 75% {
+        background-color: yellow;
+      }
+    }
+
+    @keyframes flash-background {
+      from, 50%, to {
+        background-color: white;
+      }
+
+      25%, 75% {
+        background-color: yellow;
+      }
+    }
+
+    .flash-background {
+      -webkit-animation-name: flash-background;
+      animation-name: flash-background;
+      -webkit-animation-duration: 3s;
+      animation-duration: 3s;
+    }
+
 
     iframe {
       border-width: 0px;
@@ -48,7 +77,6 @@
       font-size: 1em;
     }
   </style>
-  <link rel="stylesheet" type="text/css" href="css/awesomplete.css">
 </head>
 <body>
 
@@ -57,7 +85,7 @@
     <div class="container">
       <div id="box1" class="box text-center">box1</div>
       <div id="box2" class="box text-center">box2</div>
-      <div id="box3" class="box text-center">box1</div>
+      <div id="box3" class="box text-center">box3</div>
     </div>
     <div class="container">
       <div id="circle1" class="circle text-center">circle1</div>
@@ -71,7 +99,7 @@
   <div id="css-editor" class="css-editor" onclick="console.log(getCSS(this))">
 
   <div class="css-line">
-    <div class="css-editor-selector" onclick="showSelector(this)">
+    <div class="css-editor-selector animated infinite flash-background" onclick="showSelector(this)">
       <span>#box1</span>
     </div>
     <div class="css-editor-space"></div>
@@ -82,12 +110,12 @@
   <div>
     <div class="css-line css-editor-declaration">
       <div class="css-editor-indent"></div>
-      <div class="css-editor-property" onclick="showProperty(this)">
+      <div class="css-editor-property animated infinite flash-background" onclick="showProperty(this)">
         <span>background-color</span>
       </div>
       <div class="css-editor-colon">:</div>
-      <div class="css-editor-value" onclick="showColor(this)">
-        <span>#0000FF</span>
+      <div class="css-editor-value animated infinite flash-background" onclick="showColor(this)">
+        <span>blue</span>
       </div>
       <div class="css-editor-semicolon">;</div>
     </div>
@@ -95,7 +123,7 @@
   <div class="css-line">}</div>
 
   <div class="css-line">
-    <div class="css-editor-selector" onclick="showSelector(this)">
+    <div class="css-editor-selector">
       <span>.box</span>
     </div>
     <div class="css-editor-space"></div>
@@ -149,7 +177,7 @@
         <span>background-color</span>
       </div>
       <div class="css-editor-colon">:</div>
-      <div class="css-editor-value" onclick="showColor(this)">
+      <div class="css-editor-value animated infinite flash-background" onclick="showColor(this)">
         <span>red</span>
       </div>
       <div class="css-editor-semicolon">;</div>
@@ -226,7 +254,7 @@
         <span>background-color</span>
       </div>
       <div class="css-editor-colon">:</div>
-      <div class="css-editor-value" onclick="showColor(this)">
+      <div class="css-editor-value animated infinite flash-background" onclick="showColor(this)">
         <span>red</span>
       </div>
       <div class="css-editor-semicolon">;</div>
