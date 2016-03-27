@@ -53,7 +53,6 @@ function showSelector(parentElement) {
   showInput(parentElement, {list: selectors, minChars: 0})
 }
 
-
 function colorElement(text, input) {
   var split = text.split(",");
   var colorHex = split[0]
@@ -64,23 +63,66 @@ function colorElement(text, input) {
   return element;
 };
 
-var colorAjax = new XMLHttpRequest();
-var colors = "";
-colorAjax.open("GET", "data/awesomplete-colors.json", true);
-colorAjax.onload = function () {
-  colors = JSON.parse(colorAjax.responseText);
-};
-colorAjax.send();
+function addCSSLine(lastChild){
 
-var propertyAjax = new XMLHttpRequest();
-var properties = "";
-propertyAjax.open("GET", "data/awesomplete-properties.json", true);
-propertyAjax.onload = function () {
-  properties = JSON.parse(propertyAjax.responseText);
-};
+  //Create a following element and add it
+  //
+  //<div class="css-line css-editor-declaration">
+  //  <div class="css-editor-indent"></div>
+  //  <div class="css-editor-property animated infinite flash-background" onclick="showProperty(this)">
+  //    <span>background-color</span>
+  //  </div>
+  //  <div class="css-editor-colon">:</div>
+  //  <div class="css-editor-value animated infinite flash-background" onclick="showColor(this)">
+  //    <span>blue</span>
+  //  </div>
+  //  <div class="css-editor-semicolon">;</div>
+  //</div>
+  
+  var cssLine = document.createElement("div");
+  cssLine.className = "css-line css-editor-declaration";
 
-propertyAjax.send();
+  //  <div class="css-editor-indent"></div>
+  var indent = document.createElement("div");
+  indent.className = "css-editor-indent";
+  cssLine.appendChild(indent);
 
+  //  <div class="css-editor-property animated infinite flash-background" onclick="showProperty(this)">
+  //    <span>background-color</span>
+  //  </div>
+  var property = document.createElement("div");
+  property.className = "css-editor-property animated infinite flash-background";
+  property.addEventListener('click', function(){showProperty(property);});
+  var propertySpan = document.createElement("span");
+  property.appendChild(propertySpan);
+  cssLine.appendChild(property);
+
+  //  <div class="css-editor-colon">:</div>
+  var colon = document.createElement("div");
+  colon.className = "css-editor-colon";
+  colon.innerText = ":";
+  cssLine.appendChild(colon);
+
+  //  <div class="css-editor-value animated infinite flash-background" onclick="showColor(this)">
+  //    <span>blue</span>
+  //  </div>
+  var value = document.createElement("div");
+  value.className = "css-editor-value animated infinite flash-background";
+  value.addEventListener('click', function(){showColor(value);});
+  var valueSpan = document.createElement("span");
+  value.appendChild(valueSpan);
+  cssLine.appendChild(value);
+
+  //  <div class="css-editor-semicolon">;</div>
+  var colon = document.createElement("div");
+  colon.className = "css-editor-colon";
+  colon.innerText = ";";
+  cssLine.appendChild(colon);
+
+  //Then add it to the parent
+  var parent = lastChild.parentNode;
+  parent.insertBefore(cssLine, lastChild);
+}
 
 function getCSS(rootElement){
 
@@ -102,7 +144,6 @@ function getCSS(rootElement){
   return output;
 
 }
-
 
 var write_iframe = function(iframe_id, src){
   var iframe = document.getElementById(iframe_id);
@@ -140,8 +181,6 @@ var update_iFrame = function(inside_html, css, iframe_id ) {
     "}\n" +
     "\n";
 
-  var innerHTML = document.getElementById("template").innerHTML;
-
   var css = css_tpl + css;
   
   var html = html_base_tpl.replace('</body>', inside_html + '</body>');
@@ -162,3 +201,20 @@ render();
 
 var editor = document.getElementById("css-editor");
 editor.addEventListener("draw", render );
+
+var colorAjax = new XMLHttpRequest();
+var colors = "";
+colorAjax.open("GET", "data/awesomplete-colors.json", true);
+colorAjax.onload = function () {
+  colors = JSON.parse(colorAjax.responseText);
+};
+colorAjax.send();
+
+var propertyAjax = new XMLHttpRequest();
+var properties = "";
+propertyAjax.open("GET", "data/awesomplete-properties.json", true);
+propertyAjax.onload = function () {
+  properties = JSON.parse(propertyAjax.responseText);
+};
+
+propertyAjax.send();
