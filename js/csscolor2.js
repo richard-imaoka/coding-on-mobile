@@ -3,7 +3,10 @@ var showSpan = function(event){
   var parentElement = awesomElement.parentElement; //event's parentElement is <div class="awesomplete">
 
   var spanElement = parentElement.children[0];
-  spanElement.innerText = event.target.value;
+
+  if(event.target.value !== "")
+    spanElement.innerText = event.target.value;
+
   spanElement.removeAttribute("hidden");
 
   event.target.removeEventListener("blur", showSpan); //the below removeChild() calls onblur, so onblur is called twice otherwise
@@ -25,24 +28,27 @@ function showInput(parentElement, awesomParams) {
     inputElement.addEventListener("awesomplete-selectcomplete", showSpan);
 
     inputElement.className = "css-editor-input";
-    inputElement.value = spanElement.innerText;
+    inputElement.placeholder = spanElement.innerText;
     parentElement.appendChild(inputElement);
-    new Awesomplete(inputElement, awesomParams);
+    var awesome = new Awesomplete(inputElement, awesomParams);
 
+    awesome.evaluate();
+    awesome.next();
     inputElement.focus();
   }
 }
 
 function showProperty(parentElement) {
-  showInput(parentElement, {list: properties, minChars: 1})
+  showInput(parentElement, {list: properties, minChars: 0})
 }
 
 function showColor(parentElement) {
-  showInput(parentElement, {list: colors, minChars: 1, item: colorElement})
+  showInput(parentElement, {list: colors, minChars: 0, item: colorElement})
 }
 
 function showSelector(parentElement) {
-  showInput(parentElement, {list: colors, minChars: 1, item: colorElement})
+  var selectors = [ ".box", "circle", "#box1", "#box2", "#box3", "#circle1", "#circle2", "#circle3" ];
+  showInput(parentElement, {list: selectors, minChars: 0})
 }
 
 
