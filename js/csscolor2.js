@@ -1,8 +1,13 @@
-var showSpan = function (parentElement) {
-  parentElement.removeChild(parentElement.children[1]);
+var showSpan = function(event){
+  var awesomElement = event.target.parentElement;
+  var parentElement = awesomElement.parentElement; //event's parentElement is <div class="awesomplete">
+
   var spanElement = parentElement.children[0];
+  spanElement.innerText = event.target.value;
   spanElement.removeAttribute("hidden");
 
+  event.target.removeEventListener("blur", showSpan); //the below removeChild() calls onblur, so onblur is called twice otherwise
+  parentElement.removeChild(awesomElement);
 }
 
 function showInput(parentElement, awesomParams) {
@@ -10,16 +15,19 @@ function showInput(parentElement, awesomParams) {
   if (parentElement.children.length > 1)
     return;
   else {
-    var inputElement = document.createElement("input");
-    inputElement.addEventListener("blur", function () {
-      showSpan(parentElement);
-    });
-    inputElement.className = "css-editor-input";
-    parentElement.appendChild(inputElement);
-    new Awesomplete(inputElement, awesomParams);
-
     var spanElement = parentElement.children[0];
     spanElement.hidden = "hidden";
+
+    var inputElement = document.createElement("input");
+
+    inputElement.addEventListener("blur", showSpan);
+    inputElement.addEventListener("change", showSpan);
+    inputElement.addEventListener("awesomplete-selectcomplete", showSpan);
+
+    inputElement.className = "css-editor-input";
+    inputElement.value = spanElement.innerText;
+    parentElement.appendChild(inputElement);
+    new Awesomplete(inputElement, awesomParams);
 
     inputElement.focus();
   }
@@ -60,9 +68,9 @@ propertyAjax.onload = function () {
 
 propertyAjax.send();
 
-function recursive(element){
+function recursive(element) {
 
-  if(element.className.includes("css-line"))
+  if (element.className.includes("css-line"))
     console.log(element.innerText.replace(/\n/g, " ") + "\n");
 
   for (var i = 0; i < element.children.length; i++) {
