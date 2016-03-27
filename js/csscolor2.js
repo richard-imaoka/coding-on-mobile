@@ -11,6 +11,8 @@ var showSpan = function(event){
 
   event.target.removeEventListener("blur", showSpan); //the below removeChild() calls onblur, so onblur is called twice otherwise
   parentElement.removeChild(awesomElement);
+
+  document.getElementById("css-editor").dispatchEvent(new Event('draw'));
 }
 
 function showInput(parentElement, awesomParams) {
@@ -43,7 +45,7 @@ function showProperty(parentElement) {
 }
 
 function showColor(parentElement) {
-  showInput(parentElement, {list: colors, minChars: 0, item: colorElement})
+  showInput(parentElement, {list: colors, maxItems: colors.length, minChars: 0, item: colorElement})
 }
 
 function showSelector(parentElement) {
@@ -113,27 +115,30 @@ var write_iframe = function(iframe_id, src){
 var update_iFrame = function(inside_html, css, iframe_id ) {
 
   var html_base_tpl =
-      "<!doctype html>\n" +
-      "<html>\n\t" +
-      "<head>\n\t\t" +
-      "<meta charset=\"utf-8\">\n\t\t" +
-      "<title>Test</title>\n\n\t\t\n\t" +
-      "</head>\n\t" +
-      "<body>\n\t\n\t" +
-      "</body>\n" +
-      "</html>";
+    "<!doctype html>\n" +
+    "<html>\n\t" +
+    "<head>\n\t\t" +
+    "<meta charset=\"utf-8\">\n\t\t" +
+    "<title>Test</title>\n\n\t\t\n\t" +
+    "</head>\n\t" +
+    "<body>\n\t\n\t" +
+    "</body>\n" +
+    "</html>";
 
   var css_tpl =
-  ".container {\n" +
-  "  display: flex;\n" +
-  "}\n" +
-  "\n" +
-  ".text-center {\n" +
-  "  display: flex;\n" +
-  "  align-items: center;\n" +
-  "  justify-content: center;\n" +
-  "}\n" +
-  "\n";
+    ".container {\n" +
+    "  display: flex;\n" +
+    "}\n" +
+    "\n" +
+    ".text-center {\n" +
+    "  display: flex;\n" +
+    "  font-size: 40px;\n" +
+    "  text-shadow: 2px 2px Gray;\n" +
+    "  color: white;\n" +
+    "  align-items: center;\n" +
+    "  justify-content: center;\n" +
+    "}\n" +
+    "\n";
 
   var innerHTML = document.getElementById("template").innerHTML;
 
@@ -148,9 +153,12 @@ var update_iFrame = function(inside_html, css, iframe_id ) {
 
 function render(){
   var innerHTML = document.getElementById("template").innerHTML;
-  var cssElem   = document.getElementById("css");
+  var cssElem   = document.getElementById("css-editor");
   var css       = getCSS(cssElem);
   update_iFrame(innerHTML, css, "result");
 }
 
 render();
+
+var editor = document.getElementById("css-editor");
+editor.addEventListener("draw", render );

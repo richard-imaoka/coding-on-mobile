@@ -7,18 +7,17 @@
 
     iframe {
       border-width: 0px;
-      width:800px;
-      height:600px;
+      width: 100%;
+      height: 400px;
     }
-
 
     .css-editor {
       font-size: 40px;
     }
 
-    .css-editor .css-line{
+    .css-editor .css-line {
       display: flex;
-      width:   800px;
+      width: 800px;
     }
 
     .css-editor .css-editor-indent {
@@ -54,7 +53,22 @@
 <body>
 
 
-<div id="css" class="css-editor" onclick="recursive(this)">
+  <div id="template" hidden>
+    <div class="container">
+      <div id="box1" class="box text-center">box1</div>
+      <div id="box2" class="box text-center">box2</div>
+      <div id="box3" class="box text-center">box1</div>
+    </div>
+    <div class="container">
+      <div id="circle1" class="circle text-center">circle1</div>
+      <div id="circle2" class="circle text-center">circle2</div>
+      <div id="circle3" class="circle text-center">circle3</div>
+    </div>
+  </div>
+
+  <iframe id="result"></iframe>
+  
+  <div id="css-editor" class="css-editor" onclick="console.log(getCSS(this))">
 
   <div class="css-line">
     <div class="css-editor-selector" onclick="showSelector(this)">
@@ -97,7 +111,7 @@
       </div>
       <div class="css-editor-colon">:</div>
       <div class="css-editor-value" onclick="showColor(this)">
-        <span>200px</span>
+        <span>150px</span>
       </div>
       <div class="css-editor-semicolon">;</div>
     </div>
@@ -110,7 +124,7 @@
       </div>
       <div class="css-editor-colon">:</div>
       <div class="css-editor-value" onclick="showColor(this)">
-        <span>200px</span>
+        <span>150px</span>
       </div>
       <div class="css-editor-semicolon">;</div>
     </div>
@@ -161,7 +175,7 @@
       </div>
       <div class="css-editor-colon">:</div>
       <div class="css-editor-value" onclick="showColor(this)">
-        <span>200px</span>
+        <span>150px</span>
       </div>
       <div class="css-editor-semicolon">;</div>
     </div>
@@ -174,7 +188,7 @@
       </div>
       <div class="css-editor-colon">:</div>
       <div class="css-editor-value" onclick="showColor(this)">
-        <span>200px</span>
+        <span>150px</span>
       </div>
       <div class="css-editor-semicolon">;</div>
     </div>
@@ -200,7 +214,7 @@
       </div>
       <div class="css-editor-colon">:</div>
       <div class="css-editor-value" onclick="showColor(this)">
-        <span>100px</span>
+        <span>150px</span>
       </div>
       <div class="css-editor-semicolon">;</div>
     </div>
@@ -220,23 +234,7 @@
   </div>
   <div class="css-line">}</div>
 
-
 </div>
-
-<div id="template" hidden>
-  <div class="container">
-    <div id="box1" class="box text-center">BOX 1</div>
-    <div id="box2" class="box text-center">BOX 2</div>
-    <div id="box3" class="box text-center">BOX 1</div>
-  </div>
-  <div class="container">
-    <div id="circle1" class="circle text-center">CIRCLE 1</div>
-    <div id="circle2" class="circle text-center">CIRCLE 2</div>
-    <div id="circle3" class="circle text-center">CIRCLE 3</div>
-  </div>
-</div>
-
-<iframe id="result"></iframe>
 
 
 </body>
