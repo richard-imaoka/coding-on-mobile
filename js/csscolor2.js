@@ -12,6 +12,7 @@ var showSpan = function(event){
   event.target.removeEventListener("blur", showSpan); //the below removeChild() calls onblur, so onblur is called twice otherwise
   parentElement.removeChild(awesomElement);
 
+  //Draw the boxes and circles based in edited CSS
   document.getElementById("css-editor").dispatchEvent(new Event('draw'));
 }
 
@@ -40,11 +41,11 @@ function showInput(parentElement, awesomParams) {
   }
 }
 
-function showProperty(parentElement) {
+function showPropertyInput(parentElement) {
   showInput(parentElement, {list: properties, minChars: 0})
 }
 
-function showColor(parentElement) {
+function showColorInput(parentElement) {
   showInput(parentElement, {list: colors, maxItems: colors.length, minChars: 0, item: colorElement})
 }
 
@@ -69,11 +70,11 @@ function addCSSLine(lastChild){
   //
   //<div class="css-line css-editor-declaration">
   //  <div class="css-editor-indent"></div>
-  //  <div class="css-editor-property animated infinite flash-background" onclick="showProperty(this)">
+  //  <div class="css-editor-property animated infinite flash-background" onclick="showPropertyInput(this)">
   //    <span>background-color</span>
   //  </div>
   //  <div class="css-editor-colon">:</div>
-  //  <div class="css-editor-value animated infinite flash-background" onclick="showColor(this)">
+  //  <div class="css-editor-value animated infinite flash-background" onclick="showColorInput(this)">
   //    <span>blue</span>
   //  </div>
   //  <div class="css-editor-semicolon">;</div>
@@ -87,12 +88,12 @@ function addCSSLine(lastChild){
   indent.className = "css-editor-indent";
   cssLine.appendChild(indent);
 
-  //  <div class="css-editor-property animated infinite flash-background" onclick="showProperty(this)">
+  //  <div class="css-editor-property animated infinite flash-background" onclick="showPropertyInput(this)">
   //    <span>background-color</span>
   //  </div>
   var property = document.createElement("div");
   property.className = "css-editor-property animated infinite flash-background";
-  property.addEventListener('click', function(){showProperty(property);});
+  property.addEventListener('click', function(){showPropertyInput(property);});
   var propertySpan = document.createElement("span");
   property.appendChild(propertySpan);
   cssLine.appendChild(property);
@@ -103,12 +104,12 @@ function addCSSLine(lastChild){
   colon.innerText = ":";
   cssLine.appendChild(colon);
 
-  //  <div class="css-editor-value animated infinite flash-background" onclick="showColor(this)">
+  //  <div class="css-editor-value animated infinite flash-background" onclick="showColorInput(this)">
   //    <span>blue</span>
   //  </div>
   var value = document.createElement("div");
   value.className = "css-editor-value animated infinite flash-background";
-  value.addEventListener('click', function(){showColor(value);});
+  value.addEventListener('click', function(){showColorInput(value);});
   var valueSpan = document.createElement("span");
   value.appendChild(valueSpan);
   cssLine.appendChild(value);
