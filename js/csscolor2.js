@@ -41,8 +41,26 @@ function showInput(parentElement, awesomParams) {
     var awesome = new Awesomplete(inputElement, awesomParams);
     awesome.evaluate();
     inputElement.focus();
-
   }
+}
+
+function deleteLineElement(cssLine){
+  cssLine.parentNode.removeChild(cssLine);
+  //Draw the boxes and circles based in edited CSS
+  document.getElementById("css-editor").dispatchEvent(new Event('draw'));
+}
+
+function deleteLine(cssLine){
+  cssLine.className += " delete";
+  setTimeout(function(){deleteLineElement(cssLine);}, 150);
+}
+
+function addDeleteButton(cssLine){
+  var deleteButton = document.createElement("button");
+  deleteButton.className = ".css-editor .css-delete-button";
+  deleteButton.innerText = "x";
+  deleteButton.addEventListener("click", function(){ deleteLine(cssLine); });
+  cssLine.appendChild(deleteButton);
 }
 
 function showPropertyInput(parentElement) {
@@ -127,6 +145,19 @@ function addCSSLine(lastChild){
   //Then add it to the parent
   var parent = lastChild.parentNode;
   parent.insertBefore(cssLine, lastChild);
+
+  addDeleteButton(cssLine);
+}
+
+//toString
+function cssLineText(cssLine){
+  var str = "";
+  var children = cssLine.children;
+  for(var i=0; i < children.length; i++ )
+    if( !children[i].className.includes("delete") )
+      str += children[i].innerText;
+
+  return str;
 }
 
 function getCSS(rootElement){
@@ -136,7 +167,7 @@ function getCSS(rootElement){
   function recursive(element) {
 
     if (element.className.includes("css-line"))
-      output += element.innerText.replace(/\n/g, " ") + "\n";
+      output += cssLineText(element).replace(/\n/g, " ")  + "\n";
 
     for (var i = 0; i < element.children.length; i++) {
       var child = element.children[i];
@@ -223,3 +254,7 @@ propertyAjax.onload = function () {
 };
 
 propertyAjax.send();
+
+cssDeclarationLines = document.getElementsByClassName("css-editor-declaration");
+for(var i = 0; i < cssDeclarationLines.length; i++ )
+  addDeleteButton(cssDeclarationLines[i]);

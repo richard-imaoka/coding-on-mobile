@@ -1,3 +1,24 @@
+@keyframes delete {
+  from {
+    height: 50px;
+  }
+  to {
+    height: 0px;
+  }
+}
+
+
+.delete {
+  -webkit-animation-name: delete;
+  animation-name: delete;
+  -webkit-animation-duration: 0.1s;
+  animation-duration: 0.1s;
+  animation-fill-mode: forwards;
+  overflow: hidden;
+  opacity: 0.5;
+}
+
+
 @-webkit-keyframes flash-background {
   from, 50%, to {
     background-color: white;

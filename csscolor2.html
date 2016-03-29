@@ -25,7 +25,7 @@
 
   <iframe id="result"></iframe>
 
-  <div id="css-editor" class="css-editor" onclick="console.log(getCSS(this))">
+  <div id="css-editor" class="css-editor">
 
     <div class="css-declaration-block">
       <div class="css-line">
@@ -40,15 +40,15 @@
       <div class="css-line css-editor-declaration">
         <div class="css-editor-indent"></div>
         <div class="css-editor-property animated infinite flash-background" onclick="showPropertyInput(this)">
-          <span>background-color</span>
+          <div>background-color</div>
         </div>
         <div class="css-editor-colon">:</div>
         <div class="css-editor-value animated infinite flash-background" onclick="showColorInput(this)">
           <span>blue</span>
         </div>
-        <div class="css-editor-semicolon">;</div>
+        <div class="css-editor-semicolon"><span>;</span></div>
       </div>
-      <div class="css-line" onclick="addCSSLine(this)">}</div>
+      <div class="css-line" onclick="addCSSLine(this)"><span>}</span></div>
     <div>
 
     <div class="css-line">
@@ -70,7 +70,7 @@
         <div class="css-editor-value">
           <span>150px</span>
         </div>
-        <div class="css-editor-semicolon">;</div>
+        <div class="css-editor-semicolon"><span>;</span></div>
       </div>
     </div>
     <div>
@@ -83,7 +83,7 @@
         <div class="css-editor-value">
           <span>150px</span>
         </div>
-        <div class="css-editor-semicolon">;</div>
+        <div class="css-editor-semicolon"><span>;</span></div>
       </div>
     </div>
     <div>
@@ -96,7 +96,7 @@
         <div class="css-editor-value">
           <span>10px</span>
         </div>
-        <div class="css-editor-semicolon">;</div>
+        <div class="css-editor-semicolon"><span>;</span></div>
       </div>
     </div>
     <div>
@@ -109,10 +109,12 @@
         <div class="css-editor-value animated infinite flash-background" onclick="showColorInput(this)">
           <span>red</span>
         </div>
-        <div class="css-editor-semicolon">;</div>
+        <div class="css-editor-semicolon"><span>;</span></div>
       </div>
     </div>
-    <div class="css-line">}</div>
+    <div class="css-line">
+      <span>}</span>
+    </div>
 
 
     <div class="css-line">
@@ -134,7 +136,7 @@
         <div class="css-editor-value" onclick="showColor(this)">
           <span>150px</span>
         </div>
-        <div class="css-editor-semicolon">;</div>
+        <div class="css-editor-semicolon"><span>;</span></div>
       </div>
     </div>
     <div>
@@ -147,7 +149,7 @@
         <div class="css-editor-value" onclick="showColor(this)">
           <span>150px</span>
         </div>
-        <div class="css-editor-semicolon">;</div>
+        <div class="css-editor-semicolon"><span>;</span></div>
       </div>
     </div>
       <div>
@@ -160,7 +162,7 @@
         <div class="css-editor-value"">
         <span>150px</span>
       </div>
-      <div class="css-editor-semicolon">;</div>
+      <div class="css-editor-semicolon"><span>;</span></div>
     </div>
     </div>
     <div>
@@ -173,7 +175,7 @@
         <div class="css-editor-value">
           <span>10px</span>
         </div>
-        <div class="css-editor-semicolon">;</div>
+        <div class="css-editor-semicolon"><span>;</span></div>
       </div>
     </div>
     <div>
@@ -186,10 +188,12 @@
         <div class="css-editor-value animated infinite flash-background" onclick="showColorInput(this)">
           <span>red</span>
         </div>
-        <div class="css-editor-semicolon">;</div>
+        <div class="css-editor-semicolon">
+          <span>;</span>
+        </div>
       </div>
     </div>
-    <div class="css-line">}</div>
+    <div class="css-line"><span>}</span></div>
 
   </div>
 
