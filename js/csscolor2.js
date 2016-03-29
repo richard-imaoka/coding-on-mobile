@@ -147,6 +147,8 @@ function addCSSLine(lastChild){
   parent.insertBefore(cssLine, lastChild);
 
   addDeleteButton(cssLine);
+
+  showPropertyInput(property);
 }
 
 //toString
