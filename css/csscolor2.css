@@ -35,36 +35,40 @@ iframe {
   font-size: 40px;
 }
 
-.css-editor .css-line {
+.css-line {
   display: flex;
   width: 800px;
 }
 
-.css-editor .css-editor-indent {
+.css-editor-selector{
+  width: 200px;
+}
+
+.css-editor-indent {
   width: 2em;
 }
 
-.css-editor .css-editor-space {
+.css-editor-space {
   width: 1em;
 }
 
-.css-editor .css-editor-property {
+.css-editor-property {
   width: 500px;
 }
 
-.css-editor .css-editor-colon {
+.css-editor-colon {
   width: 1em;
 }
 
-.css-editor .css-editor-value {
+.css-editor-value {
   width: 30%;
 }
 
-.css-editor .css-editor-semicolon {
+.css-editor-semicolon {
   width: 1em;
 }
 
-.css-editor .css-editor-input {
+.css-editor-input {
   font-size: 1em;
   width: 100%;
 }
