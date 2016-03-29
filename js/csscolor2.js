@@ -1,12 +1,9 @@
 var showSpan = function(event){
-  var awesomElement = event.target.parentElement;
-  var parentElement = awesomElement.parentElement; //event's parentElement is <div class="awesomplete">
+  var awesomElement = event.target.parentElement; //event's parentElement is <div class="awesomplete">
+  var parentElement = awesomElement.parentElement;
 
   var spanElement = parentElement.children[0];
-
-  if(event.target.value !== "")
-    spanElement.innerText = event.target.value;
-
+  spanElement.innerText = event.target.value;
   spanElement.removeAttribute("hidden");
 
   event.target.removeEventListener("blur", showSpan); //the below removeChild() calls onblur, so onblur is called twice otherwise
@@ -14,6 +11,11 @@ var showSpan = function(event){
 
   //Draw the boxes and circles based in edited CSS
   document.getElementById("css-editor").dispatchEvent(new Event('draw'));
+}
+
+function keyPress(event){
+  if(event.charCode === 13)
+    event.target.dispatchEvent(new Event('change'));
 }
 
 function showInput(parentElement, awesomParams) {
@@ -24,20 +26,22 @@ function showInput(parentElement, awesomParams) {
     var spanElement = parentElement.children[0];
     spanElement.hidden = "hidden";
 
+    /*
+     * Create input Element
+     */
     var inputElement = document.createElement("input");
-
     inputElement.addEventListener("blur", showSpan);
     inputElement.addEventListener("change", showSpan);
+    inputElement.addEventListener("keypress", keyPress);
     inputElement.addEventListener("awesomplete-selectcomplete", showSpan);
-
     inputElement.className = "css-editor-input";
-    inputElement.placeholder = spanElement.innerText;
+    inputElement.value = spanElement.innerText;
+    inputElement.type = "search"; // show the "x" button for value deletion
     parentElement.appendChild(inputElement);
     var awesome = new Awesomplete(inputElement, awesomParams);
-
     awesome.evaluate();
-    awesome.next();
     inputElement.focus();
+
   }
 }
 
