@@ -62,7 +62,6 @@ iframe {
 }
 
 .css-editor-selector{
-  width: 200px;
 }
 
 .css-editor-indent {
@@ -74,7 +73,7 @@ iframe {
 }
 
 .css-editor-property {
-  width: 500px;
+  width: 400px;
 }
 
 .css-editor-colon {

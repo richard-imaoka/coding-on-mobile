@@ -1,0 +1,28 @@
+<html>
+<head>
+  <title>Hello Riot.</title>
+</head>
+<body>
+
+  <css-property></css-property>
+
+</body>
+<script type="text/javascript" src="js/json2.js"></script>
+<script type="text/javascript" src="js/cssjson.js"></script>
+<script type="riot/tag" src="riot/css.tag"></script>
+<script src="js/riot+compiler.js"></script>
+
+<script>riot.mount('css-line', {plan: {name:'golden'}})</script>
+<script>riot.mount('css-property', {edit: false, property: 'unko'} )</script>
+
+<script>
+  var ajax = new XMLHttpRequest();
+  var cssJson ;
+  ajax.open("GET", "data/sample.css", true);
+  ajax.onload = function () {
+    var cssJSON= CSSJSON.toJSON(ajax.responseText);
+  };
+  ajax.send();
+</script>
+
+</html>
