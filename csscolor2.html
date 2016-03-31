@@ -39,9 +39,7 @@
       </div>
       <div class="css-line css-editor-declaration">
         <div class="css-editor-indent"></div>
-        <div class="css-editor-property animated infinite flash-background" onclick="showPropertyInput(this)">
-          <div>background-color</div>
-        </div>
+        <css-property></css-property>
         <div class="css-editor-colon">:</div>
         <div class="css-editor-value animated infinite flash-background" onclick="showColorInput(this)">
           <span>blue</span>
@@ -155,11 +153,11 @@
       <div>
         <div class="css-line css-editor-declaration">
           <div class="css-editor-indent"></div>
-          <div class="css-editor-property"">
+          <div class="css-editor-property">
           <span>border-radius</span>
         </div>
         <div class="css-editor-colon">:</div>
-        <div class="css-editor-value"">
+        <div class="css-editor-value">
         <span>150px</span>
       </div>
       <div class="css-editor-semicolon"><span>;</span></div>
@@ -201,4 +199,10 @@
 </body>
 <script src="js/awesomplete.js"></script>
 <script src="js/csscolor2.js"></script>
+<script type="text/javascript" src="js/json2.js"></script>
+<script type="text/javascript" src="js/cssjson.js"></script>
+<script type="riot/tag" src="riot/css.tag"></script>
+<script src="js/riot+compiler.js"></script>
+<script>riot.mount('css-property', {edit: false, property: 'unko'} )</script>
+
 </html>
