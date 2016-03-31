@@ -17,7 +17,7 @@ updateData: function(){
 
 
 <css-property>
-  <div if={!edit} class="css-editor-property" onClick={toEditMode}>{opts.property}</div>
+  <div if={!edit} onClick={toEditMode}>{opts.property}</div>
 
     <div  if={edit}>
       <input class="css-editor-input"
@@ -66,9 +66,9 @@ updateData: function(){
 </css-property>
 
 <css-value>
-  <div if={!edit} class="css-editor-value" onClick={toEditMode}>{opts.value}</div>
+  <div if={!edit} onClick={toEditMode}>{opts.value}</div>
 
-  <div  if={edit}>
+  <div if={edit}>
     <input class="css-editor-input"
            name="input"
            onBlur={toUnEditMode}
@@ -125,8 +125,14 @@ updateData: function(){
 </css-value>
 
 <css-declaration>
-  <css-property property={opts.property}></css-property>
-  <css-value value={opts.value}></css-value>
+  <div class="css-line css-editor-declaration">
+    <div          class="css-editor-indent"></div>
+    <css-property class="css-editor-property" property={opts.property} list="{opts.property_list}"></css-property>
+    <div          class="css-editor-colon">:</div>
+    <css-value    class="css-editor-value"    value={opts.value}       list="{opts.value_list}"></css-value>
+    <div          class="css-editor-semicolon"><span>;</span></div>
+    <button       class="css-delete-button">x</button>
+  </div>
 </css-declaration>
 
 
