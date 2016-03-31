@@ -18,16 +18,14 @@ updateData: function(){
 
 <css-property>
 
-  <div if={!edit} onClick={toEditMode}>{opts.property}</div>
+  <div if={!edit} class="css-editor-property" onClick={toEditMode}>{opts.property}</div>
 
   <input if={edit}
+         class="css-editor-input"
          name="input"
          onBlur={toUnEditMode}
          onChange={toUnEditMode}
          onKeyPress={keyPress}>
-
-  <button if={edit}>x</button>
-
   <script>
     toEditMode(event)
     {
