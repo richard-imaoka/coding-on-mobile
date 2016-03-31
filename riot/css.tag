@@ -121,6 +121,7 @@ updateData: function(){
         return true
       }
     }
+    </script>
 </css-value>
 
 <css-declaration>
