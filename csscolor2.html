@@ -203,6 +203,15 @@
 <script type="text/javascript" src="js/cssjson.js"></script>
 <script type="riot/tag" src="riot/css.tag"></script>
 <script src="js/riot+compiler.js"></script>
-<script>riot.mount('css-property', {edit: false, property: 'unko'} )</script>
+<script>
+  var ajax = new XMLHttpRequest();
+  var colors = "";
+  ajax.open("GET", "data/awesomplete-properties.json", true);
+  ajax.onload = function () {
+    properties = JSON.parse(ajax.responseText);
+    riot.mount('css-property', {edit: false, property: 'unko', list: properties} )
+  };
+  ajax.send();
+</script>
 
 </html>

@@ -27,18 +27,6 @@ updateData: function(){
              onKeyPress={keyPress}>
     </div>
   <script>
-
-//    var ajax = new XMLHttpRequest();
-//    ajax.open("GET", "data/awesomplete-properties.json", true);
-//    ajax.onload = function () {
-//      this.list = JSON.parse(ajax.responseText);
-//    }.bind(this)
-
-    this.list = [
-      "color",
-      "background-color"
-    ]
-
     toEditMode(event)
     {
       this.edit = true
@@ -48,7 +36,7 @@ updateData: function(){
     this.on('updated', function(){
       if(this.edit){
         if(this.awesome === undefined ){
-          var awesomParams =  {list: this.list, minChars: 0}
+          var awesomParams =  {list: opts.list, minChars: 0}
           this.awesome = new Awesomplete(this.input, awesomParams);
           this.awesome.evaluate();
         }
@@ -65,7 +53,7 @@ updateData: function(){
     keyPress(event)
     {
       if (event.charCode === 13) {
-        opts.property = this.input.value
+        opts.property = this.input.value //TODO: better update the entire CSS data structure to reduce state?
         this.edit = false
       }
       else {
