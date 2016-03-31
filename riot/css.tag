@@ -66,8 +66,61 @@ updateData: function(){
 </css-property>
 
 <css-value>
-  <div if={!opts.edit}>{opts.value}</div>
-  <input if={opts.edit}>
+  <div if={!edit} class="css-editor-value" onClick={toEditMode}>{opts.value}</div>
+
+  <div  if={edit}>
+    <input class="css-editor-input"
+           name="input"
+           onBlur={toUnEditMode}
+           onChange={toUnEditMode}
+           onKeyPress={keyPress}>
+  </div>
+  <script>
+    function colorElement(text, input) {
+      var split = text.split(",");
+      var colorHex = split[0]
+      var colorName = split[split.length - 1];
+      var element = document.createElement("li");
+      element.innerHTML = colorHex + " " + colorName;
+      element.style.backgroundColor = colorHex;
+      return element;
+    };
+
+    toEditMode(event)
+    {
+      this.edit = true
+      this.input.value = opts.value
+    }
+
+    this.on('updated', function(){
+      if(this.edit){
+        if(this.awesome === undefined ){
+          var awesomParams =  {list: opts.list, minChars: 0,  item: colorElement}
+          this.awesome = new Awesomplete(this.input, awesomParams);
+          this.awesome.evaluate();
+        }
+        this.input.focus()
+      }
+    })
+
+    toUnEditMode(event)
+    {
+      opts.value = this.input.value //TODO: better update the entire CSS data structure to reduce state?
+      this.edit = false
+    }
+
+    keyPress(event)
+    {
+      if (event.charCode === 13) {
+        opts.value = this.input.value //TODO: better update the entire CSS data structure to reduce state?
+        this.edit = false
+      }
+      else {
+        //http://riotjs.com/guide/#event-handlers
+        //returning true calls the default onKeyPress handler
+        return true
+      }
+    }
 </css-value>
 
 <css-declaration>

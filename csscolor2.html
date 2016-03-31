@@ -39,11 +39,12 @@
       </div>
       <div class="css-line css-editor-declaration">
         <div class="css-editor-indent"></div>
-        <css-property data="{kenko:'bayashi'}"></css-property>
+        <css-property></css-property>
         <div class="css-editor-colon">:</div>
-        <div class="css-editor-value animated infinite flash-background" onclick="showColorInput(this)">
-          <span>blue</span>
-        </div>
+        <css-value></css-value>
+        <!--<div class="css-editor-value animated infinite flash-background" onclick="showColorInput(this)">-->
+          <!--<span>blue</span>-->
+        <!--</div>-->
         <div class="css-editor-semicolon"><span>;</span></div>
       </div>
       <div class="css-line" onclick="addCSSLine(this)"><span>}</span></div>
@@ -209,9 +210,18 @@
   ajax.open("GET", "data/awesomplete-properties.json", true);
   ajax.onload = function () {
     properties = JSON.parse(ajax.responseText);
-    riot.mount('css-property', {edit: false, property: 'unko', list: properties} )
+    riot.mount('css-property', {property: 'unko', list: properties} )
   };
   ajax.send();
+
+  var ajax2 = new XMLHttpRequest();
+  var colors = "";
+  ajax2.open("GET", "data/awesomplete-colors.json", true);
+  ajax2.onload = function () {
+    colors = JSON.parse(ajax2.responseText);
+    riot.mount('css-value', {value: 'chinko', list: colors} )
+  };
+  ajax2.send();
 </script>
 
 </html>
