@@ -15,7 +15,10 @@ updateData: function(){
   <div>{ opts.right_or_left_bracket }</div>
 </css-curly-bracket>
 
-
+<!--
+ opts,property
+ opts,property_list: for Awesom's suggestion list
+-->
 <css-property>
   <div if={!edit} onClick={toEditMode}>{opts.property}</div>
 
@@ -33,6 +36,25 @@ updateData: function(){
       this.input.value = opts.property
     }
 
+    toUnEditMode(event)
+    {
+      this.parent.setProperty(this.input.value) //TODO: better update the entire CSS data structure to reduce state?
+      this.edit = false
+    }
+
+    keyPress(event)
+    {
+      if (event.charCode === 13) {
+        this.parent.setProperty(this.input.value)//TODO: better update the entire CSS data structure to reduce state?
+        this.edit = false
+      }
+      else {
+        //http://riotjs.com/guide/#event-handlers
+        //returning true calls the default onKeyPress handler
+        return true
+      }
+    }
+
     this.on('updated', function(){
       if(this.edit){
         if(this.awesome === undefined ){
@@ -44,27 +66,18 @@ updateData: function(){
       }
     })
 
-    toUnEditMode(event)
-    {
-      opts.property = this.input.value //TODO: better update the entire CSS data structure to reduce state?
-      this.edit = false
-    }
-
-    keyPress(event)
-    {
-      if (event.charCode === 13) {
-        opts.property = this.input.value //TODO: better update the entire CSS data structure to reduce state?
-        this.edit = false
-      }
-      else {
-        //http://riotjs.com/guide/#event-handlers
-        //returning true calls the default onKeyPress handler
-        return true
-      }
-    }
+//    //TODO: isn't this needed?
+//    this.on('awesomplete-selectcomplete', function(){
+//      opts.property = this.input.value //TODO: better update the entire CSS data structure to reduce state?
+//      this.edit = false
+//    })
   </script>
 </css-property>
 
+<!--
+ opts,value
+ opts,value_list:    for Awesom's suggestion list
+-->
 <css-value>
   <div if={!edit} onClick={toEditMode}>{opts.value}</div>
 
@@ -92,6 +105,25 @@ updateData: function(){
       this.input.value = opts.value
     }
 
+    toUnEditMode(event)
+    {
+      this.parent.setValue(this.input.value) //TODO: better update the entire CSS data structure to reduce state?
+      this.edit = false
+    }
+
+    keyPress(event)
+    {
+      if (event.charCode === 13) {
+        this.parent.setValue(this.input.value) //TODO: better update the entire CSS data structure to reduce state?
+        this.edit = false
+      }
+      else {
+        //http://riotjs.com/guide/#event-handlers
+        //returning true calls the default onKeyPress handler
+        return true
+      }
+    }
+
     this.on('updated', function(){
       if(this.edit){
         if(this.awesome === undefined ){
@@ -103,36 +135,38 @@ updateData: function(){
       }
     })
 
-    toUnEditMode(event)
-    {
-      opts.value = this.input.value //TODO: better update the entire CSS data structure to reduce state?
-      this.edit = false
-    }
-
-    keyPress(event)
-    {
-      if (event.charCode === 13) {
-        opts.value = this.input.value //TODO: better update the entire CSS data structure to reduce state?
-        this.edit = false
-      }
-      else {
-        //http://riotjs.com/guide/#event-handlers
-        //returning true calls the default onKeyPress handler
-        return true
-      }
-    }
     </script>
 </css-value>
 
+<!--
+ opts,property
+ opts,value
+ opts,property_list: for Awesom's suggestion list
+ opts,value_list:    for Awesom's suggestion list
+-->
 <css-declaration>
-  <div class="css-line css-editor-declaration">
-    <div          class="css-editor-indent"></div>
-    <css-property class="css-editor-property" property={opts.property} list="{opts.property_list}"></css-property>
-    <div          class="css-editor-colon">:</div>
-    <css-value    class="css-editor-value"    value={opts.value}       list="{opts.value_list}"></css-value>
-    <div          class="css-editor-semicolon"><span>;</span></div>
-    <button       class="css-delete-button">x</button>
+  <div name="line" class="css-line css-editor-declaration">
+    <div           class="css-editor-indent"></div>
+    <css-property  class="css-editor-property" property={opts.property} list="{opts.property_list}"></css-property>
+    <div           class="css-editor-colon">:</div>
+    <css-value     class="css-editor-value"    value={opts.value}       list="{opts.value_list}"></css-value>
+    <div           class="css-editor-semicolon"><span>;</span></div>
+    <button        class="css-delete-button" onClick={deleteLine} >x</button>
   </div>
+  <script>
+    this.deleteLine = function(){
+      this.line.className += " delete";
+      //TODO really delete itself, not just set height = 0
+    }
+
+    this.setProperty = function(property) {
+      opts.property = property;
+    }
+
+    this.setValue = function(value) {
+      opts.value = value;
+    }
+  </script>
 </css-declaration>
 
 
