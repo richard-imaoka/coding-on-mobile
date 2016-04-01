@@ -147,9 +147,9 @@ updateData: function(){
 <css-declaration>
   <div name="line" class="css-line css-editor-declaration">
     <div           class="css-editor-indent"></div>
-    <css-property  class="css-editor-property" property={opts.property} list="{opts.property_list}"></css-property>
+    <css-property  class="css-editor-property" property={ opts.property } list={ opts.property_list } ></css-property>
     <div           class="css-editor-colon">:</div>
-    <css-value     class="css-editor-value"    value={opts.value}       list="{opts.value_list}"></css-value>
+    <css-value     class="css-editor-value"    value={ opts.value }       list={ opts.value_list }></css-value>
     <div           class="css-editor-semicolon"><span>;</span></div>
     <button        class="css-delete-button" onClick={deleteLine} >x</button>
   </div>
@@ -175,7 +175,6 @@ updateData: function(){
 
 
 <css-line>
-
   <!-- Polymorphism: CSS line is either of them below -->
   <css-selector opts=></css-selector>
   <script>
@@ -190,50 +189,37 @@ updateData: function(){
 </css-selector>
 
 
-<css-dec>
-  <div class="css-line css-editor-declaration">
-    <div class="css-editor-indent"></div>
-    <div class="css-editor-property animated infinite flash-background" onclick="showPropertyInput(this)">
-      <div>background-color</div>
-    </div>
-    <div class="css-editor-colon">:</div>
-    <div class="css-editor-value animated infinite flash-background" onclick="showColorInput(this)">
-      <div>blue</div>
-    </div>
-    <div class="css-editor-semicolon">;</div>
-  </div>
-</css-dec>
-
-
+<!--
+ opts,property
+ opts,value
+ opts,property_list: for Awesom's suggestion list
+ opts,value_list:    for Awesom's suggestion list
+-->
 <css-block>
   <div class="css-declaration-block">
-
     <div class="css-line">
       <div class="css-editor-selector animated infinite flash-background" onclick="showSelector(this)">
-        <div>{selector}</div>
+        <span>#box1</span>
       </div>
       <div class="css-editor-space"></div>
       <div class="css-editor-curly-bracket">
-        <div>{</div>
+        <span>&#123</span>
       </div>
     </div>
-
-    <div each="{ property, value in opts.attributes }" class="css-line">
-      <css-dec></css-dec>
+    <css-declaration each ={ opts.attributes }
+            property      ={ property }
+            value         ={ value }
+            property_list ={ parent.opts.property_list }
+            value_list    ={ parent.opts.value_list }>
+    </css-declaration>
+    <div class="css-line">
+      <div>&#125</div>
     </div>
-
-    <!--div each={opts.children} class="css-line">
-      <css-block each="{ selector, block in children }"
-                 selector="{selector}"
-                 children="{block.children}"
-                 attributes="{block.attributes}">
-      </css-block>
-    </div-->
-
-    <!--div class="css-line" onclick="addCSSLine(this)">
-      <span>}</span>
-    </div-->
   </div>
+
+  <script>
+    console.log(opts)
+  </script>
 </css-block>
 
 

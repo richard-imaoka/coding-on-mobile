@@ -27,19 +27,7 @@
 
   <div id="css-editor" class="css-editor">
 
-    <div class="css-declaration-block">
-      <div class="css-line">
-        <div class="css-editor-selector animated infinite flash-background" onclick="showSelector(this)">
-          <span>#box1</span>
-        </div>
-        <div class="css-editor-space"></div>
-        <div class="css-editor-curly-bracket">
-          <span>{</span>
-        </div>
-      </div>
-      <css-declaration></css-declaration>
-      <div class="css-line" onclick="addCSSLine(this)"><span>}</span></div>
-    <div>
+    <css-block></css-block>
 
     <div class="css-line">
       <div class="css-editor-selector">
@@ -206,7 +194,15 @@
     ajax2.open("GET", "data/awesomplete-colors.json", true);
     ajax2.onload = function () {
       colors = JSON.parse(ajax2.responseText);
-      riot.mount('css-declaration', {property: 'unko', value: 'chinko', property_list: properties, value_list: colors} );
+      riot.mount('css-block',
+              {
+                attributes: [
+                  { property: 'unko', value: 'chinko' }
+                ],
+                property_list: properties,
+                value_list: colors
+              }
+      );
     };
     ajax2.send();
   };
