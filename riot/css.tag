@@ -190,8 +190,8 @@ updateData: function(){
 
 
 <!--
- opts,property
- opts,value
+ opts,selector
+ opts,attributes
  opts,property_list: for Awesom's suggestion list
  opts,value_list:    for Awesom's suggestion list
 -->
@@ -199,18 +199,20 @@ updateData: function(){
   <div class="css-declaration-block">
     <div class="css-line">
       <div class="css-editor-selector animated infinite flash-background" onclick="showSelector(this)">
-        <span>#box1</span>
+        <span>{ opts.selector }</span>
       </div>
       <div class="css-editor-space"></div>
       <div class="css-editor-curly-bracket">
         <span>&#123</span>
       </div>
     </div>
-    <css-declaration each ={ opts.attributes }
-            property      ={ property }
-            value         ={ value }
-            property_list ={ parent.opts.property_list }
-            value_list    ={ parent.opts.value_list }>
+    <css-declaration
+            each ={ property, value in opts.attributes }
+              property      ={ property }
+              value         ={ value }
+              property_list ={ parent.opts.property_list }
+              value_list    ={ parent.opts.value_list }
+    >
     </css-declaration>
     <div class="css-line">
       <div>&#125</div>
@@ -218,20 +220,25 @@ updateData: function(){
   </div>
 
   <script>
-    console.log(opts)
+    console.log(opts.property_list)
   </script>
 </css-block>
 
-
+<!--
+ opts,css: CSS2JSON's JSON structure
+ opts,property_list: for Awesom's suggestion list
+ opts,value_list:    for Awesom's suggestion list
+-->
 <css-editor>
-  <css-block each="{ selector, block in opts.css.children }"
-             selector="{selector}"
-             children="{block.children}"
-             attributes="{block.attributes}">
+  <css-block each={ selector, block in opts.css.children  }
+               selector      ={ selector }
+               children      ={ block.children }
+               attributes    ={ block.attributes }
+               property_list ={ parent.opts.property_list }
+               value_list    ={ parent.opts.value_list }
+          >
   </css-block>
 
   <script>
-    console.log('css editor')
-    console.log(CSSJSON.toCSS(opts.css))
   </script>
 </css-editor>
