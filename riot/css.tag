@@ -1,3 +1,5 @@
+import {Map, List, fromJS} from 'immutable'
+
 var OptsMixin = {
 updateData: function(){
 }
@@ -171,6 +173,7 @@ updateData: function(){
 
 
 <css-selector>
+
 </css-selector>
 
 
@@ -231,6 +234,7 @@ updateData: function(){
 -->
 <css-editor>
   <css-block each={ selector, block in opts.css.children  }
+               path          ={ parent.opts.path.push("children").push( selector ) }
                selector      ={ selector }
                children      ={ block.children }
                attributes    ={ block.attributes }
@@ -240,5 +244,6 @@ updateData: function(){
   </css-block>
 
   <script>
+    this.opts.path = List()
   </script>
 </css-editor>

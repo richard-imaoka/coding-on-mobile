@@ -2,15 +2,48 @@
 <html lang="en">
 
 <head>
+  <link rel="stylesheet" type="text/css" href="css/awesomplete.css">
+  <link rel="stylesheet" type="text/css" href="css/animate.css">
+  <link rel="stylesheet" type="text/css" href="css/csscolor2.css">
 </head>
 <body>
-
+  <css-editor class="css-editor"></css-editor>
 </body>
+<script type="text/javascript" src="js/awesomplete.js"></script>
 <script type="text/javascript" src="js/json2.js"></script>
 <script type="text/javascript" src="js/cssjson.js"></script>
+<script src="js/riot+compiler.js"></script>
 <script src="dist/bundle.js"></script>
+<script>riot.mount('css-declaration', {edit: false, property: 'unko'} )</script>
+
 <script>
-
-
+  var ajax = new XMLHttpRequest();
+  ajax.open("GET", "data/sample.css", true);
+  ajax.onload = function () {
+    var cssJSON= CSSJSON.toJSON(ajax.responseText);
+    var ajax1 = new XMLHttpRequest();
+    var properties = "";
+    ajax1.open("GET", "data/awesomplete-properties.json", true);
+    ajax1.onload = function () {
+      properties = JSON.parse(ajax1.responseText);
+      var ajax2 = new XMLHttpRequest();
+      var colors = "";
+      ajax2.open("GET", "data/awesomplete-colors.json", true);
+      ajax2.onload = function () {
+        colors = JSON.parse(ajax2.responseText);
+        riot.mount('css-editor',
+                {
+                  css: cssJSON,
+                  property_list: properties,
+                  value_list: colors
+                }
+        )
+      };
+      ajax2.send();
+    };
+    ajax1.send();
+  };
+  ajax.send();
 </script>
+
 </html>

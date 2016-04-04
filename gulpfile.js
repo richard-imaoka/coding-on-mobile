@@ -12,6 +12,8 @@ var buffer      = require('vinyl-buffer');
 var sourcemaps  = require('gulp-sourcemaps');
 var assign      = require('lodash.assign');
 
+var riot        = require('gulp-riot');
+
 // add custom browserify options here
 var customOpts = {
   entries: glob.sync('./js/es6/*.js'),
@@ -41,7 +43,14 @@ function bundle() {
       .pipe(gulp.dest('./dist'));
 }
 
+gulp.task('riot', ()=> {
+  gulp.src('riot/css.tag')
+    .pipe(riot())
+    .pipe(gulp.dest('js/es6'));
+});
+
 gulp.task('watch', function () {
+  gulp.watch("riot/css.tag", ['riot']);
   gulp.watch("css/*.css", browserSync.reload);
   gulp.watch("js/*.js", browserSync.reload);
   gulp.watch("img/*.{png,jpg,svg}", browserSync.reload);
@@ -58,4 +67,4 @@ gulp.task('browser-sync', function() {
   });
 });
 
-gulp.task('default', ['browser-sync', 'watch', 'js']);
+gulp.task('default', ['browser-sync', 'watch', 'riot', 'js']);
