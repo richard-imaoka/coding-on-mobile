@@ -1,4 +1,5 @@
 import {Map, List, fromJS} from 'immutable'
+import {UPDATE_PROPERTY, DELETE_PROPERTY} from "./actions"
 
 var OptsMixin = {
 updateData: function(){
@@ -18,6 +19,7 @@ updateData: function(){
 </css-curly-bracket>
 
 <!--
+ opts.path
  opts,property
  opts,property_list: for Awesom's suggestion list
 -->
@@ -141,6 +143,7 @@ updateData: function(){
 </css-value>
 
 <!--
+ opts.path
  opts,property
  opts,value
  opts,property_list: for Awesom's suggestion list
@@ -149,7 +152,7 @@ updateData: function(){
 <css-declaration>
   <div name="line" class="css-line css-editor-declaration">
     <div           class="css-editor-indent"></div>
-    <css-property  class="css-editor-property" property={ opts.property } list={ opts.property_list } ></css-property>
+    <css-property  class="css-editor-property" property={ opts.property } list={ opts.property_list } path={ path }></css-property>
     <div           class="css-editor-colon">:</div>
     <css-value     class="css-editor-value"    value={ opts.value }       list={ opts.value_list }></css-value>
     <div           class="css-editor-semicolon"><span>;</span></div>
@@ -193,6 +196,7 @@ updateData: function(){
 
 
 <!--
+ opts.path
  opts,selector
  opts,attributes
  opts,property_list: for Awesom's suggestion list
@@ -211,6 +215,7 @@ updateData: function(){
     </div>
     <css-declaration
             each ={ property, value in opts.attributes }
+              path          ={ parent.opts.path.push(property)}
               property      ={ property }
               value         ={ value }
               property_list ={ parent.opts.property_list }
@@ -223,7 +228,7 @@ updateData: function(){
   </div>
 
   <script>
-    console.log(opts.property_list)
+
   </script>
 </css-block>
 
@@ -244,6 +249,12 @@ updateData: function(){
   </css-block>
 
   <script>
-    this.opts.path = List()
+//    this.opts.css  = this.opts.store.getState();
+
+    this.opts.path = List.of()
+//
+//    this.opts.store.subscribe(function(){
+//      this.opts.css = this.opts.store.getState();
+//    })
   </script>
 </css-editor>
