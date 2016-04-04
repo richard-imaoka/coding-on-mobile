@@ -10,37 +10,3 @@
   margin  :  10px;
   background-color  :  red;
 }
-
-.circle,
-.hamadamasatoshi
-{
-  width  :  150px;
-  height  :  150px;
-  border-radius  :  150px;
-  margin  :  10px;
-  background-color  :  red;
-}
-
-/*comment*/
-
-@media (max-width: 800px) {
-  #main #comments {
-    margin: 0px;
-    width: auto;
-    background: red;
-  }
-
-  #main #buttons {
-    padding: 5px 10px; /*comment*/
-    color: blue;
-  }
-}
-#main #content {
-  margin: 0 7.6%;
-  width: auto;
-}
-#nav-below {
-  border-bottom: 1px solid #ddd;
-  margin-bottom: 1.625em;
-  background-image: url(http://www.example.com/images/im.jpg);
-}
