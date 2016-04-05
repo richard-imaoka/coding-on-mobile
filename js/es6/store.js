@@ -1,7 +1,7 @@
 import { createStore } from 'redux'
 import css from './reducers'
+import { Map, fromJS } from 'immutable'
 
-let store = createStore(css)
 
 var ajax = new XMLHttpRequest();
 ajax.open("GET", "data/sample.css", true);
@@ -17,11 +17,14 @@ ajax.onload = function () {
     ajax2.open("GET", "data/awesomplete-colors.json", true);
     ajax2.onload = function () {
       colors = JSON.parse(ajax2.responseText);
+
+      let store = createStore(css, fromJS(cssJSON));
+
       riot.mount('css-editor',
         {
-          css: cssJSON,
           property_list: properties,
-          value_list: colors
+          value_list: colors,
+          store: store
         }
       )
     };

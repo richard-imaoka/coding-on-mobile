@@ -1,10 +1,6 @@
-import {Map, List, fromJS} from 'immutable'
-import {UPDATE_PROPERTY, DELETE_PROPERTY} from "./actions"
+import {Map, List, toJS} from 'immutable'
+import {UPDATE_PROPERTY, DELETE_PROPERTY, updateProperty, deleteProperty } from "./actions"
 
-var OptsMixin = {
-updateData: function(){
-}
-}
 
 <css-space>
   <div class="css-space"></div>
@@ -26,13 +22,13 @@ updateData: function(){
 <css-property>
   <div if={!edit} onClick={toEditMode}>{opts.property}</div>
 
-    <div  if={edit}>
-      <input class="css-editor-input"
-             name="input"
-             onBlur={toUnEditMode}
-             onChange={toUnEditMode}
-             onKeyPress={keyPress}>
-    </div>
+  <div  if={edit}>
+    <input class="css-editor-input"
+           name="input"
+           onBlur={toUnEditMode}
+           onChange={toUnEditMode}
+           onKeyPress={keyPress}>
+  </div>
   <script>
     toEditMode(event)
     {
@@ -42,14 +38,14 @@ updateData: function(){
 
     toUnEditMode(event)
     {
-      this.parent.setProperty(this.input.value) //TODO: better update the entire CSS data structure to reduce state?
+      this.opts.store.dispatch(updateProperty(this.opts.path, this.input.value))
       this.edit = false
     }
 
     keyPress(event)
     {
       if (event.charCode === 13) {
-        this.parent.setProperty(this.input.value)//TODO: better update the entire CSS data structure to reduce state?
+        this.opts.store.dispatch(updateProperty(this.opts.path, this.input.value))
         this.edit = false
       }
       else {
@@ -111,14 +107,14 @@ updateData: function(){
 
     toUnEditMode(event)
     {
-      this.parent.setValue(this.input.value) //TODO: better update the entire CSS data structure to reduce state?
+      this.opts.store.dispatch(updateProperty(this.opts.path, this.input.value))
       this.edit = false
     }
 
     keyPress(event)
     {
       if (event.charCode === 13) {
-        this.parent.setValue(this.input.value) //TODO: better update the entire CSS data structure to reduce state?
+        this.opts.store.dispatch(updateProperty(this.opts.path, this.input.value))
         this.edit = false
       }
       else {
@@ -152,16 +148,22 @@ updateData: function(){
 <css-declaration>
   <div name="line" class="css-line css-editor-declaration">
     <div           class="css-editor-indent"></div>
-    <css-property  class="css-editor-property" property={ opts.property } list={ opts.property_list } path={ path }></css-property>
+    <css-property  class="css-editor-property" property={ opts.property } list={ opts.property_list } store = {opts.store}  path={ opts.path }></css-property>
     <div           class="css-editor-colon">:</div>
-    <css-value     class="css-editor-value"    value={ opts.value }       list={ opts.value_list }></css-value>
+    <css-value     class="css-editor-value"    value={ opts.value }       list={ opts.value_list }    store = {opts.store}  path={ opts.path }></css-value>
     <div           class="css-editor-semicolon"><span>;</span></div>
     <button        class="css-delete-button" onClick={deleteLine} >x</button>
   </div>
   <script>
+
+    var self = this;
+
     this.deleteLine = function(){
-      this.line.className += " delete";
-      //TODO really delete itself, not just set height = 0
+      self.line.className += " delete";
+
+      setTimeout(function(){
+        self.opts.store.dispatch(deleteProperty(self.opts.path, "xxxx"))
+      }, 500);
     }
 
     this.setProperty = function(property) {
@@ -184,7 +186,6 @@ updateData: function(){
   <!-- Polymorphism: CSS line is either of them below -->
   <css-selector opts=></css-selector>
   <script>
-    console.log(opts.plan);
   </script>
 </css-line>
 
@@ -215,7 +216,8 @@ updateData: function(){
     </div>
     <css-declaration
             each ={ property, value in opts.attributes }
-              path          ={ parent.opts.path.push(property)}
+              path          ={ parent.opts.path.push("attributes").push(property)}
+              store         ={ parent.opts.store }
               property      ={ property }
               value         ={ value }
               property_list ={ parent.opts.property_list }
@@ -238,8 +240,9 @@ updateData: function(){
  opts,value_list:    for Awesom's suggestion list
 -->
 <css-editor>
-  <css-block each={ selector, block in opts.css.children  }
+  <css-block each={ selector, block in this.css.children  }
                path          ={ parent.opts.path.push("children").push( selector ) }
+               store         ={ parent.opts.store }
                selector      ={ selector }
                children      ={ block.children }
                attributes    ={ block.attributes }
@@ -249,12 +252,16 @@ updateData: function(){
   </css-block>
 
   <script>
-//    this.opts.css  = this.opts.store.getState();
+    this.css = this.opts.store.getState().toJS();
 
     this.opts.path = List.of()
-//
-//    this.opts.store.subscribe(function(){
-//      this.opts.css = this.opts.store.getState();
-//    })
+
+    var self = this;
+    console.log(self.opts.store.getState().toString())
+    this.opts.store.subscribe(function() {
+      self.css = self.opts.store.getState().toJS();
+      self.update();
+      console.log(self.opts.store.getState().toString())
+    })
   </script>
 </css-editor>

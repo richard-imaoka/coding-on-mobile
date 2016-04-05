@@ -5,6 +5,6 @@ export function updateProperty( path, newValue){
   return{ type: UPDATE_PROPERTY, path: path,  value: newValue };
 }
 
-export function deleteProperty( path, newValue){
-  return{ type: DELETE_PROPERTY, path: path,  value: newValue };
+export function deleteProperty( path ){
+  return{ type: DELETE_PROPERTY, path: path };
 }

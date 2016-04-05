@@ -1,10 +1,6 @@
-import {Map, List, fromJS} from 'immutable'
-import {UPDATE_PROPERTY, DELETE_PROPERTY} from "./actions"
+import {Map, List, toJS} from 'immutable'
+import {UPDATE_PROPERTY, DELETE_PROPERTY, updateProperty, deleteProperty } from "./actions"
 
-var OptsMixin = {
-updateData: function(){
-}
-}
 
 riot.tag2('css-space', '<div class="css-space"></div>', '', '', function(opts) {
 });
@@ -25,14 +21,14 @@ riot.tag2('css-property', '<div if="{!edit}" onclick="{toEditMode}">{opts.proper
 
     this.toUnEditMode = function(event)
     {
-      this.parent.setProperty(this.input.value)
+      this.opts.store.dispatch(updateProperty(this.opts.path, this.input.value))
       this.edit = false
     }.bind(this)
 
     this.keyPress = function(event)
     {
       if (event.charCode === 13) {
-        this.parent.setProperty(this.input.value)
+        this.opts.store.dispatch(updateProperty(this.opts.path, this.input.value))
         this.edit = false
       }
       else {
@@ -74,14 +70,14 @@ riot.tag2('css-value', '<div if="{!edit}" onclick="{toEditMode}">{opts.value}</d
 
     this.toUnEditMode = function(event)
     {
-      this.parent.setValue(this.input.value)
+      this.opts.store.dispatch(updateProperty(this.opts.path, this.input.value))
       this.edit = false
     }.bind(this)
 
     this.keyPress = function(event)
     {
       if (event.charCode === 13) {
-        this.parent.setValue(this.input.value)
+        this.opts.store.dispatch(updateProperty(this.opts.path, this.input.value))
         this.edit = false
       }
       else {
@@ -104,10 +100,16 @@ riot.tag2('css-value', '<div if="{!edit}" onclick="{toEditMode}">{opts.value}</d
 });
 
 
-riot.tag2('css-declaration', '<div name="line" class="css-line css-editor-declaration"> <div class="css-editor-indent"></div> <css-property class="css-editor-property" property="{opts.property}" list="{opts.property_list}" path="{path}"></css-property> <div class="css-editor-colon">:</div> <css-value class="css-editor-value" value="{opts.value}" list="{opts.value_list}"></css-value> <div class="css-editor-semicolon"><span>;</span></div> <button class="css-delete-button" onclick="{deleteLine}">x</button> </div>', '', '', function(opts) {
-    this.deleteLine = function(){
-      this.line.className += " delete";
+riot.tag2('css-declaration', '<div name="line" class="css-line css-editor-declaration"> <div class="css-editor-indent"></div> <css-property class="css-editor-property" property="{opts.property}" list="{opts.property_list}" store="{opts.store}" path="{opts.path}"></css-property> <div class="css-editor-colon">:</div> <css-value class="css-editor-value" value="{opts.value}" list="{opts.value_list}" store="{opts.store}" path="{opts.path}"></css-value> <div class="css-editor-semicolon"><span>;</span></div> <button class="css-delete-button" onclick="{deleteLine}">x</button> </div>', '', '', function(opts) {
 
+    var self = this;
+
+    this.deleteLine = function(){
+      self.line.className += " delete";
+
+      setTimeout(function(){
+        self.opts.store.dispatch(deleteProperty(self.opts.path, "xxxx"))
+      }, 500);
     }
 
     this.setProperty = function(property) {
@@ -121,18 +123,24 @@ riot.tag2('css-declaration', '<div name="line" class="css-line css-editor-declar
 
 
 riot.tag2('css-selector', '</css-selector> <css-line> <css-selector opts></css-selector> </css-line> <css-selector> <div class="css-editor-selector animated infinite flash-background" onclick="showSelector(this)"> <div>#box1</div> </div>', '', '', function(opts) {
-    console.log(opts.plan);
 });
 
 
 
-riot.tag2('css-block', '<div class="css-declaration-block"> <div class="css-line"> <div class="css-editor-selector animated infinite flash-background" onclick="showSelector(this)"> <span>{opts.selector}</span> </div> <div class="css-editor-space"></div> <div class="css-editor-curly-bracket"> <span>&#123</span> </div> </div> <css-declaration each="{property, value in opts.attributes}" path="{parent.opts.path.push(property)}" property="{property}" value="{value}" property_list="{parent.opts.property_list}" value_list="{parent.opts.value_list}"> </css-declaration> <div class="css-line"> <div>&#125</div> </div> </div>', '', '', function(opts) {
+riot.tag2('css-block', '<div class="css-declaration-block"> <div class="css-line"> <div class="css-editor-selector animated infinite flash-background" onclick="showSelector(this)"> <span>{opts.selector}</span> </div> <div class="css-editor-space"></div> <div class="css-editor-curly-bracket"> <span>&#123</span> </div> </div> <css-declaration each="{property, value in opts.attributes}" path="{parent.opts.path.push(⁗attributes⁗).push(property)}" store="{parent.opts.store}" property="{property}" value="{value}" property_list="{parent.opts.property_list}" value_list="{parent.opts.value_list}"> </css-declaration> <div class="css-line"> <div>&#125</div> </div> </div>', '', '', function(opts) {
 });
 
 
-riot.tag2('css-editor', '<css-block each="{selector, block in opts.css.children}" path="{parent.opts.path.push(⁗children⁗).push( selector )}" selector="{selector}" children="{block.children}" attributes="{block.attributes}" property_list="{parent.opts.property_list}" value_list="{parent.opts.value_list}"> </css-block>', '', '', function(opts) {
-
+riot.tag2('css-editor', '<css-block each="{selector, block in this.css.children}" path="{parent.opts.path.push(⁗children⁗).push( selector )}" store="{parent.opts.store}" selector="{selector}" children="{block.children}" attributes="{block.attributes}" property_list="{parent.opts.property_list}" value_list="{parent.opts.value_list}"> </css-block>', '', '', function(opts) {
+    this.css = this.opts.store.getState().toJS();
 
     this.opts.path = List.of()
 
+    var self = this;
+    console.log(self.opts.store.getState().toString())
+    this.opts.store.subscribe(function() {
+      self.css = self.opts.store.getState().toJS();
+      self.update();
+      console.log(self.opts.store.getState().toString())
+    })
 });
