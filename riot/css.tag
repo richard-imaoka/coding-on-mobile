@@ -155,6 +155,7 @@ import * as css from 'css'
 <!--
  opts.path
  opts,obj
+ opts.store
  opts,property_list: for Awesom's suggestion list
  opts,value_list:    for Awesom's suggestion list
 -->
@@ -187,20 +188,30 @@ import * as css from 'css'
   </script>
 </css-rule>
 
+<css-rule-element>
+  <css-rule if={opts.obj.type=="rule"}
+    path          ={ opts.path }
+    obj           ={ obj }
+    store         ={ parent.opts.store }
+    property_list ={ parent.opts.property_list }
+    value_list    ={ parent.opts.value_list }
+  ></css-rule>
+</css-rule-element>
+
 <!--
- opts,css: CSS2JSON's JSON structure
+ opts.store
  opts,property_list: for Awesom's suggestion list
  opts,value_list:    for Awesom's suggestion list
 -->
 <css-editor>
-  <css-rule each={ obj, i in this.css.rules  }
+  <css-rule-element each={ obj, i in this.css.rules  }
     path          ={ parent.opts.path.push("rules").push( i ) }
     obj           ={ obj }
     store         ={ parent.opts.store }
     property_list ={ parent.opts.property_list }
     value_list    ={ parent.opts.value_list }
   >
-  </css-rule>
+  </css-rule-element>
 
   <script>
     this.css = this.opts.store.getState().toJS();
