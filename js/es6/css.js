@@ -15,13 +15,13 @@ riot.tag2('css-curly-bracket', '<div>{opts.right_or_left_bracket}</div>', '', ''
 
 
 riot.tag2('css-property', '<div if="{!edit}" onclick="{toEditMode}">{opts.property}</div> <div if="{edit}"> <input class="css-editor-input" name="input" onblur="{toUnEditMode}" onchange="{toUnEditMode}" onkeypress="{keyPress}"> </div>', '', '', function(opts) {
-    this.toEditMode = function(event)
+    this.toEditMode = function()
     {
       this.edit = true
       this.input.value = opts.property
     }.bind(this)
 
-    this.toUnEditMode = function(event)
+    this.toUnEditMode = function()
     {
       this.opts.store.dispatch(updatePropertyName(this.opts.path, this.input.value))
       this.edit = false
@@ -30,8 +30,7 @@ riot.tag2('css-property', '<div if="{!edit}" onclick="{toEditMode}">{opts.proper
     this.keyPress = function(event)
     {
       if (event.charCode === 13) {
-        this.opts.store.dispatch(updatePropertyName(this.opts.path, this.input.value))
-        this.edit = false
+        this.toUnEditMode()
       }
       else {
 
@@ -45,11 +44,11 @@ riot.tag2('css-property', '<div if="{!edit}" onclick="{toEditMode}">{opts.proper
           var awesomParams =  {list: opts.list, minChars: 0}
           this.awesome = new Awesomplete(this.input, awesomParams);
           this.awesome.evaluate();
+          this.input.addEventListener("awesomplete-selectcomplete", this.toUnEditMode);
         }
         this.input.focus()
       }
     })
-
 });
 
 
@@ -64,13 +63,13 @@ riot.tag2('css-value', '<div if="{!edit}" onclick="{toEditMode}">{opts.value}</d
       return element;
     };
 
-    this.toEditMode = function(event)
+    this.toEditMode = function()
     {
       this.edit = true
       this.input.value = opts.value
     }.bind(this)
 
-    this.toUnEditMode = function(event)
+    this.toUnEditMode = function()
     {
       this.opts.store.dispatch(updatePropertyValue(this.opts.path, this.input.value))
       this.edit = false
@@ -79,8 +78,7 @@ riot.tag2('css-value', '<div if="{!edit}" onclick="{toEditMode}">{opts.value}</d
     this.keyPress = function(event)
     {
       if (event.charCode === 13) {
-        this.opts.store.dispatch(updatePropertyValue(this.opts.path, this.input.value))
-        this.edit = false
+        this.toUnEditMode()
       }
       else {
 
@@ -94,6 +92,7 @@ riot.tag2('css-value', '<div if="{!edit}" onclick="{toEditMode}">{opts.value}</d
           var awesomParams =  {list: opts.list, minChars: 0,  item: colorElement}
           this.awesome = new Awesomplete(this.input, awesomParams);
           this.awesome.evaluate();
+          this.input.addEventListener("awesomplete-selectcomplete", this.toUnEditMode);
         }
         this.input.focus()
       }
@@ -111,7 +110,7 @@ riot.tag2('css-declaration', '<div name="line" class="css-line css-editor-declar
 
       setTimeout(function(){
         self.opts.store.dispatch(deleteProperty(self.opts.path, "xxxx"))
-      }, 500);
+      }, 200);
     }
 
     this.setProperty = function(property) {

@@ -32,13 +32,13 @@ import * as css from 'css'
            onKeyPress={keyPress}>
   </div>
   <script>
-    toEditMode(event)
+    toEditMode()
     {
       this.edit = true
       this.input.value = opts.property
     }
 
-    toUnEditMode(event)
+    toUnEditMode()
     {
       this.opts.store.dispatch(updatePropertyName(this.opts.path, this.input.value))
       this.edit = false
@@ -47,8 +47,7 @@ import * as css from 'css'
     keyPress(event)
     {
       if (event.charCode === 13) {
-        this.opts.store.dispatch(updatePropertyName(this.opts.path, this.input.value))
-        this.edit = false
+        this.toUnEditMode()
       }
       else {
         //http://riotjs.com/guide/#event-handlers
@@ -63,16 +62,11 @@ import * as css from 'css'
           var awesomParams =  {list: opts.list, minChars: 0}
           this.awesome = new Awesomplete(this.input, awesomParams);
           this.awesome.evaluate();
+          this.input.addEventListener("awesomplete-selectcomplete", this.toUnEditMode);
         }
         this.input.focus()
       }
     })
-
-//    //TODO: isn't this needed?
-//    this.on('awesomplete-selectcomplete', function(){
-//      opts.property = this.input.value //TODO: better update the entire CSS data structure to reduce state?
-//      this.edit = false
-//    })
   </script>
 </css-property>
 
@@ -101,13 +95,13 @@ import * as css from 'css'
       return element;
     };
 
-    toEditMode(event)
+    toEditMode()
     {
       this.edit = true
       this.input.value = opts.value
     }
 
-    toUnEditMode(event)
+    toUnEditMode()
     {
       this.opts.store.dispatch(updatePropertyValue(this.opts.path, this.input.value))
       this.edit = false
@@ -116,8 +110,7 @@ import * as css from 'css'
     keyPress(event)
     {
       if (event.charCode === 13) {
-        this.opts.store.dispatch(updatePropertyValue(this.opts.path, this.input.value))
-        this.edit = false
+        this.toUnEditMode()
       }
       else {
         //http://riotjs.com/guide/#event-handlers
@@ -133,6 +126,7 @@ import * as css from 'css'
           var awesomParams =  {list: opts.list, minChars: 0,  item: colorElement}
           this.awesome = new Awesomplete(this.input, awesomParams);
           this.awesome.evaluate();
+          this.input.addEventListener("awesomplete-selectcomplete", this.toUnEditMode);
         }
         this.input.focus()
       }
@@ -166,7 +160,7 @@ import * as css from 'css'
 
       setTimeout(function(){
         self.opts.store.dispatch(deleteProperty(self.opts.path, "xxxx"))
-      }, 500);
+      }, 200);
     }
 
     this.setProperty = function(property) {
