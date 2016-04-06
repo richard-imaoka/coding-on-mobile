@@ -1,6 +1,7 @@
 import {Map, List, fromJS} from 'immutable'
 import {UPDATE_PROPERTY_VALUE, DELETE_PROPERTY, UPDATE_PROPERTY_NAME} from "./actions"
 
+
 function cssReducer(state = {}, action = undefined){
     switch(action.type) {
       case UPDATE_PROPERTY_VALUE:

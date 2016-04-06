@@ -2,6 +2,7 @@ import { createStore } from 'redux'
 import cssReducer from './reducers'
 import { Map, fromJS } from 'immutable'
 import * as css from 'css'
+import prettyPrint from './prettyprint'
 
 
 var ajax = new XMLHttpRequest();
@@ -20,6 +21,7 @@ ajax.onload = function () {
       colors = JSON.parse(ajax2.responseText);
 
       let store = createStore(cssReducer, fromJS(cssJSON).get("stylesheet"));
+      //prettyPrint(store.getState())
 
       riot.mount('css-editor',
         {
