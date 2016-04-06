@@ -182,10 +182,71 @@ import * as css from 'css'
       <div>&#125</div>
     </div>
   </div>
-
-  <script>
-  </script>
 </css-rule>
+
+<!--
+ opts.path
+ opts,obj
+ opts.store
+ opts,property_list: for Awesom's suggestion list
+ opts,value_list:    for Awesom's suggestion list
+-->
+<css-keyframe>
+  <div class="css-declaration-block">
+    <div class="css-line">
+      <div class="css-editor-selector animated infinite flash-background" onclick="showSelector(this)">
+        <span>{ opts.obj.values }</span>
+      </div>
+      <div class="css-editor-space"></div>
+      <div class="css-editor-curly-bracket">
+        <span>&#123</span>
+      </div>
+    </div>
+    <css-declaration each ={ obj, index in opts.obj.declarations }
+      path          ={ parent.opts.path.push("declarations").push(index)}
+      obj           ={ obj }
+      store         ={ parent.opts.store }
+      property_list ={ parent.opts.property_list }
+      value_list    ={ parent.opts.value_list }
+    >
+    </css-declaration>
+    <div class="css-line">
+      <div>&#125</div>
+    </div>
+  </div>
+</css-keyframe>
+
+<!--
+ opts.path
+ opts,obj
+ opts.store
+ opts,property_list: for Awesom's suggestion list
+ opts,value_list:    for Awesom's suggestion list
+-->
+<css-keyframes>
+  <div class="css-declaration-block">
+    <div class="css-line">
+      <div class="css-editor-selector animated infinite flash-background">
+        <span>{ opts.obj.vendor }{ opts.obj.name }</span>
+      </div>
+      <div class="css-editor-space"></div>
+      <div class="css-editor-curly-bracket">
+        <span>&#123</span>
+      </div>
+    </div>
+    <css-keyframe each ={ obj, index in opts.obj.keyframes }
+      path          ={ parent.opts.path.push(index) }
+      obj           ={ obj }
+      store         ={ parent.opts.store }
+      property_list ={ parent.opts.property_list }
+      value_list    ={ parent.opts.value_list }
+    >
+    </css-keyframe>
+    <div class="css-line">
+      <div>&#125</div>
+    </div>
+  </div>
+</css-keyframes>
 
 <css-rule-element>
   <css-rule if={opts.obj.type=="rule"}
@@ -195,6 +256,13 @@ import * as css from 'css'
     property_list ={ parent.opts.property_list }
     value_list    ={ parent.opts.value_list }
   ></css-rule>
+  <css-keyframes if={opts.obj.type=="keyframes"}
+    path          ={ opts.path.push("keyframes") }
+    obj           ={ obj }
+    store         ={ parent.opts.store }
+    property_list ={ parent.opts.property_list }
+    value_list    ={ parent.opts.value_list }
+  ></css-keyframes>
 </css-rule-element>
 
 <!--
