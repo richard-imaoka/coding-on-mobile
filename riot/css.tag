@@ -131,9 +131,9 @@ import * as css from 'css'
 <css-declaration>
   <div name="line" class="css-line css-editor-declaration">
     <div           class="css-editor-indent"></div>
-    <css-property  class="css-editor-property" property={ opts.property } list={ opts.property_list } store = {opts.store}  path={ opts.path.push("property") }></css-property>
+    <css-property  class="css-editor-property" property={ opts.obj.property } list={ opts.property_list } store = {opts.store}  path={ opts.path.push("property") }></css-property>
     <div           class="css-editor-colon">:</div>
-    <css-value     class="css-editor-value"    value={ opts.value }       list={ opts.value_list }    store = {opts.store}  path={ opts.path.push("value") }></css-value>
+    <css-value     class="css-editor-value"    value={ opts.obj.value }       list={ opts.value_list }    store = {opts.store}  path={ opts.path.push("value") }></css-value>
     <div           class="css-editor-semicolon"><span>;</span></div>
     <button        class="css-delete-button" onClick={deleteLine} >x</button>
   </div>
@@ -170,11 +170,10 @@ import * as css from 'css'
         <span>&#123</span>
       </div>
     </div>
-    <css-declaration each ={ declaration, index in opts.obj.declarations }
+    <css-declaration each ={ obj, index in opts.obj.declarations }
       path          ={ parent.opts.path.push("declarations").push(index)}
+      obj           ={ obj }
       store         ={ parent.opts.store }
-      property      ={ declaration.property }
-      value         ={ declaration.value }
       property_list ={ parent.opts.property_list }
       value_list    ={ parent.opts.value_list }
     >

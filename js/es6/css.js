@@ -90,7 +90,7 @@ riot.tag2('css-value', '<div if="{!edit}" onclick="{toEditMode}">{opts.value}</d
 });
 
 
-riot.tag2('css-declaration', '<div name="line" class="css-line css-editor-declaration"> <div class="css-editor-indent"></div> <css-property class="css-editor-property" property="{opts.property}" list="{opts.property_list}" store="{opts.store}" path="{opts.path.push(⁗property⁗)}"></css-property> <div class="css-editor-colon">:</div> <css-value class="css-editor-value" value="{opts.value}" list="{opts.value_list}" store="{opts.store}" path="{opts.path.push(⁗value⁗)}"></css-value> <div class="css-editor-semicolon"><span>;</span></div> <button class="css-delete-button" onclick="{deleteLine}">x</button> </div>', '', '', function(opts) {
+riot.tag2('css-declaration', '<div name="line" class="css-line css-editor-declaration"> <div class="css-editor-indent"></div> <css-property class="css-editor-property" property="{opts.obj.property}" list="{opts.property_list}" store="{opts.store}" path="{opts.path.push(⁗property⁗)}"></css-property> <div class="css-editor-colon">:</div> <css-value class="css-editor-value" value="{opts.obj.value}" list="{opts.value_list}" store="{opts.store}" path="{opts.path.push(⁗value⁗)}"></css-value> <div class="css-editor-semicolon"><span>;</span></div> <button class="css-delete-button" onclick="{deleteLine}">x</button> </div>', '', '', function(opts) {
 
     var self = this;
 
@@ -105,7 +105,7 @@ riot.tag2('css-declaration', '<div name="line" class="css-line css-editor-declar
 });
 
 
-riot.tag2('css-rule', '<div class="css-declaration-block"> <div class="css-line"> <div class="css-editor-selector animated infinite flash-background" onclick="showSelector(this)"> <span>{opts.obj.selectors}</span> </div> <div class="css-editor-space"></div> <div class="css-editor-curly-bracket"> <span>&#123</span> </div> </div> <css-declaration each="{declaration, index in opts.obj.declarations}" path="{parent.opts.path.push(⁗declarations⁗).push(index)}" store="{parent.opts.store}" property="{declaration.property}" value="{declaration.value}" property_list="{parent.opts.property_list}" value_list="{parent.opts.value_list}"> </css-declaration> <div class="css-line"> <div>&#125</div> </div> </div>', '', '', function(opts) {
+riot.tag2('css-rule', '<div class="css-declaration-block"> <div class="css-line"> <div class="css-editor-selector animated infinite flash-background" onclick="showSelector(this)"> <span>{opts.obj.selectors}</span> </div> <div class="css-editor-space"></div> <div class="css-editor-curly-bracket"> <span>&#123</span> </div> </div> <css-declaration each="{obj, index in opts.obj.declarations}" path="{parent.opts.path.push(⁗declarations⁗).push(index)}" obj="{obj}" store="{parent.opts.store}" property_list="{parent.opts.property_list}" value_list="{parent.opts.value_list}"> </css-declaration> <div class="css-line"> <div>&#125</div> </div> </div>', '', '', function(opts) {
 });
 
 riot.tag2('css-rule-element', '<css-rule if="{opts.obj.type==⁗rule⁗}" path="{opts.path}" obj="{obj}" store="{parent.opts.store}" property_list="{parent.opts.property_list}" value_list="{parent.opts.value_list}"></css-rule>', '', '', function(opts) {
