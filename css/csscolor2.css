@@ -18,6 +18,31 @@
   opacity: 0.5;
 }
 
+@keyframes css-delete {
+  from {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    background-color: darkslategrey;
+  }
+  to {
+    visibility: hidden;
+    -webkit-transform: translate3d(-10%, 0, 0);
+    transform: translate3d(-10%, 0, 0);
+    height: 0px;
+  }
+}
+
+.css-delete {
+  -webkit-animation-name: css-delete;
+  animation-name: css-delete;
+}
+
+.css-animated {
+  -webkit-animation-duration: 0.15s;
+  animation-duration: 0.15s;
+  animation-fill-mode: forwards;
+  overflow: hidden;
+}
 
 @-webkit-keyframes flash-background {
   from, 50%, to {

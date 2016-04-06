@@ -12,6 +12,8 @@ riot.tag2('css-curly-bracket', '<div>{opts.right_or_left_bracket}</div>', '', ''
 });
 
 
+
+
 riot.tag2('css-property', '<div if="{!edit}" onclick="{toEditMode}">{opts.property}</div> <div if="{edit}"> <input class="css-editor-input" name="input" onblur="{toUnEditMode}" onchange="{toUnEditMode}" onkeypress="{keyPress}"> </div>', '', '', function(opts) {
     this.toEditMode = function(event)
     {
@@ -105,7 +107,7 @@ riot.tag2('css-declaration', '<div name="line" class="css-line css-editor-declar
     var self = this;
 
     this.deleteLine = function(){
-      self.line.className += " delete";
+      self.line.className += " css-animated css-delete";
 
       setTimeout(function(){
         self.opts.store.dispatch(deleteProperty(self.opts.path, "xxxx"))
@@ -137,10 +139,8 @@ riot.tag2('css-editor', '<css-block each="{selector, block in this.css.children}
     this.opts.path = List.of()
 
     var self = this;
-    console.log(self.opts.store.getState().toString())
     this.opts.store.subscribe(function() {
       self.css = self.opts.store.getState().toJS();
       self.update();
-      console.log(self.opts.store.getState().toString())
     })
 });

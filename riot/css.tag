@@ -14,6 +14,8 @@ import {UPDATE_PROPERTY, DELETE_PROPERTY, updateProperty, deleteProperty } from 
   <div>{ opts.right_or_left_bracket }</div>
 </css-curly-bracket>
 
+
+
 <!--
  opts.path
  opts,property
@@ -124,6 +126,7 @@ import {UPDATE_PROPERTY, DELETE_PROPERTY, updateProperty, deleteProperty } from 
       }
     }
 
+
     this.on('updated', function(){
       if(this.edit){
         if(this.awesome === undefined ){
@@ -159,7 +162,7 @@ import {UPDATE_PROPERTY, DELETE_PROPERTY, updateProperty, deleteProperty } from 
     var self = this;
 
     this.deleteLine = function(){
-      self.line.className += " delete";
+      self.line.className += " css-animated css-delete";
 
       setTimeout(function(){
         self.opts.store.dispatch(deleteProperty(self.opts.path, "xxxx"))
@@ -257,11 +260,9 @@ import {UPDATE_PROPERTY, DELETE_PROPERTY, updateProperty, deleteProperty } from 
     this.opts.path = List.of()
 
     var self = this;
-    console.log(self.opts.store.getState().toString())
     this.opts.store.subscribe(function() {
       self.css = self.opts.store.getState().toJS();
       self.update();
-      console.log(self.opts.store.getState().toString())
     })
   </script>
 </css-editor>
