@@ -1,6 +1,5 @@
 import {Map, List, toJS} from 'immutable'
-import {UPDATE_PROPERTY, DELETE_PROPERTY, updateProperty, deleteProperty } from "./actions"
-
+import {UPDATE_PROPERTY, UPDATE_PROPERTY_NAME, DELETE_PROPERTY, updateProperty, updatePropertyName, deleteProperty } from "./actions"
 
 <css-space>
   <div class="css-space"></div>
@@ -40,14 +39,14 @@ import {UPDATE_PROPERTY, DELETE_PROPERTY, updateProperty, deleteProperty } from 
 
     toUnEditMode(event)
     {
-      this.opts.store.dispatch(updateProperty(this.opts.path, this.input.value))
+      this.opts.store.dispatch(updatePropertyName(this.opts.path, this.input.value))
       this.edit = false
     }
 
     keyPress(event)
     {
       if (event.charCode === 13) {
-        this.opts.store.dispatch(updateProperty(this.opts.path, this.input.value))
+        this.opts.store.dispatch(updatePropertyName(this.opts.path, this.input.value))
         this.edit = false
       }
       else {
