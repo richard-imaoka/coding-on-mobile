@@ -153,6 +153,33 @@ import * as css from 'css'
 </css-declaration>
 
 <!--
+ opts.selectors
+-->
+<css-selectors>
+  <div each={ selector in this.selectorsExceptLast } class="css-line">
+    <div class="css-editor-selector animated infinite flash-background">
+      <span>{ selector }&#44;</span>
+    </div>
+  </div>
+  <div class="css-line">
+    <div class="css-editor-selector animated infinite flash-background">
+      <span>{ this.lastSelector }</span>
+    </div>
+    <div class="css-editor-space"></div>
+    <div class="css-editor-curly-bracket">
+      <span>&#123;</span>
+    </div>
+  </div>
+
+  <script>
+    console.log(this.parent.opts.path.toString());
+    this.selectorsExceptLast = List(opts.selectors).pop().toJS()
+    this.lastSelector        = opts.selectors[opts.selectors.length - 1];
+    console.log(this.parent.opts.path.toString());
+  </script>
+</css-selectors>
+
+<!--
  opts.path
  opts,obj
  opts.store
@@ -161,15 +188,7 @@ import * as css from 'css'
 -->
 <css-rule>
   <div class="css-declaration-block">
-    <div class="css-line">
-      <div class="css-editor-selector animated infinite flash-background" onclick="showSelector(this)">
-        <span>{ opts.obj.selectors }</span>
-      </div>
-      <div class="css-editor-space"></div>
-      <div class="css-editor-curly-bracket">
-        <span>&#123</span>
-      </div>
-    </div>
+    <css-selectors selectors={ opts.obj.selectors } ></css-selectors>
     <css-declaration each ={ obj, index in opts.obj.declarations }
       path          ={ parent.opts.path.push("declarations").push(index)}
       obj           ={ obj }
@@ -179,9 +198,10 @@ import * as css from 'css'
     >
     </css-declaration>
     <div class="css-line">
-      <div>&#125</div>
+      <div>&#125;</div>
     </div>
   </div>
+  console.log(opts.obj)
 </css-rule>
 
 <!--
@@ -195,27 +215,26 @@ import * as css from 'css'
   <div class="css-declaration-block">
     <div class="css-line">
       <div class="css-editor-selector animated infinite flash-background">
-        <span>&#64media { opts.obj.media }</span>
+        <span>&#64;media { opts.obj.media }</span>
       </div>
       <div class="css-editor-space"></div>
       <div class="css-editor-curly-bracket">
-        <span>&#123</span>
+        <span>&#123;</span>
       </div>
     </div>
     <css-rule each ={ obj, index in opts.obj.rules }
-              path          ={ parent.opts.path.push("rules").push(index) }
-    obj           ={ obj }
-    store         ={ parent.opts.store }
-    property_list ={ parent.opts.property_list }
-    value_list    ={ parent.opts.value_list }
+      path          ={ parent.opts.path.push("rules").push(index) }
+      obj           ={ obj }
+      store         ={ parent.opts.store }
+      property_list ={ parent.opts.property_list }
+      value_list    ={ parent.opts.value_list }
     >
     </css-rule>
     <div class="css-line">
-      <div>&#125</div>
+      <div>&#125;</div>
     </div>
   </div>
   <script>
-    console.log("I'm called")
   </script>
 </css-media>
 
@@ -234,7 +253,7 @@ import * as css from 'css'
       </div>
       <div class="css-editor-space"></div>
       <div class="css-editor-curly-bracket">
-        <span>&#123</span>
+        <span>&#123;</span>
       </div>
     </div>
     <css-declaration each ={ obj, index in opts.obj.declarations }
@@ -246,7 +265,7 @@ import * as css from 'css'
     >
     </css-declaration>
     <div class="css-line">
-      <div>&#125</div>
+      <div>&#125;</div>
     </div>
   </div>
 </css-keyframe>
@@ -262,11 +281,11 @@ import * as css from 'css'
   <div class="css-declaration-block">
     <div class="css-line">
       <div class="css-editor-selector animated infinite flash-background">
-        <span>&#64{ opts.obj.vendor }keyframes { opts.obj.name }</span>
+        <span>&#64;{ opts.obj.vendor }keyframes { opts.obj.name }</span>
       </div>
       <div class="css-editor-space"></div>
       <div class="css-editor-curly-bracket">
-        <span>&#123</span>
+        <span>&#123;</span>
       </div>
     </div>
     <css-keyframe each ={ obj, index in opts.obj.keyframes }
@@ -278,33 +297,39 @@ import * as css from 'css'
     >
     </css-keyframe>
     <div class="css-line">
-      <div>&#125</div>
+      <div>&#125;</div>
     </div>
   </div>
 </css-keyframes>
 
 <css-block>
-  <css-rule if={opts.obj.type=="rule"}
+  <css-rule if={ isRule }
     path          ={ opts.path }
     obj           ={ opts.obj }
     store         ={ opts.store }
     property_list ={ opts.property_list }
     value_list    ={ opts.value_list }
   ></css-rule>
-  <css-keyframes if={opts.obj.type=="keyframes"}
+  <css-keyframes if={ isKeyframes }
     path          ={ opts.path }
     obj           ={ opts.obj }
     store         ={ opts.store }
     property_list ={ opts.property_list }
     value_list    ={ opts.value_list }
   ></css-keyframes>
-  <css-media if={opts.obj.type=="media"}
+  <css-media if={ isMedia }
     path          ={ opts.path }
     obj           ={ opts.obj }
     store         ={ opts.store }
     property_list ={ opts.property_list }
     value_list    ={ opts.value_list }
   ></css-media>
+
+  <script>
+    this.isRule      = opts.obj.type==="rule"
+    this.isKeyframes = opts.obj.type==="keyframes"
+    this.isMedia     = opts.obj.type==="media"
+  </script>
 </css-block>
 
 <!--
