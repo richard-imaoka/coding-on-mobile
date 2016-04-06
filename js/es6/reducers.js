@@ -1,15 +1,12 @@
 import {Map, List, fromJS} from 'immutable'
-import {UPDATE_PROPERTY, DELETE_PROPERTY, UPDATE_PROPERTY_NAME} from "./actions"
+import {UPDATE_PROPERTY_VALUE, DELETE_PROPERTY, UPDATE_PROPERTY_NAME} from "./actions"
 
-function css(state = {}, action = undefined){
+function cssReducer(state = {}, action = undefined){
     switch(action.type) {
-      case UPDATE_PROPERTY:
-        return state.setIn( action.path, action.value )
+      case UPDATE_PROPERTY_VALUE:
+        return state.setIn( action.path, action.newPropertyValue )
       case UPDATE_PROPERTY_NAME:
-        let value = state.getIn( action.path );
-        let newPropertyPath = action.path.pop().push( action.newPropertyName );
-        let deletedState    = state.deleteIn( action.path );
-        return deletedState.setIn( newPropertyPath, value )
+        return state.setIn( action.path, action.newPropertyName )
       case DELETE_PROPERTY:
         return state.deleteIn( action.path )
       default:
@@ -17,7 +14,7 @@ function css(state = {}, action = undefined){
     }
 }
 
-export default css
+export default cssReducer
 //let action1 = {type: UPDATE_PROPERTY, path: List.of( "#box1", "background-color"), value: "red" };
 //let map1    = fromJS({
 //  "#box1": {

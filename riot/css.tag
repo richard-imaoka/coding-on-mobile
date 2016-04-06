@@ -1,5 +1,6 @@
 import {Map, List, toJS} from 'immutable'
-import {UPDATE_PROPERTY, UPDATE_PROPERTY_NAME, DELETE_PROPERTY, updateProperty, updatePropertyName, deleteProperty } from "./actions"
+import {UPDATE_PROPERTY, UPDATE_PROPERTY_NAME, DELETE_PROPERTY, updatePropertyName, updatePropertyValue, deleteProperty } from "./actions"
+import * as css from 'css'
 
 <css-space>
   <div class="css-space"></div>
@@ -108,14 +109,14 @@ import {UPDATE_PROPERTY, UPDATE_PROPERTY_NAME, DELETE_PROPERTY, updateProperty, 
 
     toUnEditMode(event)
     {
-      this.opts.store.dispatch(updateProperty(this.opts.path, this.input.value))
+      this.opts.store.dispatch(updatePropertyValue(this.opts.path, this.input.value))
       this.edit = false
     }
 
     keyPress(event)
     {
       if (event.charCode === 13) {
-        this.opts.store.dispatch(updateProperty(this.opts.path, this.input.value))
+        this.opts.store.dispatch(updatePropertyValue(this.opts.path, this.input.value))
         this.edit = false
       }
       else {
@@ -150,9 +151,9 @@ import {UPDATE_PROPERTY, UPDATE_PROPERTY_NAME, DELETE_PROPERTY, updateProperty, 
 <css-declaration>
   <div name="line" class="css-line css-editor-declaration">
     <div           class="css-editor-indent"></div>
-    <css-property  class="css-editor-property" property={ opts.property } list={ opts.property_list } store = {opts.store}  path={ opts.path }></css-property>
+    <css-property  class="css-editor-property" property={ opts.property } list={ opts.property_list } store = {opts.store}  path={ opts.path.push("property") }></css-property>
     <div           class="css-editor-colon">:</div>
-    <css-value     class="css-editor-value"    value={ opts.value }       list={ opts.value_list }    store = {opts.store}  path={ opts.path }></css-value>
+    <css-value     class="css-editor-value"    value={ opts.value }       list={ opts.value_list }    store = {opts.store}  path={ opts.path.push("value") }></css-value>
     <div           class="css-editor-semicolon"><span>;</span></div>
     <button        class="css-delete-button" onClick={deleteLine} >x</button>
   </div>
@@ -200,8 +201,7 @@ import {UPDATE_PROPERTY, UPDATE_PROPERTY_NAME, DELETE_PROPERTY, updateProperty, 
 
 <!--
  opts.path
- opts,selector
- opts,attributes
+ opts,block
  opts,property_list: for Awesom's suggestion list
  opts,value_list:    for Awesom's suggestion list
 -->
@@ -209,7 +209,7 @@ import {UPDATE_PROPERTY, UPDATE_PROPERTY_NAME, DELETE_PROPERTY, updateProperty, 
   <div class="css-declaration-block">
     <div class="css-line">
       <div class="css-editor-selector animated infinite flash-background" onclick="showSelector(this)">
-        <span>{ opts.selector }</span>
+        <span>{ opts.block.selectors }</span>
       </div>
       <div class="css-editor-space"></div>
       <div class="css-editor-curly-bracket">
@@ -217,11 +217,11 @@ import {UPDATE_PROPERTY, UPDATE_PROPERTY_NAME, DELETE_PROPERTY, updateProperty, 
       </div>
     </div>
     <css-declaration
-            each ={ property, value in opts.attributes }
-              path          ={ parent.opts.path.push("attributes").push(property)}
+            each ={ declaration, index in opts.block.declarations }
+              path          ={ parent.opts.path.push("declarations").push(index)}
               store         ={ parent.opts.store }
-              property      ={ property }
-              value         ={ value }
+              property      ={ declaration.property }
+              value         ={ declaration.value }
               property_list ={ parent.opts.property_list }
               value_list    ={ parent.opts.value_list }
     >
@@ -232,7 +232,6 @@ import {UPDATE_PROPERTY, UPDATE_PROPERTY_NAME, DELETE_PROPERTY, updateProperty, 
   </div>
 
   <script>
-
   </script>
 </css-block>
 
@@ -242,12 +241,11 @@ import {UPDATE_PROPERTY, UPDATE_PROPERTY_NAME, DELETE_PROPERTY, updateProperty, 
  opts,value_list:    for Awesom's suggestion list
 -->
 <css-editor>
-  <css-block each={ selector, block in this.css.children  }
-               path          ={ parent.opts.path.push("children").push( selector ) }
+  <css-block each={ block, i in this.css.rules  }
+               path          ={ parent.opts.path.push("rules").push( i ) }
+               index         ={ i }
+               block         ={ block }
                store         ={ parent.opts.store }
-               selector      ={ selector }
-               children      ={ block.children }
-               attributes    ={ block.attributes }
                property_list ={ parent.opts.property_list }
                value_list    ={ parent.opts.value_list }
           >

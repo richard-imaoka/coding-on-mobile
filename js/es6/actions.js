@@ -1,9 +1,9 @@
-export const UPDATE_PROPERTY      = 'UPDATE_PROPERTY';
-export const UPDATE_PROPERTY_NAME = 'UPDATE_PROPERTY_NAME';
-export const DELETE_PROPERTY      = 'DELETE_PROPERTY';
+export const UPDATE_PROPERTY_VALUE = 'UPDATE_PROPERTY_VALUE';
+export const UPDATE_PROPERTY_NAME  = 'UPDATE_PROPERTY_NAME';
+export const DELETE_PROPERTY       = 'DELETE_PROPERTY';
 
-export function updateProperty( path, newValue){
-  return{ type: UPDATE_PROPERTY, path: path,  value: newValue };
+export function updatePropertyValue( path, newPropertyValue){
+  return{ type: UPDATE_PROPERTY_VALUE, path: path,  newPropertyValue: newPropertyValue };
 }
 
 export function updatePropertyName( path, newPropertyName){

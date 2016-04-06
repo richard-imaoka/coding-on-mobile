@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "css": "^2.2.1",
     "immutable": "^3.7.6",
     "redux": "^3.3.1",
     "riot": "^2.3.18"

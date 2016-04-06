@@ -1,6 +1,6 @@
 import {Map, List, toJS} from 'immutable'
-import {UPDATE_PROPERTY, UPDATE_PROPERTY_NAME, DELETE_PROPERTY, updateProperty, updatePropertyName, deleteProperty } from "./actions"
-
+import {UPDATE_PROPERTY, UPDATE_PROPERTY_NAME, DELETE_PROPERTY, updatePropertyName, updatePropertyValue, deleteProperty } from "./actions"
+import * as css from 'css'
 
 riot.tag2('css-space', '<div class="css-space"></div>', '', '', function(opts) {
 });
@@ -72,14 +72,14 @@ riot.tag2('css-value', '<div if="{!edit}" onclick="{toEditMode}">{opts.value}</d
 
     this.toUnEditMode = function(event)
     {
-      this.opts.store.dispatch(updateProperty(this.opts.path, this.input.value))
+      this.opts.store.dispatch(updatePropertyValue(this.opts.path, this.input.value))
       this.edit = false
     }.bind(this)
 
     this.keyPress = function(event)
     {
       if (event.charCode === 13) {
-        this.opts.store.dispatch(updateProperty(this.opts.path, this.input.value))
+        this.opts.store.dispatch(updatePropertyValue(this.opts.path, this.input.value))
         this.edit = false
       }
       else {
@@ -102,7 +102,7 @@ riot.tag2('css-value', '<div if="{!edit}" onclick="{toEditMode}">{opts.value}</d
 });
 
 
-riot.tag2('css-declaration', '<div name="line" class="css-line css-editor-declaration"> <div class="css-editor-indent"></div> <css-property class="css-editor-property" property="{opts.property}" list="{opts.property_list}" store="{opts.store}" path="{opts.path}"></css-property> <div class="css-editor-colon">:</div> <css-value class="css-editor-value" value="{opts.value}" list="{opts.value_list}" store="{opts.store}" path="{opts.path}"></css-value> <div class="css-editor-semicolon"><span>;</span></div> <button class="css-delete-button" onclick="{deleteLine}">x</button> </div>', '', '', function(opts) {
+riot.tag2('css-declaration', '<div name="line" class="css-line css-editor-declaration"> <div class="css-editor-indent"></div> <css-property class="css-editor-property" property="{opts.property}" list="{opts.property_list}" store="{opts.store}" path="{opts.path.push(⁗property⁗)}"></css-property> <div class="css-editor-colon">:</div> <css-value class="css-editor-value" value="{opts.value}" list="{opts.value_list}" store="{opts.store}" path="{opts.path.push(⁗value⁗)}"></css-value> <div class="css-editor-semicolon"><span>;</span></div> <button class="css-delete-button" onclick="{deleteLine}">x</button> </div>', '', '', function(opts) {
 
     var self = this;
 
@@ -129,11 +129,11 @@ riot.tag2('css-selector', '</css-selector> <css-line> <css-selector opts></css-s
 
 
 
-riot.tag2('css-block', '<div class="css-declaration-block"> <div class="css-line"> <div class="css-editor-selector animated infinite flash-background" onclick="showSelector(this)"> <span>{opts.selector}</span> </div> <div class="css-editor-space"></div> <div class="css-editor-curly-bracket"> <span>&#123</span> </div> </div> <css-declaration each="{property, value in opts.attributes}" path="{parent.opts.path.push(⁗attributes⁗).push(property)}" store="{parent.opts.store}" property="{property}" value="{value}" property_list="{parent.opts.property_list}" value_list="{parent.opts.value_list}"> </css-declaration> <div class="css-line"> <div>&#125</div> </div> </div>', '', '', function(opts) {
+riot.tag2('css-block', '<div class="css-declaration-block"> <div class="css-line"> <div class="css-editor-selector animated infinite flash-background" onclick="showSelector(this)"> <span>{opts.block.selectors}</span> </div> <div class="css-editor-space"></div> <div class="css-editor-curly-bracket"> <span>&#123</span> </div> </div> <css-declaration each="{declaration, index in opts.block.declarations}" path="{parent.opts.path.push(⁗declarations⁗).push(index)}" store="{parent.opts.store}" property="{declaration.property}" value="{declaration.value}" property_list="{parent.opts.property_list}" value_list="{parent.opts.value_list}"> </css-declaration> <div class="css-line"> <div>&#125</div> </div> </div>', '', '', function(opts) {
 });
 
 
-riot.tag2('css-editor', '<css-block each="{selector, block in this.css.children}" path="{parent.opts.path.push(⁗children⁗).push( selector )}" store="{parent.opts.store}" selector="{selector}" children="{block.children}" attributes="{block.attributes}" property_list="{parent.opts.property_list}" value_list="{parent.opts.value_list}"> </css-block>', '', '', function(opts) {
+riot.tag2('css-editor', '<css-block each="{block, i in this.css.rules}" path="{parent.opts.path.push(⁗rules⁗).push( i )}" index="{i}" block="{block}" store="{parent.opts.store}" property_list="{parent.opts.property_list}" value_list="{parent.opts.value_list}"> </css-block>', '', '', function(opts) {
     this.css = this.opts.store.getState().toJS();
 
     this.opts.path = List.of()
