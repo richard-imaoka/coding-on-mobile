@@ -109,18 +109,23 @@ riot.tag2('css-rule', '<div class="css-declaration-block"> <div class="css-line"
 });
 
 
+riot.tag2('css-media', '<div class="css-declaration-block"> <div class="css-line"> <div class="css-editor-selector animated infinite flash-background"> <span>&#64media {opts.obj.media}</span> </div> <div class="css-editor-space"></div> <div class="css-editor-curly-bracket"> <span>&#123</span> </div> </div> <css-rule each="{obj, index in opts.obj.rules}" path="{parent.opts.path.push(⁗rules⁗).push(index)}" obj="{obj}" store="{parent.opts.store}" property_list="{parent.opts.property_list}" value_list="{parent.opts.value_list}"> </css-rule> <div class="css-line"> <div>&#125</div> </div> </div>', '', '', function(opts) {
+    console.log("I'm called")
+});
+
+
 riot.tag2('css-keyframe', '<div class="css-declaration-block"> <div class="css-line"> <div class="css-editor-selector animated infinite flash-background" onclick="showSelector(this)"> <span>{opts.obj.values}</span> </div> <div class="css-editor-space"></div> <div class="css-editor-curly-bracket"> <span>&#123</span> </div> </div> <css-declaration each="{obj, index in opts.obj.declarations}" path="{parent.opts.path.push(⁗declarations⁗).push(index)}" obj="{obj}" store="{parent.opts.store}" property_list="{parent.opts.property_list}" value_list="{parent.opts.value_list}"> </css-declaration> <div class="css-line"> <div>&#125</div> </div> </div>', '', '', function(opts) {
 });
 
 
-riot.tag2('css-keyframes', '<div class="css-declaration-block"> <div class="css-line"> <div class="css-editor-selector animated infinite flash-background"> <span>{opts.obj.vendor}{opts.obj.name}</span> </div> <div class="css-editor-space"></div> <div class="css-editor-curly-bracket"> <span>&#123</span> </div> </div> <css-keyframe each="{obj, index in opts.obj.keyframes}" path="{parent.opts.path.push(index)}" obj="{obj}" store="{parent.opts.store}" property_list="{parent.opts.property_list}" value_list="{parent.opts.value_list}"> </css-keyframe> <div class="css-line"> <div>&#125</div> </div> </div>', '', '', function(opts) {
+riot.tag2('css-keyframes', '<div class="css-declaration-block"> <div class="css-line"> <div class="css-editor-selector animated infinite flash-background"> <span>&#64{opts.obj.vendor}keyframes {opts.obj.name}</span> </div> <div class="css-editor-space"></div> <div class="css-editor-curly-bracket"> <span>&#123</span> </div> </div> <css-keyframe each="{obj, index in opts.obj.keyframes}" path="{parent.opts.path.push(⁗keyframes⁗).push(index)}" obj="{obj}" store="{parent.opts.store}" property_list="{parent.opts.property_list}" value_list="{parent.opts.value_list}"> </css-keyframe> <div class="css-line"> <div>&#125</div> </div> </div>', '', '', function(opts) {
 });
 
-riot.tag2('css-rule-element', '<css-rule if="{opts.obj.type==⁗rule⁗}" path="{opts.path}" obj="{obj}" store="{parent.opts.store}" property_list="{parent.opts.property_list}" value_list="{parent.opts.value_list}"></css-rule> <css-keyframes if="{opts.obj.type==⁗keyframes⁗}" path="{opts.path.push(⁗keyframes⁗)}" obj="{obj}" store="{parent.opts.store}" property_list="{parent.opts.property_list}" value_list="{parent.opts.value_list}"></css-keyframes>', '', '', function(opts) {
+riot.tag2('css-block', '<css-rule if="{opts.obj.type==⁗rule⁗}" path="{opts.path}" obj="{opts.obj}" store="{opts.store}" property_list="{opts.property_list}" value_list="{opts.value_list}"></css-rule> <css-keyframes if="{opts.obj.type==⁗keyframes⁗}" path="{opts.path}" obj="{opts.obj}" store="{opts.store}" property_list="{opts.property_list}" value_list="{opts.value_list}"></css-keyframes> <css-media if="{opts.obj.type==⁗media⁗}" path="{opts.path}" obj="{opts.obj}" store="{opts.store}" property_list="{opts.property_list}" value_list="{opts.value_list}"></css-media>', '', '', function(opts) {
 });
 
 
-riot.tag2('css-editor', '<css-rule-element each="{obj, i in this.css.rules}" path="{parent.opts.path.push(⁗rules⁗).push( i )}" obj="{obj}" store="{parent.opts.store}" property_list="{parent.opts.property_list}" value_list="{parent.opts.value_list}"> </css-rule-element>', '', '', function(opts) {
+riot.tag2('css-editor', '<css-block each="{obj, i in this.css.rules}" path="{parent.opts.path.push(⁗rules⁗).push( i )}" obj="{obj}" store="{parent.opts.store}" property_list="{parent.opts.property_list}" value_list="{parent.opts.value_list}"> </css-block>', '', '', function(opts) {
     this.css = this.opts.store.getState().toJS();
 
     this.opts.path = List.of()
