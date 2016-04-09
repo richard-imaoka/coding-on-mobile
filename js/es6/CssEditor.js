@@ -19,7 +19,6 @@ export class InputBox extends React.Component {
           type="text"
           ref="input"
           defaultValue={this.props.defaultValue}
-          className="css-input"
           onKeyUp={this._handleKeyUp.bind(this)}
           onBlur={this._handleBlur.bind(this)}
         />
@@ -40,7 +39,8 @@ export class InputBox extends React.Component {
     this._autocomplete = new Awesomplete(input, config);
 
     input.addEventListener( 'awesomplete-selectcomplete', this._handleAutocompleteSelect.bind(this) );
-    input.focus()
+    input.focus();
+    this._autocomplete.evaluate();
   }
 
   _handleKeyUp(event) {
