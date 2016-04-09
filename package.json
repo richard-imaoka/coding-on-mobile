@@ -6,8 +6,10 @@
   "dependencies": {
     "css": "^2.2.1",
     "immutable": "^3.7.6",
-    "redux": "^3.3.1",
-    "riot": "^2.3.18"
+    "react": "^0.14.8",
+    "react-dom": "^0.14.8",
+    "react-redux": "^4.4.1",
+    "redux": "^3.3.1"
   },
   "devDependencies": {
     "babel-core": "^6.7.4",
@@ -22,6 +24,7 @@
     "gulp-sourcemaps": "^1.6.0",
     "gulp-util": "^3.0.7",
     "lodash.assign": "^4.0.6",
+    "reactify": "^1.1.1",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.7.0"
