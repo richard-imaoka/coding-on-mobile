@@ -3,8 +3,6 @@ import Awesomplete from 'awesomplete'
 import ReactDOM  from 'react-dom'
 
 const InputBoxPropTypes = {
-  list:            PropTypes.array.isRequired, //data list for Awesomplete
-  item:            PropTypes.func.isRequired,  //item rendering function for Awesomplete
   defaultValue:    PropTypes.string.isRequired,
   onInputComplete: PropTypes.func.isRequired   //callback invoked when input is completed
 };
@@ -60,7 +58,9 @@ InputBox.propTypes = InputBoxPropTypes;
 
 const CSSValuePropTypes = {
   value:           PropTypes.string.isRequired, //value of this value box
-  edit:            PropTypes.bool.isRequired    //whether you are in edit mode for this field or not
+  edit:            PropTypes.bool.isRequired,   //whether you are in edit mode for this field or not
+  list:            PropTypes.array.isRequired,  //data list for Awesomplete
+  item:            PropTypes.func.isRequired,   //item rendering function for Awesomplete
 //store:           PropTypes.object.isRequired,
 }
 export class CSSValue extends React.Component {
@@ -82,8 +82,8 @@ export class CSSValue extends React.Component {
 
   componentWillMount() {
     this.setState({
-      edit:  !this.props.edit,
-      value:  this.props.value
+      edit:  this.props.edit,
+      value: this.props.value
     });
   }
 
@@ -97,9 +97,75 @@ export class CSSValue extends React.Component {
       value: value
     });
   }
-
 };
 CSSValue.propTypes = CSSValuePropTypes;
+
+const CSSPropertyPropTypes = {
+  property:        PropTypes.string.isRequired, //value of this value box
+  edit:            PropTypes.bool.isRequired    //whether you are in edit mode for this field or not
+//store:           PropTypes.object.isRequired,
+}
+export class CSSProperty extends React.Component {
+  render() {
+    if(this.state.edit)
+      return (
+        <InputBox
+          list={this.props.list}
+          item={this.props.item}
+          defaultValue={this.state.property}
+          onInputComplete={this.unEdit.bind(this)}
+        />
+      )
+    else
+      return(
+        <div onClick={this.toEdit.bind(this)}>{this.state.property}</div>
+      )
+  }
+
+  componentWillMount() {
+    this.setState({
+      edit:     this.props.edit,
+      property: this.props.property
+    });
+  }
+
+  toEdit(){
+    this.setState({ edit: true });
+  }
+
+  unEdit(value){
+    this.setState({
+      edit: !this.state.edit,
+      property: value
+    });
+  }
+};
+CSSProperty.propTypes = CSSPropertyPropTypes;
+
+const CSSDeclarationPropTypes = {
+  property:        PropTypes.string.isRequired, //property of this value box
+  value:           PropTypes.string.isRequired  //value of this value box
+//store:           PropTypes.object.isRequired,
+}
+export class CSSDeclaration extends React.Component {
+  render() {
+    return (
+      <div>
+        <CSSProperty
+          property={this.props.property}
+          edit={false}
+         />
+        <CSSValue
+          value={this.props.value}
+          edit={false}
+          list={this.props.list}
+          item={this.props.item}
+        />
+      </div>
+    )
+  }
+};
+CSSDeclaration.propTypes = CSSDeclarationPropTypes;
 
 /*
 export const CssProperty = React.createClass({
