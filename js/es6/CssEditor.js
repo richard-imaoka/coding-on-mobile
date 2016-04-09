@@ -5,36 +5,49 @@ import ReactDOM  from 'react-dom'
 const InputBoxPropTypes = {
   list:            PropTypes.array.isRequired, //data list for Awesomplete
   item:            PropTypes.func.isRequired,  //item rendering function for Awesomplete
+  defaultValue:    PropTypes.string.isRequired,
   onInputComplete: PropTypes.func.isRequired   //callback invoked when input is completed
 };
-
 export class InputBox extends React.Component {
   render() {
+    //Awesomplete wraps up <input> in a <div> in new Awesomplete() call, however,
+    //we need React.Component's outermost element to be stable, otherwise React throws an exception
     return (
-      <input
-        type="text"
-        className="css-input"
-      />
+      <div>
+        <input
+          type="text"
+          ref="input"
+          defaultValue={this.props.defaultValue}
+          className="css-input"
+          onKeyUp={this._handleKeyUp.bind(this)}
+          onBlur={this._handleBlur.bind(this)}
+        />
+      </div>
     )
   }
 
   componentDidMount() {
+    console.log('componentdidmount called in InputBox')
     let config = {
       minChars: 0,
       list: this.props.list,
       item: this.props.item
     };
 
-    let input = ReactDOM.findDOMNode(this);
+    let input = ReactDOM.findDOMNode(this.refs.input);
     this._autocomplete = new Awesomplete(input, config);
 
     input.addEventListener( 'awesomplete-selectcomplete', this._handleAutocompleteSelect.bind(this) );
-    input.addEventListener( 'keyup',                      this._handleInputChange.bind(this) );
+    input.focus()
   }
 
-  _handleInputChange(event) {
-    if(event.keyCode === 13) //if Enter key
+  _handleKeyUp(event) {
+    if(event.keyCode === 13) //keyCode === 13 is Enter
       this.props.onInputComplete(event.target.value)
+  }
+
+  _handleBlur(event) {
+    this.props.onInputComplete(event.target.value)
   }
 
   _handleAutocompleteSelect() {
@@ -43,6 +56,50 @@ export class InputBox extends React.Component {
 
 };
 InputBox.propTypes = InputBoxPropTypes;
+
+
+const CSSValuePropTypes = {
+  value:           PropTypes.string.isRequired, //value of this value box
+  edit:            PropTypes.bool.isRequired    //whether you are in edit mode for this field or not
+//store:           PropTypes.object.isRequired,
+}
+export class CSSValue extends React.Component {
+  render() {
+    if(this.state.edit)
+      return (
+        <InputBox
+          list={this.props.list}
+          item={this.props.item}
+          defaultValue={this.state.value}
+          onInputComplete={this.unEdit.bind(this)}
+        />
+      )
+    else
+      return(
+        <div onClick={this.toEdit.bind(this)}>{this.state.value}</div>
+      )
+  }
+
+  componentWillMount() {
+    this.setState({
+      edit:  !this.props.edit,
+      value:  this.props.value
+    });
+  }
+
+  toEdit(){
+    this.setState({ edit: true });
+  }
+
+  unEdit(value){
+    this.setState({
+      edit: !this.state.edit,
+      value: value
+    });
+  }
+
+};
+CSSValue.propTypes = CSSValuePropTypes;
 
 /*
 export const CssProperty = React.createClass({
