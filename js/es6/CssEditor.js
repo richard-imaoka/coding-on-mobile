@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import Awesomplete from 'awesomplete'
 import ReactDOM  from 'react-dom'
+import CSSData from './cssData'
 
 const InputBoxPropTypes = {
   defaultValue:    PropTypes.string.isRequired,
@@ -29,8 +30,9 @@ export class InputBox extends React.Component {
     let config = {
       minChars: 0,
       list: this.props.list,
-      item: this.props.item
+      item: this.props.item //if undefined, deleted below
     };
+    if(config.item === undefined ) delete config['item'];
 
     let input = ReactDOM.findDOMNode(this.refs.input);
     this._autocomplete = new Awesomplete(input, config);
@@ -158,87 +160,11 @@ export class CSSDeclaration extends React.Component {
         <CSSValue
           value={this.props.value}
           edit={false}
-          list={this.props.list}
-          item={this.props.item}
+          list={CSSData.getData('background-color')}
+          item={CSSData.getRenderItem('background-color')}
         />
       </div>
     )
   }
 };
 CSSDeclaration.propTypes = CSSDeclarationPropTypes;
-
-/*
-export const CssProperty = React.createClass({
-  render: function(){
-    if(this.props.editMode)
-      return(
-        <InputBox
-          toUnEditoMode = { this.toUnEditMode }
-        />
-      )
-    else
-      return(
-        <div>{this.props.property}</div>
-      )
-  },
-
-  toUnEditMode: function(event, property) {
-    this.props.store.dispatch(updatePropertyName(this.props.path, property))
-  }
-})
-CssProperty.propTypes = {
-  property: PropTypes.string.isRequired,
-  list:     PropTypes.array.isRequired
-}
-
-export const CssValue = React.createClass({
-  render: function(){
-    if(this.props.editMode)
-      return(
-        <InputBox
-          toUnEditoMode = { this.toUnEditMode }
-        />
-      )
-    else
-      return(
-        <div>{this.props.property}</div>
-      )
-  },
-
-  toUnEditMode: function(event, property) {
-    this.props.store.dispatch(updatePropertyValue(this.props.path, property))
-  }
-})
-CssValue.propTypes = {
-  property: PropTypes.string.isRequired,
-  list:     PropTypes.array.isRequired
-}
-
-export const CssDeclaration = React.createClass({
-  render: function(){
-    if(this.props.editMode)
-      return(
-        <InputBox
-          toUnEditoMode = { this.toUnEditMode }
-        />
-      )
-    else
-      return(
-        <div>{this.props.property}</div>
-      )
-  },
-
-  deleteLine: function(event, property) {
-    this.className += " css-animated css-delete";
-
-    const self = this;
-    setTime out(function(){
-      self.props.store.dispatch(deleteProperty(self.props.path))
-    }, 200);
-  }
-})
-CssDeclaration.propTypes = {
-  property: PropTypes.string.isRequired,
-  list:     PropTypes.array.isRequired
-}
-*/
