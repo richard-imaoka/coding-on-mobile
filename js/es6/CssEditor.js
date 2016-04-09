@@ -166,5 +166,78 @@ export class CSSDeclaration extends React.Component {
       </div>
     )
   }
+
+  componentDidMount(){
+    console.log('CSSDeclaration Called property = ' +  this.props.property + ', value = ' + this.props.value + ' - behavior option as follows');
+    console.log(this.props.behaviorOptions);
+  }
 };
 CSSDeclaration.propTypes = CSSDeclarationPropTypes;
+
+const CSSRulePropTypes = {
+  obj:             PropTypes.object.isRequired  //value of this value box
+//store:           PropTypes.object.isRequired,
+}
+export class CSSRule extends React.Component {
+  render() {
+    return (
+      <div>
+        {this.declarations.map(d =>
+          <CSSDeclaration
+            key     ={d.id}
+            property={d.property}
+            value   ={d.value}
+            behaviorOptions = {this.behaviorOptions[d.id]}
+          />
+        )}
+      </div>
+    )
+  }
+
+  componentWillMount(){
+    this.declarations    = this.getDeclarations(this.props.obj.declarations);
+    this.behaviorOptions = this.processComments(this.props.obj.declarations);
+    console.log('CSSRule, behavior options as follows:');
+    console.log(this.behaviorOptions);
+  }
+
+  getDeclarations(declarations){
+    let index = 0;
+    return declarations
+      .map   ( d => { d.id = index++; return d; } )
+      .filter( d => { return d.type === 'declaration' } );
+  }
+
+  processComments(declarations){
+    let behaviorOptions = {};
+    let tempOptions     = [];
+
+    for(var i in declarations){
+      let declaration = declarations[i];
+
+      //If comment, and if it's for behavior option, pile it up until you hit non-comment declaration
+      if(declaration.type === 'comment'){
+        let [behaviorName, behaviorValue] = declaration.comment.split(":");
+        tempOptions.push(this.getBehaviorOption(behaviorName, behaviorValue));
+      }
+      //else, for non-comment delcaration, save the piled-up options to behavior option
+      else{
+        behaviorOptions[i] = tempOptions;
+        tempOptions = [];
+      }
+    }
+
+    return behaviorOptions;
+  }
+
+  getBehaviorOption(behaviorName, behaviorValue){
+    switch(behaviorName){
+     case 'EDITABLE' :
+       return { behaviorName: behaviorName, behaviorValue: behaviorValue};
+     default:
+       return {};
+    }
+  }
+
+};
+CSSRule.propTypes = CSSRulePropTypes;
