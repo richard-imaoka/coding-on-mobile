@@ -1,12 +1,8 @@
-#box1
-{
-  background-color  :  blue;
-}
+body {
+  /*BEHAVIOR:value:editable:true*/
+  background-color: blue;
 
-.box
-{
-  width : 150px;
-  height  :  150px;
-  margin  :  10px;
-  background-color  :  red;
+  /*BEHAVIOR:property:editable:true*/
+  /*BEHAVIOR:value:editable:false*/
+  color: red;
 }

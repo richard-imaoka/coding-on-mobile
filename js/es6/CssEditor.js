@@ -87,10 +87,12 @@ export class CSSValue extends React.Component {
       edit:  this.props.edit,
       value: this.props.value
     });
+    console.log('value = ' + this.props.value + ' editable? ' + this.props.editable);
   }
 
   toEdit(){
-    this.setState({ edit: true });
+    if(this.props.editable)
+      this.setState({ edit: true });
   }
 
   unEdit(value){
@@ -106,6 +108,9 @@ const CSSPropertyPropTypes = {
   property:        PropTypes.string.isRequired, //value of this value box
   edit:            PropTypes.bool.isRequired    //whether you are in edit mode for this field or not
 //store:           PropTypes.object.isRequired,
+}
+const CSSPropertyDefaultPros = {
+  editable: false
 }
 export class CSSProperty extends React.Component {
   render() {
@@ -129,10 +134,13 @@ export class CSSProperty extends React.Component {
       edit:     this.props.edit,
       property: this.props.property
     });
+
+    console.log('property = ' + this.props.property + ' editable? ' + this.props.editable);
   }
 
   toEdit(){
-    this.setState({ edit: true });
+    if(this.props.editable)
+      this.setState({ edit: true });
   }
 
   unEdit(value){
@@ -142,11 +150,14 @@ export class CSSProperty extends React.Component {
     });
   }
 };
-CSSProperty.propTypes = CSSPropertyPropTypes;
+CSSProperty.propTypes    = CSSPropertyPropTypes;
+CSSProperty.defaultPrpps = CSSPropertyDefaultPros;
 
 const CSSDeclarationPropTypes = {
-  property:        PropTypes.string.isRequired, //property of this value box
-  value:           PropTypes.string.isRequired  //value of this value box
+  property:                PropTypes.string.isRequired, //property of this value box
+  propertyBehaviorOptions: PropTypes.object.isRequired,
+  value:                   PropTypes.string.isRequired, //value of this value box
+  valueBehaviorOptions:    PropTypes.object.isRequired
 //store:           PropTypes.object.isRequired,
 }
 export class CSSDeclaration extends React.Component {
@@ -156,10 +167,12 @@ export class CSSDeclaration extends React.Component {
         <CSSProperty
           property={this.props.property}
           edit={false}
+          editable={this.props.propertyBehaviorOptions.editable === "true" }
          />
         <CSSValue
           value={this.props.value}
           edit={false}
+          editable={this.props.valueBehaviorOptions.editable === "true"}
           list={CSSData.getData('background-color')}
           item={CSSData.getRenderItem('background-color')}
         />
@@ -169,7 +182,10 @@ export class CSSDeclaration extends React.Component {
 
   componentDidMount(){
     console.log('CSSDeclaration Called property = ' +  this.props.property + ', value = ' + this.props.value + ' - behavior option as follows');
-    console.log(this.props.behaviorOptions);
+    console.log('propertyBehaviorOptions');
+    console.log(this.props.propertyBehaviorOptions);
+    console.log('valueBehaviorOptions');
+    console.log(this.props.valueBehaviorOptions);
   }
 };
 CSSDeclaration.propTypes = CSSDeclarationPropTypes;
@@ -184,10 +200,11 @@ export class CSSRule extends React.Component {
       <div>
         {this.declarations.map(d =>
           <CSSDeclaration
-            key     ={d.id}
-            property={d.property}
-            value   ={d.value}
-            behaviorOptions = {this.behaviorOptions[d.id]}
+            key      ={d.id}
+            property ={d.property}
+            value    ={d.value}
+            propertyBehaviorOptions = {this.behaviorOptions[d.id].property}
+            valueBehaviorOptions    = {this.behaviorOptions[d.id].value}
           />
         )}
       </div>
@@ -210,34 +227,25 @@ export class CSSRule extends React.Component {
 
   processComments(declarations){
     let behaviorOptions = {};
-    let tempOptions     = [];
+    let tempOptions     = { property:{}, value:{} };
 
     for(var i in declarations){
       let declaration = declarations[i];
 
       //If comment, and if it's for behavior option, pile it up until you hit non-comment declaration
-      if(declaration.type === 'comment'){
-        let [behaviorName, behaviorValue] = declaration.comment.split(":");
-        tempOptions.push(this.getBehaviorOption(behaviorName, behaviorValue));
+      if(declaration.type === 'comment' && declaration.comment.startsWith("BEHAVIOR")){
+        let [unused, propertyOrValue, behaviorName, behaviorValue] = declaration.comment.split(":");
+        let obj = {}; obj[behaviorName] = behaviorValue;
+        Object.assign( tempOptions[propertyOrValue], obj );
       }
       //else, for non-comment delcaration, save the piled-up options to behavior option
       else{
         behaviorOptions[i] = tempOptions;
-        tempOptions = [];
+        tempOptions = { property:{}, value:{} };
       }
     }
 
     return behaviorOptions;
   }
-
-  getBehaviorOption(behaviorName, behaviorValue){
-    switch(behaviorName){
-     case 'EDITABLE' :
-       return { behaviorName: behaviorName, behaviorValue: behaviorValue};
-     default:
-       return {};
-    }
-  }
-
 };
 CSSRule.propTypes = CSSRulePropTypes;
