@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import { List } from 'immutable'
 import Awesomplete from 'awesomplete'
 import ReactDOM  from 'react-dom'
 import CSSData from './cssData'
@@ -14,6 +15,7 @@ export class InputBox extends React.Component {
     return (
       <div>
         <input
+          className="css-editor-input"
           type="text"
           ref="input"
           defaultValue={this.props.defaultValue}
@@ -163,12 +165,14 @@ const CSSDeclarationPropTypes = {
 export class CSSDeclaration extends React.Component {
   render() {
     return (
-      <div>
+      <div className="css-line">
+        <div className="css-editor-indent"></div>
         <CSSProperty
           property={this.props.property}
           edit={false}
           editable={this.props.propertyBehaviorOptions.editable === "true" }
          />
+        <div className="css-editor-colon">:</div>
         <CSSValue
           value={this.props.value}
           edit={false}
@@ -176,6 +180,7 @@ export class CSSDeclaration extends React.Component {
           list={CSSData.getData('background-color')}
           item={CSSData.getRenderItem('background-color')}
         />
+        <div className="css-editor-semicolon">;</div>
       </div>
     )
   }
@@ -190,6 +195,32 @@ export class CSSDeclaration extends React.Component {
 };
 CSSDeclaration.propTypes = CSSDeclarationPropTypes;
 
+
+
+const CSSSelectorsPropTypes = {
+  selectors:       PropTypes.array.isRequired
+//store:           PropTypes.object.isRequired,
+}
+export class CSSSelectors extends React.Component {
+  render() {
+    return (
+      <div>
+        {this.selectorsExceptLast.map(s =>
+          <div className="css-line" key={s}>{s}&#44;</div>
+        )}
+        <div className="css-line">{this.lastSelector} &#123;</div>
+      </div>
+    )
+  }
+
+  componentWillMount(){
+    this.selectorsExceptLast = List(this.props.selectors).pop().toJS();
+    this.lastSelector        = this.props.selectors[ this.props.selectors.length - 1 ];
+  }
+};
+CSSSelectors.propTypes = CSSSelectorsPropTypes;
+
+
 const CSSRulePropTypes = {
   obj:             PropTypes.object.isRequired  //value of this value box
 //store:           PropTypes.object.isRequired,
@@ -198,6 +229,9 @@ export class CSSRule extends React.Component {
   render() {
     return (
       <div>
+        <CSSSelectors
+          selectors ={this.props.obj.selectors}
+        />
         {this.declarations.map(d =>
           <CSSDeclaration
             key      ={d.id}
@@ -207,6 +241,7 @@ export class CSSRule extends React.Component {
             valueBehaviorOptions    = {this.behaviorOptions[d.id].value}
           />
         )}
+        <div className="css-line">&#125;</div>
       </div>
     )
   }
@@ -214,6 +249,8 @@ export class CSSRule extends React.Component {
   componentWillMount(){
     this.declarations    = this.getDeclarations(this.props.obj.declarations);
     this.behaviorOptions = this.processComments(this.props.obj.declarations);
+    console.log('Selectors');
+    console.log(this.props.obj.selectors);
     console.log('CSSRule, behavior options as follows:');
     console.log(this.behaviorOptions);
   }
