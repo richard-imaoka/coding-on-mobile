@@ -77,10 +77,14 @@ export class CSSValue extends React.Component {
           defaultValue={this.state.value}
           onInputComplete={this.unEdit.bind(this)}
         />
-      )
+      );
+    else if(this.props.tooltip)
+      return(
+        <div className="css-editor-value" onClick={this.toEdit.bind(this)}><span className="css-tooltip"><span>{this.props.tooltip}</span></span>{this.state.value}</div>
+      );
     else
       return(
-        <div onClick={this.toEdit.bind(this)}>{this.state.value}</div>
+        <div className="css-editor-value" onClick={this.toEdit.bind(this)}>{this.state.value}</div>
       )
   }
 
@@ -127,7 +131,7 @@ export class CSSProperty extends React.Component {
       )
     else
       return(
-        <div onClick={this.toEdit.bind(this)}>{this.state.property}</div>
+        <div className="css-editor-property" onClick={this.toEdit.bind(this)}>{this.state.property}</div>
       )
   }
 
@@ -177,6 +181,7 @@ export class CSSDeclaration extends React.Component {
           value={this.props.value}
           edit={false}
           editable={this.props.valueBehaviorOptions.editable === "true"}
+          tooltip ={this.props.valueBehaviorOptions.tooltip}
           list={CSSData.getData('background-color')}
           item={CSSData.getRenderItem('background-color')}
         />
@@ -208,7 +213,7 @@ export class CSSSelectors extends React.Component {
         {this.selectorsExceptLast.map(s =>
           <div className="css-line" key={s}>{s}&#44;</div>
         )}
-        <div className="css-line">{this.lastSelector} &#123;</div>
+        <div className="css-line">{this.lastSelector}<div className="css-editor-indent"></div>&#123;</div>
       </div>
     )
   }
@@ -228,7 +233,7 @@ const CSSRulePropTypes = {
 export class CSSRule extends React.Component {
   render() {
     return (
-      <div>
+      <div className="css-editor">
         <CSSSelectors
           selectors ={this.props.obj.selectors}
         />
