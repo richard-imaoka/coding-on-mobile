@@ -2,18 +2,90 @@
 <html lang="en">
 
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CSS Learning</title>
+
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
   <link rel="stylesheet" type="text/css" href="css/awesomplete.css">
   <link rel="stylesheet" type="text/css" href="css/animate.css">
-  <link rel="stylesheet" type="text/css" href="css/csscolor2.css">
+  <link rel="stylesheet" type="text/css" href="css/csscolor-editor.css">
+  <link rel="stylesheet" type="text/css" href="css/csscolor-html.css">
+  <link rel="stylesheet" type="text/css" href="css/csscolor-main.css">
+
+  <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Chewy' rel='stylesheet' type='text/css'>
+
 </head>
-<body>
-  <css-editor class="css-editor"></css-editor>
+<body id="body">
+
+  <nav id="primary-nav">
+    <div class="container">
+      <div class="row">
+        <div id="logo">CSS Learning</div>
+      </div>
+    </div>
+  </nav>
+
+  <section id="result-part">
+    <div class="container">
+      <div class="row">
+        <div class="bar">HTML + CSS Result</div>
+        <div class="result-iframe  animated pulse">
+          <iframe></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="html-part">
+    <div class="container">
+      <div class="row">
+        <div class="bar">HTML code</div>
+        <div id="html-editor" class="html-editor">
+          <div class="html-line html-doctype">
+            <span class="html-angle-bracket">&lt</span><span>!DOCTYPE html</span><span class="html-angle-bracket">&gt</span>
+          </div>
+          <div id ="hhhh" ></div>
+          <!--div class="html-line">
+            <div clas="html-tag">
+              <span class="html-angle-bracket">&lt</span><span class="html-tag-name">html</span><span class="html-angle-bracket">&gt</span>
+            </div>
+          </div>
+          <div class="html-line">
+            <div clas="html-tag">
+              <span class="html-angle-bracket">&lt</span><span class="html-tag-name">body</span><span class="html-angle-bracket">&gt</span>
+            </div>
+          </div>
+          <div class="html-line">
+            <div class="html-indent"></div>
+            <div><span>Hello World</span></div>
+          </div>
+          <div class="html-line">
+            <span class="html-angle-bracket">&lt</span><span>/</span><span class="html-tag-name">body</span><span class="html-angle-bracket">&gt</span>
+          </div>
+          <div class="html-line">
+            <span class="html-angle-bracket">&lt</span><span>/</span><span class="html-tag-name">html</span><span class="html-angle-bracket">&gt</span>
+          </div-->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="css-part">
+    <div class="container">
+      <div class="row">
+        <div class="bar">CSS code</div>
+        <div class="css-editor">
+        <div id="example"></div>
+      </div>
+    </div>
+  </section>
+
 </body>
+
 <script type="text/javascript" src="js/awesomplete.js"></script>
 <script type="text/javascript" src="js/json2.js"></script>
 <script type="text/javascript" src="js/cssjson.js"></script>
 <script src="js/riot+compiler.js"></script>
 <script src="dist/bundle.js"></script>
-
-
 </html>

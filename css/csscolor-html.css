@@ -1,0 +1,30 @@
+.html-editor {
+  padding         : 5px;
+  background-color: white;
+  font-family: "Source Code Pro";
+}
+
+.html-tag-name {
+  font-weight: bold;
+  color:        #006699;
+}
+
+.html-indent {
+  width: 1em;
+}
+
+.html-attribute-name {
+  color:       gray;
+}
+.html-attribute-value {
+  color:       blue;
+}
+
+.html-line {
+  display: flex;
+  line-height: 18px;
+}
+
+.html-doctype {
+  color: lightgray;
+}

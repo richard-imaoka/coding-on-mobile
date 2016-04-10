@@ -27,7 +27,7 @@ export class InputBox extends React.Component {
   }
 
   componentDidMount() {
-    console.log('componentdidmount called in InputBox')
+    //console.log('componentdidmount called in InputBox')
     let config = {
       minChars: 0,
       list: this.props.list,
@@ -93,7 +93,7 @@ export class CSSValue extends React.Component {
       edit:  this.props.edit,
       value: this.props.value
     });
-    console.log('value = ' + this.props.value + ' editable? ' + this.props.editable);
+    //console.log('value = ' + this.props.value + ' editable? ' + this.props.editable);
   }
 
   toEdit(){
@@ -141,7 +141,7 @@ export class CSSProperty extends React.Component {
       property: this.props.property
     });
 
-    console.log('property = ' + this.props.property + ' editable? ' + this.props.editable);
+    //console.log('property = ' + this.props.property + ' editable? ' + this.props.editable);
   }
 
   toEdit(){
@@ -191,11 +191,11 @@ export class CSSDeclaration extends React.Component {
   }
 
   componentDidMount(){
-    console.log('CSSDeclaration Called property = ' +  this.props.property + ', value = ' + this.props.value + ' - behavior option as follows');
-    console.log('propertyBehaviorOptions');
-    console.log(this.props.propertyBehaviorOptions);
-    console.log('valueBehaviorOptions');
-    console.log(this.props.valueBehaviorOptions);
+    //console.log('CSSDeclaration Called property = ' +  this.props.property + ', value = ' + this.props.value + ' - behavior option as follows');
+    //console.log('propertyBehaviorOptions');
+    //console.log(this.props.propertyBehaviorOptions);
+    //console.log('valueBehaviorOptions');
+    //console.log(this.props.valueBehaviorOptions);
   }
 };
 CSSDeclaration.propTypes = CSSDeclarationPropTypes;
@@ -254,10 +254,10 @@ export class CSSRule extends React.Component {
   componentWillMount(){
     this.declarations    = this.getDeclarations(this.props.obj.declarations);
     this.behaviorOptions = this.processComments(this.props.obj.declarations);
-    console.log('Selectors');
-    console.log(this.props.obj.selectors);
-    console.log('CSSRule, behavior options as follows:');
-    console.log(this.behaviorOptions);
+    //console.log('Selectors');
+    //console.log(this.props.obj.selectors);
+    //console.log('CSSRule, behavior options as follows:');
+    //console.log(this.behaviorOptions);
   }
 
   getDeclarations(declarations){

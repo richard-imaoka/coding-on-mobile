@@ -1,3 +1,6 @@
+/*********************************************************
+  Animation
+*********************************************************/
 @keyframes delete {
   from {
     height: 50px;
@@ -6,8 +9,6 @@
     height: 0px;
   }
 }
-
-
 .delete {
   -webkit-animation-name: delete;
   animation-name: delete;
@@ -30,18 +31,6 @@
     transform: translate3d(-10%, 0, 0);
     height: 0px;
   }
-}
-
-.css-delete {
-  -webkit-animation-name: css-delete;
-  animation-name: css-delete;
-}
-
-.css-animated {
-  -webkit-animation-duration: 0.15s;
-  animation-duration: 0.15s;
-  animation-fill-mode: forwards;
-  overflow: hidden;
 }
 
 @-webkit-keyframes flash-background {
@@ -71,22 +60,25 @@
   animation-duration: 8s;
 }
 
-body {
-  font-size: 16px;
+/*********************************************************
+  CSS Editor Classes
+*********************************************************/
+
+.css-delete {
+  -webkit-animation-name: css-delete;
+  animation-name: css-delete;
 }
 
-iframe {
-  border-width: 1px;
-  width: 100%;
-}
-
-pre code {
-  font-family: "Source Code Pro";
-  font-size: 16px;
+.css-animated {
+  -webkit-animation-duration: 0.15s;
+  animation-duration: 0.15s;
+  animation-fill-mode: forwards;
+  overflow: hidden;
 }
 
 .css-editor {
-  font-family: "Source Code Pro";
+  font-family     : "Source Code Pro";
+  background-color: white;
 }
 
 .css-line {
@@ -126,19 +118,9 @@ pre code {
   width: 100%;
 }
 
-.html-tag-name {
-  font-weight: bold;
-  color:        #006699;
-}
-
-.html-attribute-name {
-  color:       gray;
-}
-.html-attribute-value {
-  color:       blue;
-}
-
-
+/*********************************************************
+  Tooltip
+*********************************************************/
 span.css-tooltip {
   position: relative;
   display:  inline;

@@ -1,0 +1,43 @@
+body {
+  font-size: 16px;
+  background-color: #fffb1b;
+}
+
+iframe {
+  border-width: 0px;
+  width: 100%;
+}
+
+pre code {
+  font-family: "Source Code Pro";
+  font-size: 16px;
+}
+
+
+#primary-nav {
+  background-color: orange;
+  height          :   30px;
+}
+#logo {
+  font-family: Chewy;
+  font-size:   20px;
+}
+#result{
+}
+
+.result-iframe {
+  background-color: white;
+}
+
+.bar {
+  text-align:  center;
+  font-family: Chewy;
+  font-size:   24px;
+  background-color: #a2f570;
+}
+.holder {
+  background-color: white;
+  border-width: 5px;
+  border-colr:  black;
+  border-style: solid;
+}
