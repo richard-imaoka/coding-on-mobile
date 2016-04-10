@@ -10,11 +10,33 @@ import prettyPrint from './prettyprint'
 import { CSSRule, CSSValue, CSSDeclaration, InputBox } from './CssEditor'
 import { HTMLNode } from './HtmlEditor'
 
+let htmlString;// = document.getElementById("template").innerHTML;
+let store;
+function render(){
+  //let htmlString = document.getElementById("template").innerHTML;
+  prettyPrint(store.getState())
+  let cssString  = css.stringify(store.getState().toJS());
+
+  let src = htmlString.replace('</head>', '<style>' + cssString + '</style></head>');
+  console.log("src-----------------begin");
+  console.log(src);
+  console.log("src-----------------end");
+
+  let iframe     = document.getElementById("htmlcssresult");
+  let iframe_doc = iframe.contentDocument;
+
+  iframe_doc.open();
+  iframe_doc.write(src);
+  iframe_doc.close();
+}
+document.getElementById("render-button").addEventListener('click', render);
+
 
 var ajax = new XMLHttpRequest();
 ajax.open("GET", "data/sample.css", true);
 ajax.onload = function () {
   var cssJSON= css.parse(ajax.responseText);
+
   var ajax1 = new XMLHttpRequest();
   var properties = "";
   ajax1.open("GET", "data/awesomplete-properties.json", true);
@@ -26,7 +48,7 @@ ajax.onload = function () {
     ajax2.onload = function () {
       colors = JSON.parse(ajax2.responseText);
 
-      let store = createStore(cssReducer, fromJS(cssJSON).get("stylesheet"));
+      store = createStore(cssReducer, fromJS(cssJSON));
 
       //prettyPrint(store.getState())
 
@@ -58,12 +80,11 @@ ajax.onload = function () {
 };
 ajax.send();
 
-
-
 var ajax4 = new XMLHttpRequest();
 ajax4.open("GET", "data/sample.html", true);
 let self = this;
 ajax4.onload = function () {
+  htmlString = ajax4.responseText;
   var parser = new DOMParser();
   var doc    = parser.parseFromString(ajax4.responseText, "text/html");
   var html   = doc.children[0];
