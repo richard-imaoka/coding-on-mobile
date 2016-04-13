@@ -3,6 +3,8 @@ import { List } from 'immutable'
 import Awesomplete from 'awesomplete'
 import ReactDOM  from 'react-dom'
 import CSSData from './cssData'
+import {UPDATE_PROPERTY, UPDATE_PROPERTY_NAME, DELETE_PROPERTY, updatePropertyName, updatePropertyValue, deleteProperty} from "./actions"
+import prettyPrint from './prettyprint'
 
 const InputBoxPropTypes = {
   defaultValue:    PropTypes.string.isRequired,
@@ -74,26 +76,27 @@ export class CSSValue extends React.Component {
         <InputBox
           list={this.props.list}
           item={this.props.item}
-          defaultValue={this.state.value}
+          defaultValue={this.props.value}
           onInputComplete={this.unEdit.bind(this)}
         />
       );
     else if(this.props.tooltip)
       return(
-        <div className="css-editor-value" onClick={this.toEdit.bind(this)}><span className="css-tooltip"><span>{this.props.tooltip}</span></span>{this.state.value}</div>
+        <div className="css-editor-value" onClick={this.toEdit.bind(this)}><span className="css-tooltip"><span>{this.props.tooltip}</span></span>{this.props.value}</div>
       );
     else
       return(
-        <div className="css-editor-value" onClick={this.toEdit.bind(this)}>{this.state.value}</div>
+        <div className="css-editor-value" onClick={this.toEdit.bind(this)}>{this.props.value}</div>
       )
   }
 
   componentWillMount() {
     this.setState({
-      edit:  this.props.edit,
-      value: this.props.value
+      edit:  this.props.edit
     });
-    //console.log('value = ' + this.props.value + ' editable? ' + this.props.editable);
+    //console.log('CSSValue: value = ' + this.props.value + ' editable? ' + this.props.editable);
+    //console.log('CSSValue: value= ' + this.props.value + ' path? ' + this.props.path);
+    //console.log('CSSValue: value= ' + this.props.value + ' value? ' + this.props.value);
   }
 
   toEdit(){
@@ -103,17 +106,18 @@ export class CSSValue extends React.Component {
 
   unEdit(value){
     this.setState({
-      edit: !this.state.edit,
-      value: value
+      edit: !this.state.edit
     });
+    this.props.store.dispatch(updatePropertyValue(this.props.path, value));
   }
 };
 CSSValue.propTypes = CSSValuePropTypes;
 
 const CSSPropertyPropTypes = {
   property:        PropTypes.string.isRequired, //value of this value box
-  edit:            PropTypes.bool.isRequired    //whether you are in edit mode for this field or not
-//store:           PropTypes.object.isRequired,
+  edit:            PropTypes.bool.isRequired,   //whether you are in edit mode for this field or not
+  store:           PropTypes.object.isRequired,
+  path:            PropTypes.instanceOf(List)
 }
 const CSSPropertyDefaultPros = {
   editable: false
@@ -125,23 +129,24 @@ export class CSSProperty extends React.Component {
         <InputBox
           list={this.props.list}
           item={this.props.item}
-          defaultValue={this.state.property}
+          defaultValue={this.props.property}
           onInputComplete={this.unEdit.bind(this)}
         />
       )
     else
       return(
-        <div className="css-editor-property" onClick={this.toEdit.bind(this)}>{this.state.property}</div>
+        <div className="css-editor-property" onClick={this.toEdit.bind(this)}>{this.props.property}</div>
       )
   }
 
   componentWillMount() {
     this.setState({
-      edit:     this.props.edit,
-      property: this.props.property
+      edit:     this.props.edit
     });
+    //console.log('CSSProperty: property = ' + this.props.property + ' editable? ' + this.props.editable);
+    //console.log('CSSProperty: property = ' + this.props.property + ' path? ' + this.props.path);
+    //console.log('CSSProperty: property = ' + this.props.property + ' property? ' + this.props.property);
 
-    //console.log('property = ' + this.props.property + ' editable? ' + this.props.editable);
   }
 
   toEdit(){
@@ -151,9 +156,9 @@ export class CSSProperty extends React.Component {
 
   unEdit(value){
     this.setState({
-      edit: !this.state.edit,
-      property: value
+      edit: !this.state.edit
     });
+    this.props.store.dispatch(updatePropertyName(this.props.path, value));
   }
 };
 CSSProperty.propTypes    = CSSPropertyPropTypes;
@@ -163,8 +168,9 @@ const CSSDeclarationPropTypes = {
   property:                PropTypes.string.isRequired, //property of this value box
   propertyBehaviorOptions: PropTypes.object.isRequired,
   value:                   PropTypes.string.isRequired, //value of this value box
-  valueBehaviorOptions:    PropTypes.object.isRequired
-//store:           PropTypes.object.isRequired,
+  valueBehaviorOptions:    PropTypes.object.isRequired,
+  store:                   PropTypes.object.isRequired,
+  path:                    PropTypes.instanceOf(List)
 }
 export class CSSDeclaration extends React.Component {
   render() {
@@ -175,11 +181,15 @@ export class CSSDeclaration extends React.Component {
           property={this.props.property}
           edit={false}
           editable={this.props.propertyBehaviorOptions.editable === "true" }
+          store   ={this.props.store}
+          path    ={this.props.path.push("property")}
          />
         <div className="css-editor-colon">:</div>
         <CSSValue
           value={this.props.value}
           edit={false}
+          store   ={this.props.store}
+          path    ={this.props.path.push("value")}
           editable={this.props.valueBehaviorOptions.editable === "true"}
           tooltip ={this.props.valueBehaviorOptions.tooltip}
           list={CSSData.getData('background-color')}
@@ -191,6 +201,7 @@ export class CSSDeclaration extends React.Component {
   }
 
   componentDidMount(){
+    //console.log('CSSDeclaration: store = ' + this.props.store);
     //console.log('CSSDeclaration Called property = ' +  this.props.property + ', value = ' + this.props.value + ' - behavior option as follows');
     //console.log('propertyBehaviorOptions');
     //console.log(this.props.propertyBehaviorOptions);
@@ -204,7 +215,8 @@ CSSDeclaration.propTypes = CSSDeclarationPropTypes;
 
 const CSSSelectorsPropTypes = {
   selectors:       PropTypes.array.isRequired
-//store:           PropTypes.object.isRequired,
+  //store:           PropTypes.object.isRequired,
+  //path:            PropTypes.instanceOf(List)
 }
 export class CSSSelectors extends React.Component {
   render() {
@@ -217,7 +229,6 @@ export class CSSSelectors extends React.Component {
       </div>
     )
   }
-
   componentWillMount(){
     this.selectorsExceptLast = List(this.props.selectors).pop().toJS();
     this.lastSelector        = this.props.selectors[ this.props.selectors.length - 1 ];
@@ -227,39 +238,36 @@ CSSSelectors.propTypes = CSSSelectorsPropTypes;
 
 
 const CSSRulePropTypes = {
-  obj:             PropTypes.object.isRequired  //value of this value box
-//store:           PropTypes.object.isRequired,
+  obj:             PropTypes.object.isRequired,  //value of this value box
+  store:           PropTypes.object.isRequired,
+  path:            PropTypes.instanceOf(List)
 }
 export class CSSRule extends React.Component {
   render() {
+    let declarations    = this.getDeclarations(this.props.obj.declarations);
+    let behaviorOptions = this.processComments(this.props.obj.declarations);
+
     return (
       <div className="css-editor">
         <CSSSelectors
           selectors ={this.props.obj.selectors}
         />
-        {this.declarations.map(d =>
+        {declarations.map(d =>
           <CSSDeclaration
             key      ={d.id}
             property ={d.property}
             value    ={d.value}
-            propertyBehaviorOptions = {this.behaviorOptions[d.id].property}
-            valueBehaviorOptions    = {this.behaviorOptions[d.id].value}
+            store    ={this.props.store}
+            path     ={this.props.path.push("declarations").push(d.id)}
+            propertyBehaviorOptions = {behaviorOptions[d.id].property}
+            valueBehaviorOptions    = {behaviorOptions[d.id].value}
           />
         )}
         <div className="css-line">&#125;</div>
       </div>
     )
   }
-
-  componentWillMount(){
-    this.declarations    = this.getDeclarations(this.props.obj.declarations);
-    this.behaviorOptions = this.processComments(this.props.obj.declarations);
-    //console.log('Selectors');
-    //console.log(this.props.obj.selectors);
-    //console.log('CSSRule, behavior options as follows:');
-    //console.log(this.behaviorOptions);
-  }
-
+  
   getDeclarations(declarations){
     let index = 0;
     return declarations
@@ -291,3 +299,30 @@ export class CSSRule extends React.Component {
   }
 };
 CSSRule.propTypes = CSSRulePropTypes;
+
+export class CSSApp extends React.Component {
+  render() {
+    return (
+      <CSSRule
+        obj={this.props.obj}
+        store={this.props.store}
+        path={List.of("stylesheet", "rules", 0)}
+      />
+    )
+  }
+
+  componentWillMount(){
+    //console.log('CSSApp componentWillMount()');
+  //  this.setState({obj: this.props.store.getState().toJS().stylesheet.rules[0] });
+  }
+  componentDidMount(){
+  //console.log('CSSApp componentDidMount()');
+  //  let self = this;
+  //  this.props.store.subscribe(function(){
+  //    //console.log('CSSApp received store update');
+  //    //console.log('CSSApp store data', prettyPrint(self.props.store.getState().toJS()));
+  //    self.setState({ obj: self.props.store.getState().toJS().stylesheet.rules[0] });
+  //    //console.log('CSSApp state.obj', prettyPrint(self.state));
+  //  })
+  }
+}
