@@ -56,9 +56,13 @@
 .flash-background {
   -webkit-animation-name: flash-background;
   animation-name: flash-background;
-  -webkit-animation-duration: 8s;
-  animation-duration: 8s;
+  -webkit-animation-duration: 3s;
+  animation-duration: 3s;
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+
 }
+
 
 
 @-webkit-keyframes flashed {

@@ -220,14 +220,27 @@ const CSSSelectorsPropTypes = {
 }
 export class CSSSelectors extends React.Component {
   render() {
-    return (
-      <div>
+    if(this.props.behaviorOptions.highlight === "true"){
+      return (
+        <div>
         {this.selectorsExceptLast.map(s =>
-          <div className="css-line" key={s}>{s}&#44;</div>
+            <div className="css-line" key={s}><span className="flash-background">{s}</span>&#44;</div>
         )}
-        <div className="css-line">{this.lastSelector}<div className="css-editor-indent"></div>&#123;</div>
-      </div>
-    )
+          <div className="css-line"><span className="flash-background">{this.lastSelector}</span><div className="css-editor-indent"></div>&#123;</div>
+        </div>
+      )
+
+    }
+    else {
+      return (
+        <div>
+        {this.selectorsExceptLast.map(s =>
+            <div className="css-line" key={s}>{s}&#44;</div>
+        )}
+          <div className="css-line">{this.lastSelector}<div className="css-editor-indent"></div>&#123;</div>
+        </div>
+      )
+    }
   }
   componentWillMount(){
     this.selectorsExceptLast = List(this.props.selectors).pop().toJS();
@@ -251,6 +264,7 @@ export class CSSRule extends React.Component {
       <div className="css-editor">
         <CSSSelectors
           selectors ={this.props.obj.selectors}
+          behaviorOptions={this.props.behaviorOptions.selectors}
         />
         {declarations.map(d =>
           <CSSDeclaration
