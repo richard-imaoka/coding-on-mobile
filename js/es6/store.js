@@ -4,17 +4,17 @@ import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 
 import cssReducer from './reducers'
-import { Map, fromJS } from 'immutable'
+import { Map, List, fromJS } from 'immutable'
 import * as css from 'css'
 import prettyPrint from './prettyprint'
-import { CSSRule, CSSValue, CSSDeclaration, InputBox } from './CssEditor'
+import { CSSApp } from './CssEditor'
 import { HTMLNode } from './HtmlEditor'
 
 let htmlString;// = document.getElementById("template").innerHTML;
 let store;
 function render(){
   //let htmlString = document.getElementById("template").innerHTML;
-  prettyPrint(store.getState())
+  //prettyPrint(store.getState())
   let cssString  = css.stringify(store.getState().toJS());
 
   let src = htmlString.replace('</head>', '<style>' + cssString + '</style></head>');
@@ -29,8 +29,15 @@ function render(){
   iframe_doc.write(src);
   iframe_doc.close();
 }
-document.getElementById("render-button").addEventListener('click', render);
 
+let ReactRender = function(s){
+  console.log("re render");
+  ReactDOM.render(
+    <CSSApp store={s} obj={s.getState().toJS().stylesheet}></CSSApp>,
+    document.getElementById('example')
+  );
+  render();
+}
 
 var ajax = new XMLHttpRequest();
 ajax.open("GET", "data/sample.css", true);
@@ -49,8 +56,7 @@ ajax.onload = function () {
       colors = JSON.parse(ajax2.responseText);
 
       store = createStore(cssReducer, fromJS(cssJSON));
-
-      //prettyPrint(store.getState())
+      prettyPrint(store.getState())
 
       let item = function(text, input) {
         let split = text.split(",");
@@ -62,10 +68,8 @@ ajax.onload = function () {
         return element;
       }
 
-      ReactDOM.render(
-        <CSSRule obj={cssJSON.stylesheet.rules[0]}></CSSRule>,
-        document.getElementById('example')
-      );
+      store.subscribe(() => ReactRender(store));
+      ReactRender(store);
       //riot.mount('css-editor',
       //  {
       //    property_list: properties,
@@ -73,6 +77,9 @@ ajax.onload = function () {
       //    store: store
       //  }
       //)
+
+      //prettyPrint(store.getState())
+
     };
     ajax2.send();
   };
@@ -94,3 +101,5 @@ ajax4.onload = function () {
   );
 }
 ajax4.send();
+
+
