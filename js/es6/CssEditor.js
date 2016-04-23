@@ -267,7 +267,7 @@ export class CSSRule extends React.Component {
       </div>
     )
   }
-  
+
   getDeclarations(declarations){
     let index = 0;
     return declarations
@@ -275,6 +275,11 @@ export class CSSRule extends React.Component {
       .filter( d => { return d.type === 'declaration' } );
   }
 
+  /**
+   *
+   * @param declarations
+   * @returns {{}}
+   */
   processComments(declarations){
     let behaviorOptions = {};
     let tempOptions     = { property:{}, value:{} };
@@ -302,15 +307,52 @@ CSSRule.propTypes = CSSRulePropTypes;
 
 export class CSSApp extends React.Component {
   render() {
+    let rules           = this.getRules(this.props.obj.rules);
+    let behaviorOptions = this.processComments(this.props.obj.rules);
+
     return (
-      <CSSRule
-        obj={this.props.obj}
-        store={this.props.store}
-        path={List.of("stylesheet", "rules", 0)}
-      />
+      <div>
+        {rules.map(rule =>
+            <CSSRule
+              key  ={rule.id}
+              obj  ={rule}
+              store={this.props.store}
+              path ={List.of("stylesheet", "rules", rule.id)}
+              behaviorOptions = {behaviorOptions[rule.id]}
+            />
+        )}
+      </div>
     )
   }
 
+  getRules(rulesAndComments){
+    let index = 0;
+    return rulesAndComments
+      .map   ( r => { r.id = index++; return r; } )
+      .filter( r => { return r.type === 'rule' } );
+  }
+
+  processComments(rulesAndComments) {
+    let behaviorOptions = {};
+    let tempOptions = {selectors: {}, declarations: {}};
+    for(var i in rulesAndComments){
+      let rule = rulesAndComments[i];
+
+      //If comment, and if it's for behavior option, pile it up until you hit non-comment rule
+      if(rule.type === 'comment' && rule.comment.startsWith("BEHAVIOR")){
+        let [unused, selectorsOrDeclarations, behaviorName, behaviorValue] = rule.comment.split(":");
+        let obj = {}; obj[behaviorName] = behaviorValue;
+        Object.assign( tempOptions[selectorsOrDeclarations], obj );
+      }
+      //else, for non-comment rules, save the piled-up options to behavior option
+      else{
+        behaviorOptions[i] = tempOptions;
+        tempOptions = {selectors: {}, declarations: {}};;
+      }
+    }
+
+    return behaviorOptions;
+  }
   componentWillMount(){
     //console.log('CSSApp componentWillMount()');
   //  this.setState({obj: this.props.store.getState().toJS().stylesheet.rules[0] });
