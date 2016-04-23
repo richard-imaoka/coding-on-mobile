@@ -60,6 +60,35 @@
   animation-duration: 8s;
 }
 
+
+@-webkit-keyframes flashed {
+  from, 50%, to {
+    opacity: 0;
+  }
+
+  25%, 75% {
+    opacity: 1;
+  }
+}
+
+@keyframes flashed {
+  from, 50%, to {
+    opacity: 0;
+  }
+
+  25%, 75% {
+    opacity: 1;
+  }
+}
+
+.css-flashed {
+  -webkit-animation-duration: 3s;
+  animation-duration: 3s;
+  animation-fill-mode: forwards;
+  overflow: hidden;
+  -webkit-animation-name: flashed;
+  animation-name: flashed;
+}
 /*********************************************************
   CSS Editor Classes
 *********************************************************/
@@ -116,6 +145,10 @@
 .css-editor-input {
   font-size: 1em;
   width: 100%;
+  /*border-width: 0.5px;*/
+  /*line-hegith: inherit;*/
+  /*padding:     inherit;*/
+  /*color:       inherit;*/
 }
 
 /*********************************************************

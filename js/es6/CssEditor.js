@@ -82,7 +82,7 @@ export class CSSValue extends React.Component {
       );
     else if(this.props.tooltip)
       return(
-        <div className="css-editor-value" onClick={this.toEdit.bind(this)}><span className="css-tooltip"><span>{this.props.tooltip}</span></span>{this.props.value}</div>
+        <div className="css-editor-value" onClick={this.toEdit.bind(this)}><span className="css-tooltip"><span className="css-flashed">{this.props.tooltip}</span></span>{this.props.value}</div>
       );
     else
       return(
