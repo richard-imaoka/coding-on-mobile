@@ -3,21 +3,43 @@ import ReactDOM  from 'react-dom'
 
 export class HTMLStartTag extends React.Component {
   render() {
-    return (
-      <div className="html-tag html-line">
-        <span className="html-angle-bracket">&lt;</span><span className="html-tag-name">{this.props.tagName}</span><span className="html-angle-bracket">&gt;</span>
-      </div>
-    );
+    if(this.props.highlight){
+      return (
+        <div className="html-tag html-line">
+          <div className="flash-background">
+            <span className="html-angle-bracket">&lt;</span><span className="html-tag-name">{this.props.tagName}</span><span className="html-angle-bracket">&gt;</span>
+          </div>
+        </div>
+      );
+    }
+    else {
+      return (
+        <div className="html-tag html-line">
+          <span className="html-angle-bracket">&lt;</span><span className="html-tag-name">{this.props.tagName}</span><span className="html-angle-bracket">&gt;</span>
+        </div>
+      );
+    }
   }
 }
 
 export class HTMLEndTag extends React.Component {
   render() {
-    return (
-      <div className="html-tag html-line">
-        <span className="html-angle-bracket">&lt;</span><span>/</span><span className="html-tag-name">{this.props.tagName}</span><span className="html-angle-bracket">&gt;</span>
-      </div>
-    );
+    if(this.props.highlight){
+      return (
+        <div className="html-tag html-line">
+          <div className="flash-background">
+            <span className="html-angle-bracket">&lt;</span><span>/</span><span className="html-tag-name">{this.props.tagName}</span><span className="html-angle-bracket">&gt;</span>
+          </div>
+        </div>
+      );
+    }
+    else {
+      return (
+        <div className="html-tag html-line">
+          <span className="html-angle-bracket">&lt;</span><span>/</span><span className="html-tag-name">{this.props.tagName}</span><span className="html-angle-bracket">&gt;</span>
+        </div>
+      );
+    }
   }
 }
 export class HTMLIndent extends React.Component {
@@ -36,15 +58,15 @@ export class HTMLNode extends React.Component {
   render() {
     //if terminal node
     if (this.props.children.length === 0) {
-      console.log( "terminal node rendered ", this.props.tagName );
+      //console.log( "terminal node rendered ", this.props.tagName );
       return (
         <div className="html-node">
-          <HTMLStartTag tagName={this.props.tagName} />
+          <HTMLStartTag tagName={this.props.tagName} highlight={this.props.highlight} />
           <div className="html-line">
             <HTMLIndent indent={this.indent(this.props.textContent)} />
             <div>{this.props.textContent}</div>
           </div>
-          <HTMLEndTag tagName={this.props.tagName} />
+          <HTMLEndTag tagName={this.props.tagName}  highlight={this.props.highlight} />
         </div>
       )
     }
@@ -60,6 +82,7 @@ export class HTMLNode extends React.Component {
             children={c.children}
             tagName ={c.localName}
             textContent={c.textContent} //TODO: better not evaluate it for performance?
+            highlight={c.getAttribute("data-highlight")==="true"}
           />
         )
       }

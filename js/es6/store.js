@@ -56,7 +56,7 @@ ajax.onload = function () {
       colors = JSON.parse(ajax2.responseText);
 
       store = createStore(cssReducer, fromJS(cssJSON));
-      prettyPrint(store.getState())
+      //prettyPrint(store.getState())
 
       let item = function(text, input) {
         let split = text.split(",");
