@@ -110,6 +110,7 @@
 }
 
 .css-editor {
+  padding         : 5px;
   font-family     : "Source Code Pro";
   background-color: white;
 }

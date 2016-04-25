@@ -22,7 +22,7 @@ function render(){
   console.log(src);
   console.log("src-----------------end");
 
-  let iframe     = document.getElementById("htmlcssresult");
+  let iframe     = document.getElementById("result");
   let iframe_doc = iframe.contentDocument;
 
   iframe_doc.open();
@@ -70,16 +70,6 @@ ajax.onload = function () {
 
       store.subscribe(() => ReactRender(store));
       ReactRender(store);
-      //riot.mount('css-editor',
-      //  {
-      //    property_list: properties,
-      //    value_list: colors,
-      //    store: store
-      //  }
-      //)
-
-      //prettyPrint(store.getState())
-
     };
     ajax2.send();
   };

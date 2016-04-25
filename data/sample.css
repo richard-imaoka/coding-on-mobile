@@ -4,9 +4,4 @@ body {
   /*BEHAVIOR:value:tooltip:Touch here to choose a color!*/
   background-color: white;
 
-  /*BEHAVIOR:property:editable:true*/
-  /*BEHAVIOR:value:editable:false*/
-  color: red;
-
-  font-size: 40px;
 }
