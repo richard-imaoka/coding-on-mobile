@@ -1,11 +1,23 @@
 import React from 'react'
 import ReactDOM  from 'react-dom'
-import AjaxPreload from './ajaxPreload'
-import Page from './Page'
+import { createStore } from 'redux'
 
-let preload = new AjaxPreload(1);
+import AjaxPreload  from './ajaxPreload'
+import Page         from './Page'
+import { combined } from './reducers'
+import { setEntireState, setEntireHTMLState } from "./actions"
 
-ReactDOM.render( <Page/>, document.getElementById("app") );
+let store = createStore(combined);
+store.subscribe(() => {
+  console.log("re render");
+  ReactDOM.render( <Page store={store}/>, document.getElementById("app") );
+})
+
+let preload = new AjaxPreload(1, function(){
+  store.dispatch( setEntireState(preload.getCSS(1) ) );
+  store.dispatch( setEntireHTMLState(preload.getHTML(1)) );
+});
+
 
 // onNext = {
 //   next     =

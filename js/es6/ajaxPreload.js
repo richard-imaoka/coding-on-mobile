@@ -1,37 +1,62 @@
-/**
- * Created by nishyu on 4/28/2016.
- */
+import * as css from 'css'
+import { fromJS } from 'immutable'
+
 class AjaxPreload {
 
-  constructor(numSteps){
+  constructor(numSteps, onCompleteCallback = undefined ){
     this.HTMLs = [];
-    this.CSSs  = {};
+    this.CSSs  = [];
     this.completedHTMLSteps = 0;
     this.completedCSSSteps = 0;
     this.numSteps = numSteps;
+    this.onCompleteCallback = onCompleteCallback;
 
     for(var i=1; i<=numSteps; i++){
-      this.ajaxCall(i, ".html");
-      this.ajaxCall(i, ".css");
+      this.ajaxHTML(i);
+      this.ajaxCSS(i);
     }
   }
 
-  ajaxCall(i, suffix) {
+  ajaxHTML(i, suffix) {
     let ajax = new XMLHttpRequest();
-    ajax.open("GET", "sample" + i + suffix, true);
+    ajax.open("GET", "sample" + i + ".html", true);
 
     const self = this;
     ajax.onload = function () {
-      if(suffix === ".html")
         self.completedHTMLSteps++;
-      else
-        self.completedCSSSteps++;
 
       self.HTMLs[i] = ajax.responseText;
       if(self.isFinishedAjax())
         self.onFinishAjax();
     }
     ajax.send();
+  }
+
+  ajaxCSS(i, suffix) {
+    let ajax = new XMLHttpRequest();
+    ajax.open("GET", "sample" + i + ".css", true);
+
+    const self = this;
+    ajax.onload = function () {
+      self.completedCSSSteps++;
+
+      self.CSSs[i] = ajax.responseText;
+      if(self.isFinishedAjax())
+        self.onFinishAjax();
+    }
+    ajax.send();
+  }
+
+  getHTML(i) {
+    var parser = new DOMParser();
+    var doc    = parser.parseFromString(this.HTMLs[i], "text/html");
+    var html   = doc.children[0];
+    return html;
+  }
+
+  getCSS(i) {
+    const cssJSON= css.parse(this.CSSs[i]);
+    return fromJS(cssJSON);
   }
 
   isFinishedAjax(){
@@ -41,6 +66,8 @@ class AjaxPreload {
   onFinishAjax(){
     //notify the HTML that it's done
     console.log("completed. yeaaahhhh!!!!");
+
+    this.onCompleteCallback();
   }
 
 

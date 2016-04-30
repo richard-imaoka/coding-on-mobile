@@ -57,7 +57,9 @@ export class HTMLIndent extends React.Component {
 export class HTMLNode extends React.Component {
   render() {
     //if terminal node
-    if (this.props.children.length === 0) {
+    if( this.props.children === undefined  )
+      return (<div></div>);
+    else if (this.props.children.length === 0) {
       //console.log( "terminal node rendered ", this.props.tagName );
       return (
         <div className="html-node">
@@ -111,5 +113,10 @@ export class HTMLNode extends React.Component {
           return indent;
       }
     }
+  }
+}
+
+export class HTMLApp extends React.Component {
+  render() {
   }
 }

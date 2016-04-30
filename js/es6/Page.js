@@ -9,31 +9,30 @@ export default class Page extends React.Component {
     return (
       <div>
         <div id="logo-container">
-          <div><a id="logo" href="#">CSS Learning</a></div>
+          <div id="logo">CSS Learning</div>
         </div>
         <div id="progress-container">
           <PrevButton />
           <ProgressBar />
           <NextButton />
         </div>
+
+        <div id="html-container">
+          <div className="bar">HTML code</div>
+          <HTMLNode children={this.props.store.getState().html.children} tagName={"html"} textContent={"dummy"} />
+        </div>
+
+        <div id="css-container">
+          <div className="bar">CSS code</div>
+          <CSSApp store={this.props.store} obj={this.props.store.getState().css.toJS().stylesheet}/>
+        </div>
+
+        <div>
+          <div className="bar">HTML Result</div>
+          <div><iframe id="result"></iframe></div>
+        </div>
+
       </div>
     )
-
-      //
-      //   <div id="html-container">
-      //     <div className="bar">HTML code</div>
-      //     <HTMLNode />
-      //   </div>
-      //
-      //   <div id="css-container">
-      //     <div className="bar">CSS code</div>
-      //     <CSSApp />
-      //   </div>
-      //
-      //   <div>
-      //     <div className="bar">HTML Result</div>
-      //     <div><iframe id="result"></iframe></div>
-      //   </div>
-      //
    }
 }
