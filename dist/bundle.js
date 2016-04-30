@@ -294,7 +294,11 @@ var App = function (_React$Component) {
             { className: 'bar' },
             'HTML code'
           ),
-          _react2.default.createElement(_HtmlEditor.HTMLNode, { children: this.props.store.getState().html.children, tagName: "html", textContent: "dummy" })
+          _react2.default.createElement(
+            'div',
+            { className: 'html-editor' },
+            _react2.default.createElement(_HtmlEditor.HTMLNode, { children: this.props.store.getState().html.children, tagName: "html", textContent: "dummy" })
+          )
         ),
         _react2.default.createElement(
           'div',
@@ -312,7 +316,7 @@ var App = function (_React$Component) {
           _react2.default.createElement(
             'div',
             { className: 'bar' },
-            'HTML Result'
+            'Result'
           ),
           _react2.default.createElement(_Result.Result, { store: this.props.store })
         )

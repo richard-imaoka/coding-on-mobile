@@ -20,7 +20,9 @@ export default class App extends React.Component {
 
         <div id="html-container">
           <div className="bar">HTML code</div>
-          <HTMLNode children={this.props.store.getState().html.children} tagName={"html"} textContent={"dummy"} />
+          <div className="html-editor">
+            <HTMLNode children={this.props.store.getState().html.children} tagName={"html"} textContent={"dummy"} />
+          </div>
         </div>
 
         <div id="css-container">
@@ -29,7 +31,7 @@ export default class App extends React.Component {
         </div>
 
         <div>
-          <div className="bar">HTML Result</div>
+          <div className="bar">Result</div>
           <Result store={this.props.store}/>
         </div>
 
