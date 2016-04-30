@@ -224,6 +224,109 @@ exports.default = CSSDataSingleton;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _LinkButton = require('./LinkButton');
+
+var _ProgressBar = require('./ProgressBar');
+
+var _HtmlEditor = require('./HtmlEditor');
+
+var _CssEditor = require('./CssEditor');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var App = function (_React$Component) {
+  _inherits(App, _React$Component);
+
+  function App() {
+    _classCallCheck(this, App);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(App).apply(this, arguments));
+  }
+
+  _createClass(App, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'div',
+          { id: 'logo-container' },
+          _react2.default.createElement(
+            'div',
+            { id: 'logo' },
+            'CSS Learning'
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { id: 'progress-container' },
+          _react2.default.createElement(_LinkButton.PrevButton, null),
+          _react2.default.createElement(_ProgressBar.ProgressBar, null),
+          _react2.default.createElement(_LinkButton.NextButton, null)
+        ),
+        _react2.default.createElement(
+          'div',
+          { id: 'html-container' },
+          _react2.default.createElement(
+            'div',
+            { className: 'bar' },
+            'HTML code'
+          ),
+          _react2.default.createElement(_HtmlEditor.HTMLNode, { children: this.props.store.getState().html.children, tagName: "html", textContent: "dummy" })
+        ),
+        _react2.default.createElement(
+          'div',
+          { id: 'css-container' },
+          _react2.default.createElement(
+            'div',
+            { className: 'bar' },
+            'CSS code'
+          ),
+          _react2.default.createElement(_CssEditor.CSSApp, { store: this.props.store, obj: this.props.store.getState().css.toJS().stylesheet })
+        ),
+        _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement(
+            'div',
+            { className: 'bar' },
+            'HTML Result'
+          ),
+          _react2.default.createElement(
+            'div',
+            null,
+            _react2.default.createElement('iframe', { id: 'result' })
+          )
+        )
+      );
+    }
+  }]);
+
+  return App;
+}(_react2.default.Component);
+
+exports.default = App;
+
+},{"./CssEditor":5,"./HtmlEditor":6,"./LinkButton":7,"./ProgressBar":8,"react":192}],5:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.CSSApp = exports.CSSRule = exports.CSSSelectors = exports.CSSDeclaration = exports.CSSProperty = exports.CSSValue = exports.InputBox = undefined;
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
@@ -830,7 +933,7 @@ var CSSApp = exports.CSSApp = function (_React$Component7) {
   return CSSApp;
 }(_react2.default.Component);
 
-},{"../actions/actions":1,"../ajax/cssData":3,"../es6/prettyprint":10,"awesomplete":13,"immutable":59,"react":192,"react-dom":63}],5:[function(require,module,exports){
+},{"../actions/actions":1,"../ajax/cssData":3,"../es6/prettyprint":10,"awesomplete":13,"immutable":59,"react":192,"react-dom":63}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1133,7 +1236,7 @@ var HTMLApp = exports.HTMLApp = function (_React$Component5) {
   return HTMLApp;
 }(_react2.default.Component);
 
-},{"react":192,"react-dom":63}],6:[function(require,module,exports){
+},{"react":192,"react-dom":63}],7:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1216,110 +1319,7 @@ var NextButton = exports.NextButton = function (_React$Component3) {
   return NextButton;
 }(_react2.default.Component);
 
-},{"react":192}],7:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _LinkButton = require('./LinkButton');
-
-var _ProgressBar = require('./ProgressBar');
-
-var _HtmlEditor = require('./HtmlEditor');
-
-var _CssEditor = require('./CssEditor');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Page = function (_React$Component) {
-  _inherits(Page, _React$Component);
-
-  function Page() {
-    _classCallCheck(this, Page);
-
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Page).apply(this, arguments));
-  }
-
-  _createClass(Page, [{
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement(
-          'div',
-          { id: 'logo-container' },
-          _react2.default.createElement(
-            'div',
-            { id: 'logo' },
-            'CSS Learning'
-          )
-        ),
-        _react2.default.createElement(
-          'div',
-          { id: 'progress-container' },
-          _react2.default.createElement(_LinkButton.PrevButton, null),
-          _react2.default.createElement(_ProgressBar.ProgressBar, null),
-          _react2.default.createElement(_LinkButton.NextButton, null)
-        ),
-        _react2.default.createElement(
-          'div',
-          { id: 'html-container' },
-          _react2.default.createElement(
-            'div',
-            { className: 'bar' },
-            'HTML code'
-          ),
-          _react2.default.createElement(_HtmlEditor.HTMLNode, { children: this.props.store.getState().html.children, tagName: "html", textContent: "dummy" })
-        ),
-        _react2.default.createElement(
-          'div',
-          { id: 'css-container' },
-          _react2.default.createElement(
-            'div',
-            { className: 'bar' },
-            'CSS code'
-          ),
-          _react2.default.createElement(_CssEditor.CSSApp, { store: this.props.store, obj: this.props.store.getState().css.toJS().stylesheet })
-        ),
-        _react2.default.createElement(
-          'div',
-          null,
-          _react2.default.createElement(
-            'div',
-            { className: 'bar' },
-            'HTML Result'
-          ),
-          _react2.default.createElement(
-            'div',
-            null,
-            _react2.default.createElement('iframe', { id: 'result' })
-          )
-        )
-      );
-    }
-  }]);
-
-  return Page;
-}(_react2.default.Component);
-
-exports.default = Page;
-
-},{"./CssEditor":4,"./HtmlEditor":5,"./LinkButton":6,"./ProgressBar":8,"react":192}],8:[function(require,module,exports){
+},{"react":192}],8:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1395,9 +1395,9 @@ var _ajaxPreload = require('../ajax/ajaxPreload');
 
 var _ajaxPreload2 = _interopRequireDefault(_ajaxPreload);
 
-var _Page = require('../components/Page');
+var _App = require('../components/App');
 
-var _Page2 = _interopRequireDefault(_Page);
+var _App2 = _interopRequireDefault(_App);
 
 var _reducers = require('../reducers/reducers');
 
@@ -1408,7 +1408,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var store = (0, _redux.createStore)(_reducers.combined);
 store.subscribe(function () {
   console.log("re render");
-  _reactDom2.default.render(_react2.default.createElement(_Page2.default, { store: store }), document.getElementById("app"));
+  _reactDom2.default.render(_react2.default.createElement(_App2.default, { store: store }), document.getElementById("app"));
 });
 
 var preload = new _ajaxPreload2.default(1, function () {
@@ -1433,7 +1433,7 @@ var preload = new _ajaxPreload2.default(1, function () {
 //   renderResult
 // }
 
-},{"../actions/actions":1,"../ajax/ajaxPreload":2,"../components/Page":7,"../reducers/reducers":11,"react":192,"react-dom":63,"redux":198}],10:[function(require,module,exports){
+},{"../actions/actions":1,"../ajax/ajaxPreload":2,"../components/App":4,"../reducers/reducers":11,"react":192,"react-dom":63,"redux":198}],10:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

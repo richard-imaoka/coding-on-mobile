@@ -4,7 +4,7 @@ import {ProgressBar}            from './ProgressBar'
 import {HTMLNode}               from './HtmlEditor'
 import {CSSApp}                 from './CssEditor'
 
-export default class Page extends React.Component {
+export default class App extends React.Component {
   render() {
     return (
       <div>
