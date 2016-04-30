@@ -1,10 +1,11 @@
 import React, { Component, PropTypes } from 'react'
-import { List } from 'immutable'
-import Awesomplete from 'awesomplete'
-import ReactDOM  from 'react-dom'
-import CSSData from './cssData'
-import {UPDATE_PROPERTY, UPDATE_PROPERTY_NAME, DELETE_PROPERTY, updatePropertyName, updatePropertyValue, deleteProperty} from "./actions"
-import prettyPrint from './prettyprint'
+import ReactDOM     from 'react-dom'
+import { List }     from 'immutable'
+import Awesomplete  from 'awesomplete'
+import CSSData      from '../ajax/cssData'
+
+import {UPDATE_PROPERTY, UPDATE_PROPERTY_NAME, DELETE_PROPERTY, updatePropertyName, updatePropertyValue, deleteProperty} from "../actions/actions"
+import prettyPrint from '../es6/prettyprint'
 
 const InputBoxPropTypes = {
   defaultValue:    PropTypes.string.isRequired,

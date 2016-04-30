@@ -1,4 +1,4 @@
-import {UPDATE_PROPERTY_VALUE, DELETE_PROPERTY, UPDATE_PROPERTY_NAME, SET_ENTIRE_STATE, SET_ENTIRE_HTML_DATA} from "./actions"
+import {UPDATE_PROPERTY_VALUE, DELETE_PROPERTY, UPDATE_PROPERTY_NAME, SET_ENTIRE_STATE, SET_ENTIRE_HTML_DATA} from "../actions/actions"
 import { combineReducers } from 'redux'
 
 function css(state = {}, action = undefined){

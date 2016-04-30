@@ -4,6 +4,226 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.updatePropertyValue = updatePropertyValue;
+exports.updatePropertyName = updatePropertyName;
+exports.deleteProperty = deleteProperty;
+exports.setEntireState = setEntireState;
+exports.setEntireHTMLState = setEntireHTMLState;
+var UPDATE_PROPERTY_VALUE = exports.UPDATE_PROPERTY_VALUE = 'UPDATE_PROPERTY_VALUE';
+var UPDATE_PROPERTY_NAME = exports.UPDATE_PROPERTY_NAME = 'UPDATE_PROPERTY_NAME';
+var DELETE_PROPERTY = exports.DELETE_PROPERTY = 'DELETE_PROPERTY';
+var SET_ENTIRE_STATE = exports.SET_ENTIRE_STATE = 'SET_ENTIRE_DATA';
+var SET_ENTIRE_HTML_DATA = exports.SET_ENTIRE_HTML_DATA = 'SET_ENTIRE_HTML_DATA';
+
+function updatePropertyValue(path, newPropertyValue) {
+  return { type: UPDATE_PROPERTY_VALUE, path: path, newPropertyValue: newPropertyValue };
+}
+
+function updatePropertyName(path, newPropertyName) {
+  return { type: UPDATE_PROPERTY_NAME, path: path, newPropertyName: newPropertyName };
+}
+
+function deleteProperty(path) {
+  return { type: DELETE_PROPERTY, path: path };
+}
+
+function setEntireState(css) {
+  return { type: SET_ENTIRE_STATE, css: css };
+}
+
+function setEntireHTMLState(html) {
+  return { type: SET_ENTIRE_HTML_DATA, html: html };
+}
+
+},{}],2:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _css = require('css');
+
+var css = _interopRequireWildcard(_css);
+
+var _immutable = require('immutable');
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var AjaxPreload = function () {
+  function AjaxPreload(numSteps) {
+    var onCompleteCallback = arguments.length <= 1 || arguments[1] === undefined ? undefined : arguments[1];
+
+    _classCallCheck(this, AjaxPreload);
+
+    this.HTMLs = [];
+    this.CSSs = [];
+    this.completedHTMLSteps = 0;
+    this.completedCSSSteps = 0;
+    this.numSteps = numSteps;
+    this.onCompleteCallback = onCompleteCallback;
+
+    for (var i = 1; i <= numSteps; i++) {
+      this.ajaxHTML(i);
+      this.ajaxCSS(i);
+    }
+  }
+
+  _createClass(AjaxPreload, [{
+    key: 'ajaxHTML',
+    value: function ajaxHTML(i, suffix) {
+      var ajax = new XMLHttpRequest();
+      ajax.open("GET", "sample" + i + ".html", true);
+
+      var self = this;
+      ajax.onload = function () {
+        self.completedHTMLSteps++;
+
+        self.HTMLs[i] = ajax.responseText;
+        if (self.isFinishedAjax()) self.onFinishAjax();
+      };
+      ajax.send();
+    }
+  }, {
+    key: 'ajaxCSS',
+    value: function ajaxCSS(i, suffix) {
+      var ajax = new XMLHttpRequest();
+      ajax.open("GET", "sample" + i + ".css", true);
+
+      var self = this;
+      ajax.onload = function () {
+        self.completedCSSSteps++;
+
+        self.CSSs[i] = ajax.responseText;
+        if (self.isFinishedAjax()) self.onFinishAjax();
+      };
+      ajax.send();
+    }
+  }, {
+    key: 'getHTML',
+    value: function getHTML(i) {
+      var parser = new DOMParser();
+      var doc = parser.parseFromString(this.HTMLs[i], "text/html");
+      var html = doc.children[0];
+      return html;
+    }
+  }, {
+    key: 'getCSS',
+    value: function getCSS(i) {
+      var cssJSON = css.parse(this.CSSs[i]);
+      return (0, _immutable.fromJS)(cssJSON);
+    }
+  }, {
+    key: 'isFinishedAjax',
+    value: function isFinishedAjax() {
+      return this.numSteps === this.completedHTMLSteps && this.numSteps === this.completedCSSSteps;
+    }
+  }, {
+    key: 'onFinishAjax',
+    value: function onFinishAjax() {
+      //notify the HTML that it's done
+      console.log("completed. yeaaahhhh!!!!");
+
+      this.onCompleteCallback();
+    }
+  }]);
+
+  return AjaxPreload;
+}();
+
+exports.default = AjaxPreload;
+
+},{"css":15,"immutable":59}],3:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var item = function item(text, input) {
+  var split = text.split(",");
+  var colorHex = split[0];
+  var colorName = split[split.length - 1];
+  var element = document.createElement("li");
+  element.innerHTML = colorHex + " " + colorName;
+  element.style.backgroundColor = colorHex;
+  return element;
+};
+
+var CSSData = function () {
+  function CSSData() {
+    _classCallCheck(this, CSSData);
+
+    this.colors = {};
+    this.loadColors();
+  }
+
+  _createClass(CSSData, [{
+    key: "getColors",
+    value: function getColors() {
+      return this.colors;
+    }
+  }, {
+    key: "loadColors",
+    value: function loadColors() {
+      var ajax = new XMLHttpRequest();
+      ajax.open("GET", "../data/awesomplete-colors.json", true);
+      var self = this;
+      ajax.onload = function () {
+        self.colors = JSON.parse(ajax.responseText);
+      };
+      ajax.send();
+    }
+  }, {
+    key: "getData",
+    value: function getData(propertyName) {
+      var funcMap = {
+        'background-color': this.getColors.bind(this)
+      };
+
+      var getterFunc = funcMap[propertyName];
+      if (getterFunc === undefined) {
+        console.log('no CSS Data defined for proeprty name = ' + propertyName + ', returning an JavaScript empty object.');
+        return {};
+      } else {
+        var retVal = getterFunc();
+
+        if (retVal === {}) {
+          console.log('Ajax CSS Data for proeprty name = ' + propertyName + ', is pending or failed. Returning an empty JavaScript object');
+          return {};
+        } else return retVal;
+      }
+    }
+  }, {
+    key: "getRenderItem",
+    value: function getRenderItem(propertyName) {
+      var funcMap = {
+        'background-color': item
+      };
+      return funcMap[propertyName];
+    }
+  }]);
+
+  return CSSData;
+}();
+
+var CSSDataSingleton = new CSSData();
+exports.default = CSSDataSingleton;
+
+},{}],4:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.CSSApp = exports.CSSRule = exports.CSSSelectors = exports.CSSDeclaration = exports.CSSProperty = exports.CSSValue = exports.InputBox = undefined;
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
@@ -14,23 +234,23 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactDom = require('react-dom');
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
 var _immutable = require('immutable');
 
 var _awesomplete = require('awesomplete');
 
 var _awesomplete2 = _interopRequireDefault(_awesomplete);
 
-var _reactDom = require('react-dom');
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
-var _cssData = require('./cssData');
+var _cssData = require('../ajax/cssData');
 
 var _cssData2 = _interopRequireDefault(_cssData);
 
-var _actions = require('./actions');
+var _actions = require('../actions/actions');
 
-var _prettyprint = require('./prettyprint');
+var _prettyprint = require('../es6/prettyprint');
 
 var _prettyprint2 = _interopRequireDefault(_prettyprint);
 
@@ -610,7 +830,7 @@ var CSSApp = exports.CSSApp = function (_React$Component7) {
   return CSSApp;
 }(_react2.default.Component);
 
-},{"./actions":6,"./cssData":8,"./prettyprint":10,"awesomplete":13,"immutable":59,"react":192,"react-dom":63}],2:[function(require,module,exports){
+},{"../actions/actions":1,"../ajax/cssData":3,"../es6/prettyprint":10,"awesomplete":13,"immutable":59,"react":192,"react-dom":63}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -913,7 +1133,7 @@ var HTMLApp = exports.HTMLApp = function (_React$Component5) {
   return HTMLApp;
 }(_react2.default.Component);
 
-},{"react":192,"react-dom":63}],3:[function(require,module,exports){
+},{"react":192,"react-dom":63}],6:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -996,7 +1216,7 @@ var NextButton = exports.NextButton = function (_React$Component3) {
   return NextButton;
 }(_react2.default.Component);
 
-},{"react":192}],4:[function(require,module,exports){
+},{"react":192}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1099,7 +1319,7 @@ var Page = function (_React$Component) {
 
 exports.default = Page;
 
-},{"./CssEditor":1,"./HtmlEditor":2,"./LinkButton":3,"./ProgressBar":5,"react":192}],5:[function(require,module,exports){
+},{"./CssEditor":4,"./HtmlEditor":5,"./LinkButton":6,"./ProgressBar":8,"react":192}],8:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1158,227 +1378,7 @@ var ProgressBar = exports.ProgressBar = function (_React$Component) {
 
 ProgressBar.defaultProps = { percentage: 10 };
 
-},{"react":192}],6:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.updatePropertyValue = updatePropertyValue;
-exports.updatePropertyName = updatePropertyName;
-exports.deleteProperty = deleteProperty;
-exports.setEntireState = setEntireState;
-exports.setEntireHTMLState = setEntireHTMLState;
-var UPDATE_PROPERTY_VALUE = exports.UPDATE_PROPERTY_VALUE = 'UPDATE_PROPERTY_VALUE';
-var UPDATE_PROPERTY_NAME = exports.UPDATE_PROPERTY_NAME = 'UPDATE_PROPERTY_NAME';
-var DELETE_PROPERTY = exports.DELETE_PROPERTY = 'DELETE_PROPERTY';
-var SET_ENTIRE_STATE = exports.SET_ENTIRE_STATE = 'SET_ENTIRE_DATA';
-var SET_ENTIRE_HTML_DATA = exports.SET_ENTIRE_HTML_DATA = 'SET_ENTIRE_HTML_DATA';
-
-function updatePropertyValue(path, newPropertyValue) {
-  return { type: UPDATE_PROPERTY_VALUE, path: path, newPropertyValue: newPropertyValue };
-}
-
-function updatePropertyName(path, newPropertyName) {
-  return { type: UPDATE_PROPERTY_NAME, path: path, newPropertyName: newPropertyName };
-}
-
-function deleteProperty(path) {
-  return { type: DELETE_PROPERTY, path: path };
-}
-
-function setEntireState(css) {
-  return { type: SET_ENTIRE_STATE, css: css };
-}
-
-function setEntireHTMLState(html) {
-  return { type: SET_ENTIRE_HTML_DATA, html: html };
-}
-
-},{}],7:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _css = require('css');
-
-var css = _interopRequireWildcard(_css);
-
-var _immutable = require('immutable');
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var AjaxPreload = function () {
-  function AjaxPreload(numSteps) {
-    var onCompleteCallback = arguments.length <= 1 || arguments[1] === undefined ? undefined : arguments[1];
-
-    _classCallCheck(this, AjaxPreload);
-
-    this.HTMLs = [];
-    this.CSSs = [];
-    this.completedHTMLSteps = 0;
-    this.completedCSSSteps = 0;
-    this.numSteps = numSteps;
-    this.onCompleteCallback = onCompleteCallback;
-
-    for (var i = 1; i <= numSteps; i++) {
-      this.ajaxHTML(i);
-      this.ajaxCSS(i);
-    }
-  }
-
-  _createClass(AjaxPreload, [{
-    key: 'ajaxHTML',
-    value: function ajaxHTML(i, suffix) {
-      var ajax = new XMLHttpRequest();
-      ajax.open("GET", "sample" + i + ".html", true);
-
-      var self = this;
-      ajax.onload = function () {
-        self.completedHTMLSteps++;
-
-        self.HTMLs[i] = ajax.responseText;
-        if (self.isFinishedAjax()) self.onFinishAjax();
-      };
-      ajax.send();
-    }
-  }, {
-    key: 'ajaxCSS',
-    value: function ajaxCSS(i, suffix) {
-      var ajax = new XMLHttpRequest();
-      ajax.open("GET", "sample" + i + ".css", true);
-
-      var self = this;
-      ajax.onload = function () {
-        self.completedCSSSteps++;
-
-        self.CSSs[i] = ajax.responseText;
-        if (self.isFinishedAjax()) self.onFinishAjax();
-      };
-      ajax.send();
-    }
-  }, {
-    key: 'getHTML',
-    value: function getHTML(i) {
-      var parser = new DOMParser();
-      var doc = parser.parseFromString(this.HTMLs[i], "text/html");
-      var html = doc.children[0];
-      return html;
-    }
-  }, {
-    key: 'getCSS',
-    value: function getCSS(i) {
-      var cssJSON = css.parse(this.CSSs[i]);
-      return (0, _immutable.fromJS)(cssJSON);
-    }
-  }, {
-    key: 'isFinishedAjax',
-    value: function isFinishedAjax() {
-      return this.numSteps === this.completedHTMLSteps && this.numSteps === this.completedCSSSteps;
-    }
-  }, {
-    key: 'onFinishAjax',
-    value: function onFinishAjax() {
-      //notify the HTML that it's done
-      console.log("completed. yeaaahhhh!!!!");
-
-      this.onCompleteCallback();
-    }
-  }]);
-
-  return AjaxPreload;
-}();
-
-exports.default = AjaxPreload;
-
-},{"css":15,"immutable":59}],8:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var item = function item(text, input) {
-  var split = text.split(",");
-  var colorHex = split[0];
-  var colorName = split[split.length - 1];
-  var element = document.createElement("li");
-  element.innerHTML = colorHex + " " + colorName;
-  element.style.backgroundColor = colorHex;
-  return element;
-};
-
-var CSSData = function () {
-  function CSSData() {
-    _classCallCheck(this, CSSData);
-
-    this.colors = {};
-    this.loadColors();
-  }
-
-  _createClass(CSSData, [{
-    key: "getColors",
-    value: function getColors() {
-      return this.colors;
-    }
-  }, {
-    key: "loadColors",
-    value: function loadColors() {
-      var ajax = new XMLHttpRequest();
-      ajax.open("GET", "../data/awesomplete-colors.json", true);
-      var self = this;
-      ajax.onload = function () {
-        self.colors = JSON.parse(ajax.responseText);
-      };
-      ajax.send();
-    }
-  }, {
-    key: "getData",
-    value: function getData(propertyName) {
-      var funcMap = {
-        'background-color': this.getColors.bind(this)
-      };
-
-      var getterFunc = funcMap[propertyName];
-      if (getterFunc === undefined) {
-        console.log('no CSS Data defined for proeprty name = ' + propertyName + ', returning an JavaScript empty object.');
-        return {};
-      } else {
-        var retVal = getterFunc();
-
-        if (retVal === {}) {
-          console.log('Ajax CSS Data for proeprty name = ' + propertyName + ', is pending or failed. Returning an empty JavaScript object');
-          return {};
-        } else return retVal;
-      }
-    }
-  }, {
-    key: "getRenderItem",
-    value: function getRenderItem(propertyName) {
-      var funcMap = {
-        'background-color': item
-      };
-      return funcMap[propertyName];
-    }
-  }]);
-
-  return CSSData;
-}();
-
-var CSSDataSingleton = new CSSData();
-exports.default = CSSDataSingleton;
-
-},{}],9:[function(require,module,exports){
+},{"react":192}],9:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -1391,17 +1391,17 @@ var _reactDom2 = _interopRequireDefault(_reactDom);
 
 var _redux = require('redux');
 
-var _ajaxPreload = require('./ajaxPreload');
+var _ajaxPreload = require('../ajax/ajaxPreload');
 
 var _ajaxPreload2 = _interopRequireDefault(_ajaxPreload);
 
-var _Page = require('./Page');
+var _Page = require('../components/Page');
 
 var _Page2 = _interopRequireDefault(_Page);
 
-var _reducers = require('./reducers');
+var _reducers = require('../reducers/reducers');
 
-var _actions = require('./actions');
+var _actions = require('../actions/actions');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1433,7 +1433,7 @@ var preload = new _ajaxPreload2.default(1, function () {
 //   renderResult
 // }
 
-},{"./Page":4,"./actions":6,"./ajaxPreload":7,"./reducers":11,"react":192,"react-dom":63,"redux":198}],10:[function(require,module,exports){
+},{"../actions/actions":1,"../ajax/ajaxPreload":2,"../components/Page":7,"../reducers/reducers":11,"react":192,"react-dom":63,"redux":198}],10:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1455,7 +1455,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.combined = undefined;
 
-var _actions = require("./actions");
+var _actions = require("../actions/actions");
 
 var _redux = require("redux");
 
@@ -1513,7 +1513,7 @@ exports.default = css;
 //console.log(map1.toString())
 //console.log(declarationBlock(map1, action1).toString())
 
-},{"./actions":6,"redux":198}],12:[function(require,module,exports){
+},{"../actions/actions":1,"redux":198}],12:[function(require,module,exports){
 (function (process,__filename){
 /** vim: et:ts=4:sw=4:sts=4
  * @license amdefine 1.0.0 Copyright (c) 2011-2015, The Dojo Foundation All Rights Reserved.
@@ -31131,7 +31131,7 @@ function urix(aPath) {
 
 module.exports = urix
 
-},{"path":61}]},{},[6,7,8,1,2,3,9,4,10,5,11])
+},{"path":61}]},{},[1,2,3,4,5,6,7,8,9,10])
 
 
 //# sourceMappingURL=bundle.js.map

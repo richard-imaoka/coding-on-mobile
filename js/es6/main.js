@@ -2,10 +2,10 @@ import React from 'react'
 import ReactDOM  from 'react-dom'
 import { createStore } from 'redux'
 
-import AjaxPreload  from './ajaxPreload'
-import Page         from './Page'
-import { combined } from './reducers'
-import { setEntireState, setEntireHTMLState } from "./actions"
+import AjaxPreload  from '../ajax/ajaxPreload'
+import Page         from '../components/Page'
+import { combined } from '../reducers/reducers'
+import { setEntireState, setEntireHTMLState } from "../actions/actions"
 
 let store = createStore(combined);
 store.subscribe(() => {

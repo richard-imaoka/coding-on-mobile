@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import {PrevButton, NextButton} from './LinkButton'
-import {ProgressBar} from './ProgressBar'
-import {HTMLNode} from './HtmlEditor'
-import {CSSApp} from './CssEditor'
+import {ProgressBar}            from './ProgressBar'
+import {HTMLNode}               from './HtmlEditor'
+import {CSSApp}                 from './CssEditor'
 
 export default class Page extends React.Component {
   render() {
