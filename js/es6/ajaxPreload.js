@@ -75,7 +75,3 @@ class AjaxPreload {
 }
 
 export default AjaxPreload;
-
-//AjaxPreload.get(COLORS)
-//AjaxPreload.getHTML(1)
-//AjaxPreload.getCSS(2)
