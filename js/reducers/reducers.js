@@ -1,4 +1,4 @@
-import {UPDATE_PROPERTY_VALUE, DELETE_PROPERTY, UPDATE_PROPERTY_NAME, SET_ENTIRE_STATE, SET_ENTIRE_HTML_DATA} from "../actions/actions"
+import {UPDATE_PROPERTY_VALUE, DELETE_PROPERTY, UPDATE_PROPERTY_NAME, SET_ENTIRE_STATE, SET_ENTIRE_HTML_DATA, SET_ENTIRE_HTML_TEXT} from "../actions/actions"
 import { combineReducers } from 'redux'
 
 function css(state = {}, action = undefined){
@@ -32,7 +32,19 @@ function html(state = {}, action = undefined){
   }
 }
 
+function htmlText(state = "", action = undefined){
+  switch(action.type) {
+    case SET_ENTIRE_HTML_TEXT:
+      console.log("action received", action);
+      return action.htmlText;
+    default:
+      //console.log("HTML: undefined action received", action);
+      return state;
+  }
+}
+
 export const combined = combineReducers({
+  htmlText,
   html,
   css
 })

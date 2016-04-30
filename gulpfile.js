@@ -15,7 +15,7 @@ var uglify      = require('gulp-uglify')
 
 // add custom browserify options here
 var customOpts = {
-  entries: glob.sync('./js/?(actions|ajax|components|es6|reducers")/*.js'),
+  entries: glob.sync('./js/?(actions|ajax|components|es6|reducers|store")/*.js'),
   debug: true
 };
 var opts = assign({}, watchify.args, customOpts);

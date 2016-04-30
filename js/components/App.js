@@ -3,6 +3,7 @@ import {PrevButton, NextButton} from './LinkButton'
 import {ProgressBar}            from './ProgressBar'
 import {HTMLNode}               from './HtmlEditor'
 import {CSSApp}                 from './CssEditor'
+import {Result}                 from './Result'
 
 export default class App extends React.Component {
   render() {
@@ -29,7 +30,7 @@ export default class App extends React.Component {
 
         <div>
           <div className="bar">HTML Result</div>
-          <div><iframe id="result"></iframe></div>
+          <Result store={this.props.store}/>
         </div>
 
       </div>
