@@ -905,9 +905,11 @@ Object.defineProperty(exports, "__esModule", {
 exports.updatePropertyValue = updatePropertyValue;
 exports.updatePropertyName = updatePropertyName;
 exports.deleteProperty = deleteProperty;
+exports.setEntireState = setEntireState;
 var UPDATE_PROPERTY_VALUE = exports.UPDATE_PROPERTY_VALUE = 'UPDATE_PROPERTY_VALUE';
 var UPDATE_PROPERTY_NAME = exports.UPDATE_PROPERTY_NAME = 'UPDATE_PROPERTY_NAME';
 var DELETE_PROPERTY = exports.DELETE_PROPERTY = 'DELETE_PROPERTY';
+var SET_ENTIRE_STATE = exports.SET_ENTIRE_STATE = 'SET_ENTIRE_DATA';
 
 function updatePropertyValue(path, newPropertyValue) {
   return { type: UPDATE_PROPERTY_VALUE, path: path, newPropertyValue: newPropertyValue };
@@ -919,6 +921,10 @@ function updatePropertyName(path, newPropertyName) {
 
 function deleteProperty(path) {
   return { type: DELETE_PROPERTY, path: path };
+}
+
+function setEntireState(data) {
+  return { type: SET_ENTIRE_STATE, data: data };
 }
 
 },{}],4:[function(require,module,exports){
@@ -1241,8 +1247,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _immutable = require("immutable");
-
 var _actions = require("./actions");
 
 function cssReducer() {
@@ -1250,6 +1254,9 @@ function cssReducer() {
   var action = arguments.length <= 1 || arguments[1] === undefined ? undefined : arguments[1];
 
   switch (action.type) {
+    case _actions.SET_ENTIRE_STATE:
+      console.log("action received", action);
+      return action.state;
     case _actions.UPDATE_PROPERTY_VALUE:
       console.log("action received", action);
       return state.setIn(action.path, action.newPropertyValue);
@@ -1276,7 +1283,7 @@ exports.default = cssReducer;
 //console.log(map1.toString())
 //console.log(declarationBlock(map1, action1).toString())
 
-},{"./actions":3,"immutable":59}],10:[function(require,module,exports){
+},{"./actions":3}],10:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');

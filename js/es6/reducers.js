@@ -1,9 +1,11 @@
-import {Map, List, fromJS} from 'immutable'
-import {UPDATE_PROPERTY_VALUE, DELETE_PROPERTY, UPDATE_PROPERTY_NAME} from "./actions"
+import {UPDATE_PROPERTY_VALUE, DELETE_PROPERTY, UPDATE_PROPERTY_NAME, SET_ENTIRE_STATE} from "./actions"
 
 
 function cssReducer(state = {}, action = undefined){
     switch(action.type) {
+      case SET_ENTIRE_STATE:
+        console.log("action received", action);
+        return action.state
       case UPDATE_PROPERTY_VALUE:
         console.log("action received", action);
         return state.setIn( action.path, action.newPropertyValue )
