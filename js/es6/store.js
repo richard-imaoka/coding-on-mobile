@@ -12,68 +12,35 @@ import { HTMLNode } from './HtmlEditor'
 
 let htmlString;// = document.getElementById("template").innerHTML;
 let store;
-function render(){
-  //let htmlString = document.getElementById("template").innerHTML;
-  //prettyPrint(store.getState())
-  let cssString  = css.stringify(store.getState().toJS());
 
-  let src = htmlString.replace('</head>', '<style>' + cssString + '</style></head>');
+function render(iframe, src){
   console.log("src-----------------begin");
   console.log(src);
   console.log("src-----------------end");
-
-  let iframe     = document.getElementById("result");
   let iframe_doc = iframe.contentDocument;
-
   iframe_doc.open();
   iframe_doc.write(src);
   iframe_doc.close();
 }
 
-let ReactRender = function(s){
+let ReactRender = function(element, store){
   console.log("re render");
-  ReactDOM.render(
-    <CSSApp store={s} obj={s.getState().toJS().stylesheet}></CSSApp>,
-    document.getElementById('example')
-  );
-  render();
+  ReactDOM.render( <CSSApp store={store} obj={store.getState().toJS().stylesheet}></CSSApp>, element );
+
+  let cssString  = css.stringify(store.getState().toJS());
+  let src = htmlString.replace('</head>', '<style>' + cssString + '</style></head>');
+  let iframe = document.getElementById("result");
+  render(iframe, src);
 }
 
 var ajax = new XMLHttpRequest();
 ajax.open("GET", "data/sample.css", true);
 ajax.onload = function () {
   var cssJSON= css.parse(ajax.responseText);
-
-  var ajax1 = new XMLHttpRequest();
-  var properties = "";
-  ajax1.open("GET", "data/awesomplete-properties.json", true);
-  ajax1.onload = function () {
-    properties = JSON.parse(ajax1.responseText);
-    var ajax2 = new XMLHttpRequest();
-    var colors = "";
-    ajax2.open("GET", "data/awesomplete-colors.json", true);
-    ajax2.onload = function () {
-      colors = JSON.parse(ajax2.responseText);
-
-      store = createStore(cssReducer, fromJS(cssJSON));
-      //prettyPrint(store.getState())
-
-      let item = function(text, input) {
-        let split = text.split(",");
-        let colorHex = split[0]
-        let colorName = split[split.length - 1];
-        let element = document.createElement("li");
-        element.innerHTML = colorHex + " " + colorName;
-        element.style.backgroundColor = colorHex;
-        return element;
-      }
-
-      store.subscribe(() => ReactRender(store));
-      ReactRender(store);
-    };
-    ajax2.send();
-  };
-  ajax1.send();
+  store = createStore(cssReducer, fromJS(cssJSON));
+  //prettyPrint(store.getState())
+  store.subscribe(() => ReactRender(store));
+  ReactRender(document.getElementById('example'), store);
 };
 ajax.send();
 

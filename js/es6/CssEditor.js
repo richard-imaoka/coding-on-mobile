@@ -162,7 +162,7 @@ export class CSSProperty extends React.Component {
   }
 };
 CSSProperty.propTypes    = CSSPropertyPropTypes;
-CSSProperty.defaultPrpps = CSSPropertyDefaultPros;
+CSSProperty.defaultProps = CSSPropertyDefaultPros;
 
 const CSSDeclarationPropTypes = {
   property:                PropTypes.string.isRequired, //property of this value box

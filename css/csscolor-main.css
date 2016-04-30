@@ -1,6 +1,7 @@
 body {
   font-size: 16px;
   background-color: #fffb1b;
+  margin: 0px;
 }
 
 iframe {
@@ -17,7 +18,7 @@ iframe {
   font-size:   40px;
   color:       #000000;
 }
-
+/*
 #progress-container .col-xs-1,
 #progress-container .col-xs-2,
 #progress-container .col-xs-3,
@@ -43,7 +44,7 @@ iframe {
 #progress-container .progress-bar {
   line-height: 32px;
   height:      32px;
-}
+}*/
 
 #result {
   background-color: white;
