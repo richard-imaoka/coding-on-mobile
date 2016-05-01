@@ -1,8 +1,8 @@
 import { createStore } from 'redux'
 import * as css from 'css'
-import { combined }    from '../reducers/combinedReducer'
+import { root }    from '../reducers/rootReducer'
 
-const store = createStore(combined);
+const store = createStore(root);
 
 store.getHtmlData = function() {
   return store.getState().html.get("htmlData").children;
@@ -12,7 +12,10 @@ store.getHtmlSource = function(){
   const state      = store.getState();
   const htmlSource = state.html.get("htmlSource");
 
-  return htmlSource;
+  if( htmlSource === undefined )
+    return ""
+  else
+    return htmlSource;
 }
 
 store.getCssData = function(){
@@ -33,5 +36,9 @@ store.getSource = function() {
   const  src        = htmlString.replace('</head>', '<style>' + store.getCssSource() + '</style></head>');
   return src;
 };
+
+store.getProgress = function() {
+  return store.getState().navigation.progress;
+}
 
 export default store;

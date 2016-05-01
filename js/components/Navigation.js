@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import {nextStep, prevStep} from '../actions/navigationActions'
+import {nextStep, prevStep} from '../actions/stepActions'
 
 class LinkButton extends React.Component {
   render() {
@@ -56,12 +56,11 @@ class ProgressBar extends React.Component {
     }
     else if( this.refs.progressBar.className.includes( "animated pulse" ) ) {
       this.refs.progressBar.className = "progress-bar";
-
     }
   }
 
   percentage(){
-    return Math.round( this.props.currentStep / this.props.totalSteps * 100 );
+    return this.props.progress;
   }
 
   doneStyle(){
@@ -76,7 +75,7 @@ export class Navigation extends React.Component {
     return (
       <div id="progress-container">
         <PrevButton  store={this.props.store} />
-        <ProgressBar currentStep={this.props.navigation.currentStep} totalSteps={this.props.navigation.totalSteps} />
+        <ProgressBar progress={this.props.progress} />
         <NextButton  store={this.props.store} />
       </div>
     )

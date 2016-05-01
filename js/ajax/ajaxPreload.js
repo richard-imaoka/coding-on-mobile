@@ -1,8 +1,6 @@
-import { setCssSourceList } from '../actions/cssSourceListActions'
+import { setCssSourceList }  from '../actions/cssSourceListActions'
 import { setHtmlSourceList } from '../actions/htmlSourceListActions'
-import { setEntireHtmlSource } from "../actions/htmlActions"
-import { setEntireCssSource }  from "../actions/cssActions"
-import { setTotalSteps, gotoStep }       from "../actions/navigationActions"
+import { gotoStep }          from "../actions/stepActions"
 class AjaxPreload {
 
   constructor(numSteps, store ){
@@ -67,7 +65,6 @@ class AjaxPreload {
     this.store.dispatch( setHtmlSourceList(this.HTMLs) );
     this.store.dispatch( setCssSourceList(this.CSSs) );
     this.store.dispatch( gotoStep( 1 ) );
-    this.store.dispatch( setTotalSteps(this.numSteps) );
   }
 
 

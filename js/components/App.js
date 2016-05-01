@@ -11,7 +11,7 @@ export default class App extends React.Component {
         <div id="logo-container">
           <div id="logo">CSS Learning</div>
         </div>
-        <Navigation store={this.props.store} navigation={this.props.store.getState().navigation}/>
+        <Navigation store={this.props.store} progress={this.props.store.getProgress()}/>
 
         <div id="html-container">
           <div className="bar">HTML code</div>

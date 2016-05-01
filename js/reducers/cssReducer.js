@@ -1,8 +1,8 @@
 import * as cssParser from 'css'
 import { Map, List, fromJS } from 'immutable'
-import { cssDataReducer } from './cssDataReducer'
-import { cssSourceList }  from './cssSourceListReducer'
-import { GOTO_STEP } from '../actions/navigationActions'
+import { cssDataReducer }    from './cssDataReducer'
+import { cssSourceList }     from './cssSourceListReducer'
+import { GOTO_STEP }         from '../actions/stepActions'
 
 export function css(state = Map({cssData: Map(), cssSourceList: List()}), action = undefined){
 

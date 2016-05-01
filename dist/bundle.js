@@ -58,13 +58,24 @@ function setHtmlSourceList(htmlSourceList) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.setProgress = setProgress;
+var SET_PROGRESS = exports.SET_PROGRESS = 'SET_PROGRESS';
+
+function setProgress(currentStep, totalSteps) {
+  return { type: SET_PROGRESS, currentStep: currentStep, totalSteps: totalSteps };
+}
+
+},{}],6:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.nextStep = nextStep;
 exports.prevStep = prevStep;
-exports.setTotalSteps = setTotalSteps;
 exports.gotoStep = gotoStep;
 var NEXT_STEP = exports.NEXT_STEP = 'NEXT_STEP';
 var PREV_STEP = exports.PREV_STEP = 'PREV_STEP';
-var SET_TOTAL_STEPS = exports.SET_TOTAL_STEPS = 'SET_TOTAL_STEPS';
 var GOTO_STEP = exports.GOTO_STEP = 'GOTO_STEP';
 
 function nextStep() {
@@ -75,15 +86,11 @@ function prevStep() {
   return { type: PREV_STEP };
 }
 
-function setTotalSteps(totalSteps) {
-  return { type: SET_TOTAL_STEPS, totalSteps: totalSteps };
-}
-
 function gotoStep(step) {
   return { type: GOTO_STEP, step: step };
 }
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -96,11 +103,7 @@ var _cssSourceListActions = require('../actions/cssSourceListActions');
 
 var _htmlSourceListActions = require('../actions/htmlSourceListActions');
 
-var _htmlActions = require('../actions/htmlActions');
-
-var _cssActions = require('../actions/cssActions');
-
-var _navigationActions = require('../actions/navigationActions');
+var _stepActions = require('../actions/stepActions');
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -173,8 +176,7 @@ var AjaxPreload = function () {
       console.log("completed. yeaaahhhh!!!!");
       this.store.dispatch((0, _htmlSourceListActions.setHtmlSourceList)(this.HTMLs));
       this.store.dispatch((0, _cssSourceListActions.setCssSourceList)(this.CSSs));
-      this.store.dispatch((0, _navigationActions.gotoStep)(1));
-      this.store.dispatch((0, _navigationActions.setTotalSteps)(this.numSteps));
+      this.store.dispatch((0, _stepActions.gotoStep)(1));
     }
   }]);
 
@@ -183,7 +185,7 @@ var AjaxPreload = function () {
 
 exports.default = AjaxPreload;
 
-},{"../actions/cssActions":1,"../actions/cssSourceListActions":2,"../actions/htmlActions":3,"../actions/htmlSourceListActions":4,"../actions/navigationActions":5}],7:[function(require,module,exports){
+},{"../actions/cssSourceListActions":2,"../actions/htmlSourceListActions":4,"../actions/stepActions":6}],8:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -264,7 +266,7 @@ var CSSData = function () {
 var CSSDataSingleton = new CSSData();
 exports.default = CSSDataSingleton;
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -317,7 +319,7 @@ var App = function (_React$Component) {
             'CSS Learning'
           )
         ),
-        _react2.default.createElement(_Navigation.Navigation, { store: this.props.store, navigation: this.props.store.getState().navigation }),
+        _react2.default.createElement(_Navigation.Navigation, { store: this.props.store, progress: this.props.store.getProgress() }),
         _react2.default.createElement(
           'div',
           { id: 'html-container' },
@@ -361,7 +363,7 @@ var App = function (_React$Component) {
 
 exports.default = App;
 
-},{"./CssEditor":9,"./HtmlEditor":10,"./Navigation":11,"./Result":12,"react":205}],9:[function(require,module,exports){
+},{"./CssEditor":10,"./HtmlEditor":11,"./Navigation":12,"./Result":13,"react":205}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -983,7 +985,7 @@ var CSSApp = exports.CSSApp = function (_React$Component7) {
   return CSSApp;
 }(_react2.default.Component);
 
-},{"../actions/cssActions":1,"../ajax/cssData":7,"awesomplete":26,"immutable":72,"react":205,"react-dom":76}],10:[function(require,module,exports){
+},{"../actions/cssActions":1,"../ajax/cssData":8,"awesomplete":26,"immutable":72,"react":205,"react-dom":76}],11:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1282,7 +1284,7 @@ var HTMLApp = exports.HTMLApp = function (_React$Component5) {
   return HTMLApp;
 }(_react2.default.Component);
 
-},{"react":205}],11:[function(require,module,exports){
+},{"react":205}],12:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1296,7 +1298,7 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _navigationActions = require('../actions/navigationActions');
+var _stepActions = require('../actions/stepActions');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1347,7 +1349,7 @@ var PrevButton = function (_React$Component2) {
     key: 'onClick',
     value: function onClick() {
       console.log('prev!!!');
-      this.props.store.dispatch((0, _navigationActions.prevStep)());
+      this.props.store.dispatch((0, _stepActions.prevStep)());
     }
   }]);
 
@@ -1372,7 +1374,7 @@ var NextButton = function (_React$Component3) {
     key: 'onClick',
     value: function onClick() {
       console.log('next!!!');
-      this.props.store.dispatch((0, _navigationActions.nextStep)());
+      this.props.store.dispatch((0, _stepActions.nextStep)());
     }
   }]);
 
@@ -1417,7 +1419,7 @@ var ProgressBar = function (_React$Component4) {
   }, {
     key: 'percentage',
     value: function percentage() {
-      return Math.round(this.props.currentStep / this.props.totalSteps * 100);
+      return this.props.progress;
     }
   }, {
     key: 'doneStyle',
@@ -1447,7 +1449,7 @@ var Navigation = exports.Navigation = function (_React$Component5) {
         'div',
         { id: 'progress-container' },
         _react2.default.createElement(PrevButton, { store: this.props.store }),
-        _react2.default.createElement(ProgressBar, { currentStep: this.props.navigation.currentStep, totalSteps: this.props.navigation.totalSteps }),
+        _react2.default.createElement(ProgressBar, { progress: this.props.progress }),
         _react2.default.createElement(NextButton, { store: this.props.store })
       );
     }
@@ -1456,7 +1458,7 @@ var Navigation = exports.Navigation = function (_React$Component5) {
   return Navigation;
 }(_react2.default.Component);
 
-},{"../actions/navigationActions":5,"react":205}],12:[function(require,module,exports){
+},{"../actions/stepActions":6,"react":205}],13:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1511,7 +1513,7 @@ var Result = exports.Result = function (_React$Component) {
   return Result;
 }(_react2.default.Component);
 
-},{"react":205}],13:[function(require,module,exports){
+},{"react":205}],14:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -1544,7 +1546,7 @@ _store2.default.subscribe(function () {
 var totalSteps = 2;
 new _ajaxPreload2.default(totalSteps, _store2.default);
 
-},{"../ajax/ajaxPreload":6,"../components/App":8,"../store/store":24,"react":205,"react-dom":76}],14:[function(require,module,exports){
+},{"../ajax/ajaxPreload":7,"../components/App":9,"../store/store":24,"react":205,"react-dom":76}],15:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1558,29 +1560,7 @@ function prettyPrint(jsonObj) {
   if (_immutable.Map.isMap(jsonObj)) console.log(JSON.stringify(jsonObj.toJS(), null, " "));else console.log(JSON.stringify(jsonObj, null, " "));
 }
 
-},{"immutable":72}],15:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.combined = undefined;
-
-var _redux = require('redux');
-
-var _htmlReducer = require('./htmlReducer');
-
-var _cssReducer = require('./cssReducer');
-
-var _navigationReducer = require('./navigationReducer');
-
-var combined = exports.combined = (0, _redux.combineReducers)({
-  html: _htmlReducer.html,
-  css: _cssReducer.css,
-  navigation: _navigationReducer.navigation
-});
-
-},{"./cssReducer":17,"./htmlReducer":20,"./navigationReducer":22,"redux":211}],16:[function(require,module,exports){
+},{"immutable":72}],16:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1630,7 +1610,7 @@ var _cssDataReducer = require('./cssDataReducer');
 
 var _cssSourceListReducer = require('./cssSourceListReducer');
 
-var _navigationActions = require('../actions/navigationActions');
+var _stepActions = require('../actions/stepActions');
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -1640,7 +1620,7 @@ function css() {
 
 
   switch (action.type) {
-    case _navigationActions.GOTO_STEP:
+    case _stepActions.GOTO_STEP:
       var cssSource = state.get("cssSourceList").get(action.step);
       var cssJSON = cssParser.parse(cssSource);
       return state.set("cssData", (0, _immutable.fromJS)(cssJSON));
@@ -1650,7 +1630,7 @@ function css() {
   }
 }
 
-},{"../actions/navigationActions":5,"./cssDataReducer":16,"./cssSourceListReducer":18,"css":28,"immutable":72}],18:[function(require,module,exports){
+},{"../actions/stepActions":6,"./cssDataReducer":16,"./cssSourceListReducer":18,"css":28,"immutable":72}],18:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1709,7 +1689,7 @@ var _htmlDataReducer = require('./htmlDataReducer');
 
 var _htmlSourceListReducer = require('./htmlSourceListReducer');
 
-var _navigationActions = require('../actions/navigationActions');
+var _stepActions = require('../actions/stepActions');
 
 function html() {
   var state = arguments.length <= 0 || arguments[0] === undefined ? (0, _immutable.Map)({ htmlData: {}, htmlSourceList: (0, _immutable.List)(), htmlSource: "" }) : arguments[0];
@@ -1717,7 +1697,7 @@ function html() {
 
 
   switch (action.type) {
-    case _navigationActions.GOTO_STEP:
+    case _stepActions.GOTO_STEP:
       var htmlSource = state.get("htmlSourceList").get(action.step);
       var parser = new DOMParser();
       var doc = parser.parseFromString(htmlSource, "text/html");
@@ -1729,7 +1709,7 @@ function html() {
   }
 }
 
-},{"../actions/navigationActions":5,"./htmlDataReducer":19,"./htmlSourceListReducer":21,"immutable":72}],21:[function(require,module,exports){
+},{"../actions/stepActions":6,"./htmlDataReducer":19,"./htmlSourceListReducer":21,"immutable":72}],21:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1757,34 +1737,22 @@ function htmlSourceList() {
 }
 
 },{"../actions/htmlSourceListActions":4,"immutable":72}],22:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.navigation = navigation;
 
-var _navigationActions = require("../actions/navigationActions");
+var _navigationActions = require('../actions/navigationActions');
 
 function navigation() {
-  var state = arguments.length <= 0 || arguments[0] === undefined ? { currentStep: 0, totalSteps: 1 } : arguments[0];
+  var state = arguments.length <= 0 || arguments[0] === undefined ? { progress: 0 } : arguments[0];
   var action = arguments.length <= 1 || arguments[1] === undefined ? undefined : arguments[1];
 
   switch (action.type) {
-    case _navigationActions.NEXT_STEP:
-      console.debug("action received", action);
-      if (state.currentStep >= state.totalSteps) {
-        console.info("Not going to the next step: Total steps = ", state.totalSteps, ", Current step = ", state.currentStep, " already.");
-        return state;
-      } else return { currentStep: state.currentStep + 1, totalSteps: state.totalSteps };
-    case _navigationActions.PREV_STEP:
-      if (state.currentStep <= 0) {
-        console.debug("Not going to the prev step: Current step = ", state.currentStep);
-        return state;
-      } else return { currentStep: state.currentStep - 1, totalSteps: state.totalSteps };
-    case _navigationActions.SET_TOTAL_STEPS:
-      console.debug("action received", action);
-      return { currentStep: state.currentStep, totalSteps: action.totalSteps };
+    case _navigationActions.SET_PROGRESS:
+      return { progress: Math.round(action.currentStep / action.totalSteps * 100) };
     default:
       //console.log("HTML: undefined action received", action);
       return state;
@@ -1792,37 +1760,119 @@ function navigation() {
 }
 
 },{"../actions/navigationActions":5}],23:[function(require,module,exports){
-// import { combineReducers } from 'redux'
-// import { html }            from './htmlReducer'
-// import { css }             from './cssReducer'
-// import { navigation }      from './navigationReducer'
-//
-// export const combined = combineReducers({
-//   html,
-//   css,
-//   navigation
-// })
-//
-// export function topLevelReducer(state = { currentStep: 0, totalSteps: 0 }, action = undefined){
-//   switch(action.type) {
-//     case SET_CSS_SOURCE_LIST:
-//       console.log("action received", action);
-//       if( Object.prototype.toString.call(action.cssSourceList) )
-//         return List(action.cssSourceList);
-//       else if( List.isList(action.cssSourceList) )
-//         return action.cssSourceList;
-//       else
-//         console.warn('invalid action received', action);
-//       return state;
-//     default:
-//       //console.log("CSS: undefined action received", action);
-//       return state;
-//   }
-// }
-//
-"use strict";
+'use strict';
 
-},{}],24:[function(require,module,exports){
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.root = root;
+
+var _immutable = require('immutable');
+
+var _htmlReducer = require('./htmlReducer');
+
+var _cssReducer = require('./cssReducer');
+
+var _navigationReducer = require('./navigationReducer');
+
+var _navigationActions = require('../actions/navigationActions');
+
+var _stepActions = require('../actions/stepActions');
+
+var _htmlSourceListActions = require('../actions/htmlSourceListActions');
+
+var _cssSourceListActions = require('../actions/cssSourceListActions');
+
+function root() {
+  var state = arguments.length <= 0 || arguments[0] === undefined ? { currentStep: 0, totalSteps: 0, html: (0, _immutable.Map)(), css: (0, _immutable.Map)(), navigation: {} } : arguments[0];
+  var action = arguments.length <= 1 || arguments[1] === undefined ? undefined : arguments[1];
+
+  switch (action.type) {
+    case _stepActions.NEXT_STEP:
+      console.debug("action received", action);
+
+      if (state.currentStep >= state.totalSteps) {
+        console.info("Not going to the next step: Total steps = ", state.totalSteps, ", Current step = ", state.currentStep, " already.");
+        return state;
+      } else {
+        var nextStep = state.currentStep + 1;
+        return {
+          currentStep: nextStep,
+          totalSteps: state.totalSteps,
+          html: (0, _htmlReducer.html)(state.html, (0, _stepActions.gotoStep)(nextStep)),
+          css: (0, _cssReducer.css)(state.css, (0, _stepActions.gotoStep)(nextStep)),
+          navigation: (0, _navigationReducer.navigation)(state.navigation, (0, _navigationActions.setProgress)(nextStep, state.totalSteps))
+        };
+      }
+
+    case _stepActions.PREV_STEP:
+      console.debug("action received", action);
+
+      if (state.currentStep <= 1) {
+        console.debug("Not going to the prev step: Current step = ", state.currentStep, " is the minimum.");
+        return state;
+      } else {
+        var prevStep = state.currentStep - 1;
+        return {
+          currentStep: prevStep,
+          totalSteps: state.totalSteps,
+          html: (0, _htmlReducer.html)(state.html, (0, _stepActions.gotoStep)(prevStep)),
+          css: (0, _cssReducer.css)(state.css, (0, _stepActions.gotoStep)(prevStep)),
+          navigation: (0, _navigationReducer.navigation)(state.navigation, (0, _navigationActions.setProgress)(prevStep, state.totalSteps))
+        };
+      }
+
+    case _stepActions.GOTO_STEP:
+      console.debug("action received", action);
+
+      if (action.step < 1) {
+        console.debug("Not GOTO to step = ", action.step, " as it is less than 1");
+        return state;
+      } else if (state.totalSteps <= action.step) {
+        console.debug("Not GOTO to step = ", action.step, " as it is greater than totalSteps = ", state.totalSteps);
+        return state;
+      } else {
+        return {
+          currentStep: action.step,
+          totalSteps: state.totalSteps,
+          html: (0, _htmlReducer.html)(state.html, action),
+          css: (0, _cssReducer.css)(state.css, action),
+          navigation: (0, _navigationReducer.navigation)(state.navigation, (0, _navigationActions.setProgress)(action.step, state.totalSteps))
+        };
+      }
+
+    case _htmlSourceListActions.SET_HTML_SOURCE_LIST:
+      var htmlState = (0, _htmlReducer.html)(state.html, action);
+      return {
+        currentStep: state.currentStep,
+        totalSteps: htmlState.get("htmlSourceList").size - 1,
+        html: htmlState,
+        css: (0, _cssReducer.css)(state.css, action),
+        navigation: (0, _navigationReducer.navigation)(state.navigation, action)
+      };
+
+    case _cssSourceListActions.SET_CSS_SOURCE_LIST:
+      var cssState = (0, _cssReducer.css)(state.css, action);
+      return {
+        currentStep: state.currentStep,
+        totalSteps: cssState.get("cssSourceList").size - 1,
+        html: (0, _htmlReducer.html)(state.html, action),
+        css: cssState,
+        navigation: (0, _navigationReducer.navigation)(state.navigation, action)
+      };
+
+    default:
+      return {
+        currentStep: state.currentStep,
+        totalSteps: state.totalSteps,
+        html: (0, _htmlReducer.html)(state.html, action),
+        css: (0, _cssReducer.css)(state.css, action),
+        navigation: (0, _navigationReducer.navigation)(state.navigation, action)
+      };
+  }
+}
+
+},{"../actions/cssSourceListActions":2,"../actions/htmlSourceListActions":4,"../actions/navigationActions":5,"../actions/stepActions":6,"./cssReducer":17,"./htmlReducer":20,"./navigationReducer":22,"immutable":72}],24:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1835,11 +1885,11 @@ var _css = require('css');
 
 var css = _interopRequireWildcard(_css);
 
-var _combinedReducer = require('../reducers/combinedReducer');
+var _rootReducer = require('../reducers/rootReducer');
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-var store = (0, _redux.createStore)(_combinedReducer.combined);
+var store = (0, _redux.createStore)(_rootReducer.root);
 
 store.getHtmlData = function () {
   return store.getState().html.get("htmlData").children;
@@ -1849,7 +1899,7 @@ store.getHtmlSource = function () {
   var state = store.getState();
   var htmlSource = state.html.get("htmlSource");
 
-  return htmlSource;
+  if (htmlSource === undefined) return "";else return htmlSource;
 };
 
 store.getCssData = function () {
@@ -1868,9 +1918,13 @@ store.getSource = function () {
   return src;
 };
 
+store.getProgress = function () {
+  return store.getState().navigation.progress;
+};
+
 exports.default = store;
 
-},{"../reducers/combinedReducer":15,"css":28,"redux":211}],25:[function(require,module,exports){
+},{"../reducers/rootReducer":23,"css":28,"redux":211}],25:[function(require,module,exports){
 (function (process,__filename){
 /** vim: et:ts=4:sw=4:sts=4
  * @license amdefine 1.0.0 Copyright (c) 2011-2015, The Dojo Foundation All Rights Reserved.
@@ -31488,7 +31542,7 @@ function urix(aPath) {
 
 module.exports = urix
 
-},{"path":74}]},{},[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,21,22,23])
+},{"path":74}]},{},[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23])
 
 
 //# sourceMappingURL=bundle.js.map

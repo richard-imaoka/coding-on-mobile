@@ -1,7 +1,7 @@
-import { Map, List, fromJS } from 'immutable'
+import { Map, List } from 'immutable'
 import { htmlDataReducer } from './htmlDataReducer'
 import { htmlSourceList }  from './htmlSourceListReducer'
-import { GOTO_STEP } from '../actions/navigationActions'
+import { GOTO_STEP }       from '../actions/stepActions'
 
 export function html(state = Map({htmlData: {}, htmlSourceList: List(), htmlSource: ""}), action = undefined){
 
