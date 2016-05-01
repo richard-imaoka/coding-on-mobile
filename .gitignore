@@ -2,3 +2,4 @@
 node_modules
 debug.html
 ignore
+dist/bundle.js.map
