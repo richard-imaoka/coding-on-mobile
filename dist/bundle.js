@@ -1355,7 +1355,7 @@ var ProgressBar = function (_React$Component4) {
     value: function render() {
       return _react2.default.createElement(
         'div',
-        { className: 'progress-bar' },
+        { ref: 'progressBar', className: 'progress-bar' },
         _react2.default.createElement('div', { className: 'done', style: this.doneStyle() }),
         _react2.default.createElement(
           'div',
@@ -1365,6 +1365,16 @@ var ProgressBar = function (_React$Component4) {
           '%'
         )
       );
+    }
+  }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate() {
+      if (this.percentage() >= 100) {
+        console.log('pulse!!!');
+        this.refs.progressBar.className = this.refs.progressBar.className + " animated pulse";
+      } else if (this.refs.progressBar.className.includes("animated pulse")) {
+        this.refs.progressBar.className = "progress-bar";
+      }
     }
   }, {
     key: 'percentage',
