@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import {PrevButton, NextButton} from './LinkButton'
-import {ProgressBar}            from './ProgressBar'
+import {Navigation}             from './Navigation'
 import {HTMLNode}               from './HtmlEditor'
 import {CSSApp}                 from './CssEditor'
 import {Result}                 from './Result'
@@ -12,11 +11,7 @@ export default class App extends React.Component {
         <div id="logo-container">
           <div id="logo">CSS Learning</div>
         </div>
-        <div id="progress-container">
-          <PrevButton />
-          <ProgressBar />
-          <NextButton />
-        </div>
+        <Navigation store={this.props.store} navigation={this.props.store.getState().navigation}/>
 
         <div id="html-container">
           <div className="bar">HTML code</div>

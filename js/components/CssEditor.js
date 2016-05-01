@@ -4,8 +4,8 @@ import { List }     from 'immutable'
 import Awesomplete  from 'awesomplete'
 import CSSData      from '../ajax/cssData'
 
-import {UPDATE_PROPERTY, UPDATE_PROPERTY_NAME, DELETE_PROPERTY, updatePropertyName, updatePropertyValue, deleteProperty} from "../actions/actions"
-import prettyPrint from '../es6/prettyprint'
+import {updatePropertyName, updatePropertyValue, deleteProperty} from "../actions/cssActions"
+//import prettyPrint from '../es6/prettyprint'
 
 const InputBoxPropTypes = {
   defaultValue:    PropTypes.string.isRequired,

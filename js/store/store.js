@@ -1,7 +1,6 @@
 import { createStore } from 'redux'
 import * as css from 'css'
-import prettyPrint from '../es6/prettyprint'
-import { combined }    from '../reducers/reducers'
+import { combined }    from '../reducers/combinedReducer'
 
 const store = createStore(combined);
 
