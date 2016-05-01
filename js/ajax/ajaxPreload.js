@@ -64,11 +64,10 @@ class AjaxPreload {
   onFinishAjax(){
     //notify the HTML that it's done
     console.log("completed. yeaaahhhh!!!!");
-    this.store.dispatch( setEntireHtmlSource(this.getHtmlSource(1)) );
+    this.store.dispatch( setHtmlSourceList(this.HTMLs) );
     this.store.dispatch( setCssSourceList(this.CSSs) );
     this.store.dispatch( gotoStep( 1 ) );
     this.store.dispatch( setTotalSteps(this.numSteps) );
-    // this.store.dispatch( setHtmlSourceList(this.HTMLs) );
   }
 
 

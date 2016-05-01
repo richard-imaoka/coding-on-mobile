@@ -5,11 +5,14 @@ import { combined }    from '../reducers/combinedReducer'
 const store = createStore(combined);
 
 store.getHtmlData = function() {
-  return store.getState().html.children;
+  return store.getState().html.get("htmlData").children;
 }
 
 store.getHtmlSource = function(){
-  return store.getState().html._Source;
+  const state      = store.getState();
+  const htmlSource = state.html.get("htmlSource");
+
+  return htmlSource;
 }
 
 store.getCssData = function(){

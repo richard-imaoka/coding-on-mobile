@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { html }            from './htmlDataReducer'
+import { html }            from './htmlReducer'
 import { css }             from './cssReducer'
 import { navigation }      from './navigationReducer'
 
