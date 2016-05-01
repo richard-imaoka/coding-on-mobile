@@ -2,7 +2,7 @@ import { setCssSourceList } from '../actions/cssSourceListActions'
 import { setHtmlSourceList } from '../actions/htmlSourceListActions'
 import { setEntireHtmlSource } from "../actions/htmlActions"
 import { setEntireCssSource }  from "../actions/cssActions"
-import { setTotalSteps }       from "../actions/navigationActions"
+import { setTotalSteps, gotoStep }       from "../actions/navigationActions"
 class AjaxPreload {
 
   constructor(numSteps, store ){
@@ -64,11 +64,11 @@ class AjaxPreload {
   onFinishAjax(){
     //notify the HTML that it's done
     console.log("completed. yeaaahhhh!!!!");
-    this.store.dispatch( setEntireCssSource(this.getCssSource(1) ) );
     this.store.dispatch( setEntireHtmlSource(this.getHtmlSource(1)) );
-    this.store.dispatch( setTotalSteps(this.numSteps) );
     this.store.dispatch( setCssSourceList(this.CSSs) );
-    this.store.dispatch( setHtmlSourceList(this.HTMLs) );
+    this.store.dispatch( gotoStep( 1 ) );
+    this.store.dispatch( setTotalSteps(this.numSteps) );
+    // this.store.dispatch( setHtmlSourceList(this.HTMLs) );
   }
 
 

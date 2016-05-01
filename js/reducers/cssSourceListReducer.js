@@ -1,7 +1,7 @@
 import { SET_CSS_SOURCE_LIST } from "../actions/cssSourceListActions"
 import { List } from 'immutable'
 
-export function cssSourceList(state = {}, action = undefined){
+export function cssSourceList(state = List(), action = undefined){
   switch(action.type) {
     case SET_CSS_SOURCE_LIST:
       console.log("action received", action);

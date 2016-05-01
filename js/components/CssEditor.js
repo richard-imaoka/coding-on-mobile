@@ -322,12 +322,16 @@ CSSRule.propTypes = CSSRulePropTypes;
 
 export class CSSApp extends React.Component {
   render() {
-    let rules           = this.getRules(this.props.obj.rules);
-    let behaviorOptions = this.processComments(this.props.obj.rules);
+    if( this.props.obj === undefined ) {
+      return (<div />)
+    }
+    else {
+      let rules           = this.getRules(this.props.obj.rules);
+      let behaviorOptions = this.processComments(this.props.obj.rules);
 
-    return (
-      <div>
-        {rules.map(rule =>
+      return (
+        <div>
+          {rules.map(rule =>
             <CSSRule
               key  ={rule.id}
               obj  ={rule}
@@ -335,9 +339,10 @@ export class CSSApp extends React.Component {
               path ={List.of("stylesheet", "rules", rule.id)}
               behaviorOptions = {behaviorOptions[rule.id]}
             />
-        )}
-      </div>
-    )
+          )}
+        </div>
+      )
+    }
   }
 
   getRules(rulesAndComments){

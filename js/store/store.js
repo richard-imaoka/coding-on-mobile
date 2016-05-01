@@ -13,11 +13,16 @@ store.getHtmlSource = function(){
 }
 
 store.getCssData = function(){
-  return store.getState().css.toJS().stylesheet;
+  return store.getState().css.get("cssData").toJS().stylesheet;
 }
 
 store.getCssSource = function(){
-  return css.stringify(store.getState().css.toJS());
+  const state   = store.getState();
+  const cssData = state.css.get("cssData");
+  if( !cssData.size )
+    return "";
+  else
+    return css.stringify( cssData.toJS() );
 }
 
 store.getSource = function() {

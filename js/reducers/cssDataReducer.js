@@ -1,13 +1,8 @@
-import {UPDATE_PROPERTY_VALUE, DELETE_PROPERTY, UPDATE_PROPERTY_NAME, SET_ENTIRE_CSS_SOURCE } from "../actions/cssActions"
-import * as cssParser from 'css'
-import { fromJS } from 'immutable'
+import {UPDATE_PROPERTY_VALUE, DELETE_PROPERTY, UPDATE_PROPERTY_NAME } from "../actions/cssActions"
+import { Map } from 'immutable'
 
-export function css(state = {}, action = undefined){
+export function cssDataReducer(state = Map(), action = undefined){
   switch(action.type) {
-    case SET_ENTIRE_CSS_SOURCE:
-      console.log("action received", action);
-      const  cssJSON = cssParser.parse(action.cssSource);
-      return fromJS(cssJSON);
     case UPDATE_PROPERTY_VALUE:
       console.log("action received", action);
       return state.setIn( action.path, action.newPropertyValue );
