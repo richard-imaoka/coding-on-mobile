@@ -4,12 +4,17 @@ import { combined }    from '../reducers/combinedReducer'
 
 const store = createStore(combined);
 
+store.getHtmlSource = function(){
+  return store.getState().html._Source;
+}
+
+store.getCssSource = function(){
+  return css.stringify(store.getState().css.toJS());
+}
+
 store.getSource = function(){
-
-  const htmlString = store.getState().htmlText;
-  const cssString  = css.stringify(store.getState().css.toJS());
-  const src        = htmlString.replace('</head>', '<style>' + cssString + '</style></head>');
-
+  const  htmlString = store.getHtmlSource();
+  const  src        = htmlString.replace('</head>', '<style>' + store.getCssSource() + '</style></head>');
   return src;
 };
 

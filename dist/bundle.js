@@ -7,11 +7,11 @@ Object.defineProperty(exports, "__esModule", {
 exports.updatePropertyValue = updatePropertyValue;
 exports.updatePropertyName = updatePropertyName;
 exports.deleteProperty = deleteProperty;
-exports.setEntireState = setEntireState;
+exports.setEntireCssSource = setEntireCssSource;
 var UPDATE_PROPERTY_VALUE = exports.UPDATE_PROPERTY_VALUE = 'UPDATE_PROPERTY_VALUE';
 var UPDATE_PROPERTY_NAME = exports.UPDATE_PROPERTY_NAME = 'UPDATE_PROPERTY_NAME';
 var DELETE_PROPERTY = exports.DELETE_PROPERTY = 'DELETE_PROPERTY';
-var SET_ENTIRE_STATE = exports.SET_ENTIRE_STATE = 'SET_ENTIRE_DATA';
+var SET_ENTIRE_CSS_SOURCE = exports.SET_ENTIRE_CSS_SOURCE = 'SET_ENTIRE_CSS_SOURCE';
 
 function updatePropertyValue(path, newPropertyValue) {
   return { type: UPDATE_PROPERTY_VALUE, path: path, newPropertyValue: newPropertyValue };
@@ -25,8 +25,8 @@ function deleteProperty(path) {
   return { type: DELETE_PROPERTY, path: path };
 }
 
-function setEntireState(css) {
-  return { type: SET_ENTIRE_STATE, css: css };
+function setEntireCssSource(cssSource) {
+  return { type: SET_ENTIRE_CSS_SOURCE, cssSource: cssSource };
 }
 
 },{}],2:[function(require,module,exports){
@@ -35,17 +35,11 @@ function setEntireState(css) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.setEntireHTMLState = setEntireHTMLState;
-exports.setEntireHTMLText = setEntireHTMLText;
-var SET_ENTIRE_HTML_DATA = exports.SET_ENTIRE_HTML_DATA = 'SET_ENTIRE_HTML_DATA';
-var SET_ENTIRE_HTML_TEXT = exports.SET_ENTIRE_HTML_TEXT = 'SET_ENTIRE_HTML_TEXT';
+exports.setEntireHtmlSource = setEntireHtmlSource;
+var SET_ENTIRE_HTML_SOURCE = exports.SET_ENTIRE_HTML_SOURCE = 'SET_ENTIRE_HTML_SOURCE';
 
-function setEntireHTMLState(html) {
-  return { type: SET_ENTIRE_HTML_DATA, html: html };
-}
-
-function setEntireHTMLText(htmlText) {
-  return { type: SET_ENTIRE_HTML_TEXT, htmlText: htmlText };
+function setEntireHtmlSource(htmlSource) {
+  return { type: SET_ENTIRE_HTML_SOURCE, htmlSource: htmlSource };
 }
 
 },{}],3:[function(require,module,exports){
@@ -74,21 +68,13 @@ function setTotalSteps(totalSteps) {
 }
 
 },{}],4:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _css = require('css');
-
-var css = _interopRequireWildcard(_css);
-
-var _immutable = require('immutable');
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -112,7 +98,7 @@ var AjaxPreload = function () {
   }
 
   _createClass(AjaxPreload, [{
-    key: 'ajaxHTML',
+    key: "ajaxHTML",
     value: function ajaxHTML(i, suffix) {
       var ajax = new XMLHttpRequest();
       ajax.open("GET", "sample" + i + ".html", true);
@@ -127,7 +113,7 @@ var AjaxPreload = function () {
       ajax.send();
     }
   }, {
-    key: 'ajaxCSS',
+    key: "ajaxCSS",
     value: function ajaxCSS(i, suffix) {
       var ajax = new XMLHttpRequest();
       ajax.open("GET", "sample" + i + ".css", true);
@@ -142,26 +128,22 @@ var AjaxPreload = function () {
       ajax.send();
     }
   }, {
-    key: 'getHTML',
-    value: function getHTML(i) {
-      var parser = new DOMParser();
-      var doc = parser.parseFromString(this.HTMLs[i], "text/html");
-      var html = doc.children[0];
-      return html;
+    key: "getHtmlSource",
+    value: function getHtmlSource(i) {
+      return this.HTMLs[i];
     }
   }, {
-    key: 'getCSS',
-    value: function getCSS(i) {
-      var cssJSON = css.parse(this.CSSs[i]);
-      return (0, _immutable.fromJS)(cssJSON);
+    key: "getCssSource",
+    value: function getCssSource(i) {
+      return this.CSSs[i];
     }
   }, {
-    key: 'isFinishedAjax',
+    key: "isFinishedAjax",
     value: function isFinishedAjax() {
       return this.numSteps === this.completedHTMLSteps && this.numSteps === this.completedCSSSteps;
     }
   }, {
-    key: 'onFinishAjax',
+    key: "onFinishAjax",
     value: function onFinishAjax() {
       //notify the HTML that it's done
       console.log("completed. yeaaahhhh!!!!");
@@ -175,7 +157,7 @@ var AjaxPreload = function () {
 
 exports.default = AjaxPreload;
 
-},{"css":21,"immutable":65}],5:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1519,9 +1501,8 @@ _store2.default.subscribe(function () {
 
 var totalSteps = 2;
 var preload = new _ajaxPreload2.default(totalSteps, function () {
-  _store2.default.dispatch((0, _cssActions.setEntireState)(preload.getCSS(1)));
-  _store2.default.dispatch((0, _htmlActions.setEntireHTMLState)(preload.getHTML(1)));
-  _store2.default.dispatch((0, _htmlActions.setEntireHTMLText)(preload.HTMLs[1]));
+  _store2.default.dispatch((0, _cssActions.setEntireCssSource)(preload.getCssSource(1)));
+  _store2.default.dispatch((0, _htmlActions.setEntireHtmlSource)(preload.getHtmlSource(1)));
   _store2.default.dispatch((0, _navigationActions.setTotalSteps)(totalSteps));
 });
 
@@ -1563,23 +1544,32 @@ var combined = exports.combined = (0, _redux.combineReducers)({
 });
 
 },{"./cssReducer":14,"./htmlReducer":15,"./navigationReducer":16,"redux":204}],14:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.css = css;
 
-var _cssActions = require("../actions/cssActions");
+var _cssActions = require('../actions/cssActions');
+
+var _css = require('css');
+
+var cssParser = _interopRequireWildcard(_css);
+
+var _immutable = require('immutable');
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function css() {
   var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
   var action = arguments.length <= 1 || arguments[1] === undefined ? undefined : arguments[1];
 
   switch (action.type) {
-    case _cssActions.SET_ENTIRE_STATE:
+    case _cssActions.SET_ENTIRE_CSS_SOURCE:
       console.log("action received", action);
-      return action.css;
+      var cssJSON = cssParser.parse(action.cssSource);
+      return (0, _immutable.fromJS)(cssJSON);
     case _cssActions.UPDATE_PROPERTY_VALUE:
       console.log("action received", action);
       return state.setIn(action.path, action.newPropertyValue);
@@ -1595,14 +1585,13 @@ function css() {
   }
 }
 
-},{"../actions/cssActions":1}],15:[function(require,module,exports){
+},{"../actions/cssActions":1,"css":21,"immutable":65}],15:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.html = html;
-exports.htmlText = htmlText;
 
 var _htmlActions = require("../actions/htmlActions");
 
@@ -1611,23 +1600,13 @@ function html() {
   var action = arguments.length <= 1 || arguments[1] === undefined ? undefined : arguments[1];
 
   switch (action.type) {
-    case _htmlActions.SET_ENTIRE_HTML_DATA:
-      console.log("action received", action);
-      return action.html;
-    default:
-      //console.log("HTML: undefined action received", action);
-      return state;
-  }
-}
-
-function htmlText() {
-  var state = arguments.length <= 0 || arguments[0] === undefined ? "" : arguments[0];
-  var action = arguments.length <= 1 || arguments[1] === undefined ? undefined : arguments[1];
-
-  switch (action.type) {
-    case _htmlActions.SET_ENTIRE_HTML_TEXT:
-      console.log("action received", action);
-      return action.htmlText;
+    case _htmlActions.SET_ENTIRE_HTML_SOURCE:
+      console.debug("action received", action);
+      var parser = new DOMParser();
+      var doc = parser.parseFromString(action.htmlSource, "text/html");
+      var html = doc.children[0];
+      html._Source = action.htmlSource;
+      return html;
     default:
       //console.log("HTML: undefined action received", action);
       return state;
@@ -1688,12 +1667,17 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 var store = (0, _redux.createStore)(_combinedReducer.combined);
 
+store.getHtmlSource = function () {
+  return store.getState().html._Source;
+};
+
+store.getCssSource = function () {
+  return css.stringify(store.getState().css.toJS());
+};
+
 store.getSource = function () {
-
-  var htmlString = store.getState().htmlText;
-  var cssString = css.stringify(store.getState().css.toJS());
-  var src = htmlString.replace('</head>', '<style>' + cssString + '</style></head>');
-
+  var htmlString = store.getHtmlSource();
+  var src = htmlString.replace('</head>', '<style>' + store.getCssSource() + '</style></head>');
   return src;
 };
 

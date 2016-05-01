@@ -1,6 +1,3 @@
-import * as css from 'css'
-import { fromJS } from 'immutable'
-
 class AjaxPreload {
 
   constructor(numSteps, onCompleteCallback = undefined ){
@@ -47,16 +44,12 @@ class AjaxPreload {
     ajax.send();
   }
 
-  getHTML(i) {
-    var parser = new DOMParser();
-    var doc    = parser.parseFromString(this.HTMLs[i], "text/html");
-    var html   = doc.children[0];
-    return html;
+  getHtmlSource(i) {
+    return this.HTMLs[i];
   }
 
-  getCSS(i) {
-    const cssJSON= css.parse(this.CSSs[i]);
-    return fromJS(cssJSON);
+  getCssSource(i) {
+    return this.CSSs[i];
   }
 
   isFinishedAjax(){
