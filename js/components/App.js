@@ -16,13 +16,13 @@ export default class App extends React.Component {
         <div id="html-container">
           <div className="bar">HTML code</div>
           <div className="html-editor">
-            <HTMLNode children={this.props.store.getState().html.children} tagName={"html"} textContent={"dummy"} />
+            <HTMLNode children={this.props.store.getHtmlData()} tagName={"html"} textContent={"dummy"} />
           </div>
         </div>
 
         <div id="css-container">
           <div className="bar">CSS code</div>
-          <CSSApp store={this.props.store} obj={this.props.store.getState().css.toJS().stylesheet}/>
+          <CSSApp store={this.props.store} obj={this.props.store.getCssData()}/>
         </div>
 
         <div>
