@@ -13,6 +13,11 @@ export default class App extends React.Component {
         </div>
         <Navigation store={this.props.store} progress={this.props.store.getProgress()}/>
 
+        <div id="result-container">
+          <div className="bar">Result</div>
+          <Result store={this.props.store}/>
+        </div>
+
         <div id="html-container">
           <div className="bar">HTML code</div>
           <div className="html-editor">
@@ -25,10 +30,6 @@ export default class App extends React.Component {
           <CSSApp store={this.props.store} obj={this.props.store.getCssData()}/>
         </div>
 
-        <div>
-          <div className="bar">Result</div>
-          <Result store={this.props.store}/>
-        </div>
 
       </div>
     )

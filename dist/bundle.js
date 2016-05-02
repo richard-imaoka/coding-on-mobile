@@ -322,6 +322,16 @@ var App = function (_React$Component) {
         _react2.default.createElement(_Navigation.Navigation, { store: this.props.store, progress: this.props.store.getProgress() }),
         _react2.default.createElement(
           'div',
+          { id: 'result-container' },
+          _react2.default.createElement(
+            'div',
+            { className: 'bar' },
+            'Result'
+          ),
+          _react2.default.createElement(_Result.Result, { store: this.props.store })
+        ),
+        _react2.default.createElement(
+          'div',
           { id: 'html-container' },
           _react2.default.createElement(
             'div',
@@ -343,16 +353,6 @@ var App = function (_React$Component) {
             'CSS code'
           ),
           _react2.default.createElement(_CssEditor.CSSApp, { store: this.props.store, obj: this.props.store.getCssData() })
-        ),
-        _react2.default.createElement(
-          'div',
-          null,
-          _react2.default.createElement(
-            'div',
-            { className: 'bar' },
-            'Result'
-          ),
-          _react2.default.createElement(_Result.Result, { store: this.props.store })
         )
       );
     }
