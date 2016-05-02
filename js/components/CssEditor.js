@@ -262,7 +262,7 @@ export class CSSRule extends React.Component {
     let behaviorOptions = this.processComments(this.props.obj.declarations);
 
     return (
-      <div className="css-editor flash-background">
+      <div className="css-editor">
         <CSSSelectors
           selectors ={this.props.obj.selectors}
           behaviorOptions={this.props.behaviorOptions.selectors}

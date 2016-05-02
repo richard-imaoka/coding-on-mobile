@@ -800,7 +800,7 @@ var CSSRule = exports.CSSRule = function (_React$Component6) {
 
       return _react2.default.createElement(
         'div',
-        { className: 'css-editor flash-background' },
+        { className: 'css-editor' },
         _react2.default.createElement(CSSSelectors, {
           selectors: this.props.obj.selectors,
           behaviorOptions: this.props.behaviorOptions.selectors
@@ -1543,7 +1543,7 @@ _store2.default.subscribe(function () {
   _reactDom2.default.render(_react2.default.createElement(_App2.default, { store: _store2.default }), document.getElementById("app"));
 });
 
-var totalSteps = 2;
+var totalSteps = 4;
 new _ajaxPreload2.default(totalSteps, _store2.default);
 
 },{"../ajax/ajaxPreload":7,"../components/App":9,"../store/store":24,"react":205,"react-dom":76}],15:[function(require,module,exports){

@@ -1,8 +1,0 @@
-/*BEHAVIOR:selectors:highlight:true*/
-/*BEHAVIOR:selectors:data-intro:"body" selects... */
-body {
-  /*BEHAVIOR:value:editable:true*/
-  /*BEHAVIOR:value:tooltip:Touch here to choose a color!*/
-  background-color: blue;
-
-}
