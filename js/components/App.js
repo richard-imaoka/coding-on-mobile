@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import {Navigation}             from './Navigation'
 import {HTMLNode}               from './HtmlEditor'
-import {CSSApp}                 from './CssEditor'
+import CssEditor                from './css/CssEditor'
 import {Result}                 from './Result'
 
 export default class App extends React.Component {
@@ -27,7 +27,7 @@ export default class App extends React.Component {
 
         <div id="css-container">
           <div className="bar">CSS code</div>
-          <CSSApp store={this.props.store} obj={this.props.store.getCssData()}/>
+          <CssEditor store={this.props.store} obj={this.props.store.getCssData()}/>
         </div>
 
 
