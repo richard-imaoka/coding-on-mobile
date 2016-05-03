@@ -1,0 +1,14 @@
+.box {
+  width:            150px;
+  height:           150px;
+  margin:           10px;
+  background-color: red;
+}
+
+.circle {
+  width:            150px;
+  height:           150px;
+  border-radius:    150px;
+  margin:           10px;
+  background-color: red;
+}
