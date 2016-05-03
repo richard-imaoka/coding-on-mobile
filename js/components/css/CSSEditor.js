@@ -1,55 +1,31 @@
 import React, { Component, PropTypes } from 'react'
-import { List } from 'immutable'
-import CssRule  from './CssRule'
+import { List }   from 'immutable'
+import CssRule    from './CssRule'
+import CssComment from './CssComment'
 
 export default class CssEditor extends React.Component {
-  
   render() {
-    let rules           = this.getRules(this.props.obj.rules);
-    let behaviorOptions = this.processComments(this.props.obj.rules);
-
+    let i = 0;
     return (
       <div className="css-editor">
-        {rules.map(rule =>
-          <CssRule
-            key  ={rule.id}
-            obj  ={rule}
-            store={this.props.store}
-            path ={List.of("stylesheet", "rules", rule.id)}
-            behaviorOptions = {behaviorOptions[rule.id]}
-          />
-        )}
+        {this.props.stylesheet.rules.map(data => {
+          const type = data.type;
+          switch(type){
+            case "comment":
+              return (<CssComment key ={i++} comment={data.comment} />)
+            default :
+              return (
+                <CssRule
+                  key  ={i}
+                  store={this.props.store}
+                  path ={List.of("stylesheet", "rules", i++)}
+                  rule ={data}
+                />
+              );
+          }
+        })}
       </div>
     )
-  }
-
-  getRules(rulesAndComments){
-    let index = 0;
-    return rulesAndComments
-      .map   ( r => { r.id = index++; return r; } )
-      .filter( r => { return r.type === 'rule' } );
-  }
-
-  processComments(rulesAndComments) {
-    let behaviorOptions = {};
-    let tempOptions = {selectors: {}, declarations: {}};
-    for(var i in rulesAndComments){
-      let rule = rulesAndComments[i];
-
-      //If comment, and if it's for behavior option, pile it up until you hit non-comment rule
-      if(rule.type === 'comment' && rule.comment.startsWith("BEHAVIOR")){
-        let [unused, selectorsOrDeclarations, behaviorName, behaviorValue] = rule.comment.split(":");
-        let obj = {}; obj[behaviorName] = behaviorValue;
-        Object.assign( tempOptions[selectorsOrDeclarations], obj );
-      }
-      //else, for non-comment rules, save the piled-up options to behavior option
-      else{
-        behaviorOptions[i] = tempOptions;
-        tempOptions = {selectors: {}, declarations: {}};;
-      }
-    }
-
-    return behaviorOptions;
   }
   componentWillMount(){
     //console.log('CSSApp componentWillMount()');
@@ -66,3 +42,9 @@ export default class CssEditor extends React.Component {
     //  })
   }
 }
+CssEditor.propTypes = {
+  store:           PropTypes.object.isRequired, //Redux store object
+  path:            PropTypes.instanceOf(List),  //path in the store
+  stylesheet:      PropTypes.object.isRequired  //data model of the component
+}
+

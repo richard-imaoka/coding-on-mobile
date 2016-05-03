@@ -147,6 +147,10 @@
   font-weight: 700;
 }
 
+.css-comment{
+  color: #bbbaf1;
+}
+
 .css-editor-input {
   font-size: 1em;
   width: 100%;

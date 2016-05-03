@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import { List } from 'immutable'
 import CssInput from './CssInput'
+import {updatePropertyName} from '../../actions/cssActions'
+
 
 export default class CssProperty extends React.Component {
   render() {
@@ -48,11 +50,11 @@ export default class CssProperty extends React.Component {
   }
 };
 CssProperty.propTypes    = {
-  store:           PropTypes.object.isRequired, //Redux store object of
-  property:        PropTypes.string, //value of this value box
-  editable:        PropTypes.bool,   //whether the CssProperty component is editable
-  path:            PropTypes.instanceOf(List), //path in the store
-  highlight:       PropTypes.bool,
+  store:           PropTypes.object.isRequired, //Redux store object 
+  path:            PropTypes.instanceOf(List),  //path in the store
+  property:        PropTypes.string, //data model of the component
+  editable:        PropTypes.bool,   //whether the component is editable
+  highlight:       PropTypes.bool,   //whether the component is highlighted
   list:            PropTypes.array,  //data list for Awesomplete
   item:            PropTypes.func    //item rendering function for Awesomplete
 };

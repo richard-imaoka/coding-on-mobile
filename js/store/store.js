@@ -13,13 +13,13 @@ store.getHtmlSource = function(){
   const htmlSource = state.html.get("htmlSource");
 
   if( htmlSource === undefined )
-    return ""
+    return "";
   else
     return htmlSource;
 }
 
 store.getCssData = function(){
-  return store.getState().css.get("cssData").toJS().stylesheet;
+  return store.getState().css.get("cssData").toJS();
 }
 
 store.getCssSource = function(){

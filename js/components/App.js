@@ -21,7 +21,7 @@ export default class App extends React.Component {
 
         <HtmlContainer data={this.props.store.getHtmlData()} />
      
-        <CssContainer  store={this.props.store} obj={this.props.store.getCssData()}/>
+        <CssContainer  store={this.props.store} data={this.props.store.getCssData()}/>
         
       </div>
     )

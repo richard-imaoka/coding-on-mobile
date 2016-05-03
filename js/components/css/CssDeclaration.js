@@ -10,19 +10,19 @@ export default class CssDeclaration extends React.Component {
       <div className={this.className()}>
         <div className="css-editor-indent"></div>
         <CssProperty
-          property={this.props.property}
-          editable={this.props.propertyBehaviorOptions.editable === "true" }
-          store   ={this.props.store}
-          path    ={this.props.path.push("property")}
+          store    ={this.props.store}
+          path     ={this.props.path.push("property")}
+          property ={this.props.declaration.property}
+          editable ={this.editableProperty()}
+          highlight={this.highlightProperty()}
         />
         <div className="css-editor-colon">:</div>
         <CssValue
-          value={this.props.value}
-          edit={false}
-          store   ={this.props.store}
-          path    ={this.props.path.push("value")}
-          editable={this.props.valueBehaviorOptions.editable === "true"}
-          tooltip ={this.props.valueBehaviorOptions.tooltip}
+          store     ={this.props.store}
+          path      ={this.props.path.push("value")}
+          value     ={this.props.declaration.value}
+          editable  ={this.editableValue()}
+          highlight ={this.highlightValue()}
           list={CSSData.getData('background-color')}
           item={CSSData.getRenderItem('background-color')}
         />
@@ -46,17 +46,28 @@ export default class CssDeclaration extends React.Component {
     else
       return "css-line";
   }
-};
 
+  editableProperty(){
+    return this.props.declaration.editable  || this.props.declaration.highlightProperty;
+  }
+
+  highlightProperty(){
+    return this.props.declaration.highlight || this.props.declaration.highlightProperty;
+  }
+
+  editableValue(){
+    return this.props.declaration.editable  || this.props.declaration.editableValue;
+  }
+
+  highlightValue(){
+    return this.props.declaration.highlight || this.props.declaration.highlightValue;
+  }
+};
 CssDeclaration.propTypes = {
-    property:                PropTypes.string.isRequired, //property of this value box
-    propertyBehaviorOptions: PropTypes.object.isRequired,
-    value:                   PropTypes.string.isRequired, //value of this value box
-    valueBehaviorOptions:    PropTypes.object.isRequired,
-    store:                   PropTypes.object.isRequired,
-    path:                    PropTypes.instanceOf(List),
-    highlight:               PropTypes.bool
+  store:                   PropTypes.object.isRequired, //Redux store object of
+  path:                    PropTypes.instanceOf(List),  //path in the store
+  declaration:             PropTypes.object             //data model of the component
 };
 CssDeclaration.defaultProps = {
-  highlight: false
+  declaration: { property: "", value: "" }
 };

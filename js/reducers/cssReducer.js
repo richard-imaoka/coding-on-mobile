@@ -3,6 +3,7 @@ import { Map, List, fromJS } from 'immutable'
 import { cssDataReducer }    from './cssDataReducer'
 import { cssSourceList }     from './cssSourceListReducer'
 import { GOTO_STEP }         from '../actions/stepActions'
+import { processCssData }    from '../parsers/cssDataParser'
 
 export function css(state = Map({cssData: Map(), cssSourceList: List()}), action = undefined){
 
@@ -10,7 +11,8 @@ export function css(state = Map({cssData: Map(), cssSourceList: List()}), action
     case GOTO_STEP:
       const  cssSource = state.get("cssSourceList").get(action.step);
       const  cssJSON   = cssParser.parse(cssSource);
-      return state.set("cssData", fromJS(cssJSON));
+      const  processed = processCssData(cssJSON);
+      return state.set("cssData", fromJS(processed));
     default:
       //console.log("CSS: undefined action received", action);
       return state

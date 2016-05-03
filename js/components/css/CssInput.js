@@ -1,10 +1,12 @@
 import React, { Component, PropTypes } from 'react'
+import ReactDOM     from 'react-dom'
 import Awesomplete  from 'awesomplete'
 
 export default class CssInput extends React.Component {
   render() {
+    //wrapping <input> in <div> ...
     //Awesomplete wraps up <input> in a <div> in new Awesomplete() call, however,
-    //we need React.Component's outermost element to be stable, otherwise React throws an exception
+    //we need React.Component's outermost element (<div>, in this case) to be stable. Otherwise React throws an exception.
     return (
       <div>
         <input

@@ -5,24 +5,24 @@ import CssDeclaration from './CssDeclaration'
 
 export default class CssRule extends React.Component {
   render() {
-    let declarations    = this.getDeclarations(this.props.obj.declarations);
-    let behaviorOptions = this.processComments(this.props.obj.declarations);
-
+    let i = 0;
     return (
       <div className={this.className()}>
         <CssSelectors
-          selectors ={this.props.obj.selectors}
-          behaviorOptions={this.props.behaviorOptions.selectors}
+          store    ={this.props.store}
+          path     ={this.props.path.push("selectors")}
+          selectors={this.props.rule.selectors}
+            //selectors are special in CSS data structure - the 'selectors' component is just an array of selectors, impossible to have behavior options
+            //so we need to pass behavior options from CssRule to CssSelectors
+          editable ={this.editableSelectors()}
+          highlight={this.highlightSelectors()}
         />
-        {declarations.map(d =>
+        {this.props.rule.declarations.map(d =>
           <CssDeclaration
-            key      ={d.id}
-            property ={d.property}
-            value    ={d.value}
-            store    ={this.props.store}
-            path     ={this.props.path.push("declarations").push(d.id)}
-            propertyBehaviorOptions = {behaviorOptions[d.id].property}
-            valueBehaviorOptions    = {behaviorOptions[d.id].value}
+            key        ={i}
+            store      ={this.props.store}
+            path       ={this.props.path.push("declarations").push(i++)}
+            declaration={d}
           />
         )}
         <div className="css-line">&#125;</div>
@@ -31,55 +31,23 @@ export default class CssRule extends React.Component {
   }
 
   className() {
-    if(this.props.highlight)
+    if(this.props.rule.highlight)
       return "css-editor-highlight"
     else
       return ""
   }
-
-  getDeclarations(declarations){
-    let index = 0;
-    return declarations
-      .map   ( d => { d.id = index++; return d; } )
-      .filter( d => { return d.type === 'declaration' } );
+  
+  editableSelectors(){
+    return this.props.rule.highlight || this.props.highlightSelectors;
   }
-
-  /**
-   *
-   * @param declarations
-   * @returns {{}}
-   */
-  processComments(declarations){
-    let behaviorOptions = {};
-    let tempOptions     = { property:{}, value:{} };
-
-    for(var i in declarations){
-      let declaration = declarations[i];
-
-      //If comment, and if it's for behavior option, pile it up until you hit non-comment declaration
-      if(declaration.type === 'comment' && declaration.comment.startsWith("BEHAVIOR")){
-        let [unused, propertyOrValue, behaviorName, behaviorValue] = declaration.comment.split(":");
-        let obj = {}; obj[behaviorName] = behaviorValue;
-        Object.assign( tempOptions[propertyOrValue], obj );
-      }
-        
-      //else, for non-comment delcaration, save the piled-up options to behavior option
-      else{
-        behaviorOptions[i] = tempOptions;
-        tempOptions = { property:{}, value:{} };
-      }
-    }
-
-    return behaviorOptions;
+  highlightSelectors(){
+    return this.props.editable  || this.props.highlightSelectors;
   }
+  
 };
 CssRule.propTypes = {
-  obj:             PropTypes.object.isRequired,  //value of this value box
-  store:           PropTypes.object.isRequired,
-  path:            PropTypes.instanceOf(List),
-  highlight:       PropTypes.bool
+  store:           PropTypes.object.isRequired, //Redux store object
+  path:            PropTypes.instanceOf(List),  //path in the store
+  rule:            PropTypes.object.isRequired  //data model of the component
 }
-CssRule.defaultProps = {
-  highlight: false
-};
 
