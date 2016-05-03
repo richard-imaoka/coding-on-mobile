@@ -20,10 +20,9 @@ var customOpts = {
 };
 var opts = assign({}, watchify.args, customOpts);
 var b = watchify(browserify(opts)).transform(babelify, {presets: ["es2015", "react"]});
-
 gulp.task('js', bundle); // so you can run `gulp js` to build the file
-b.on('update', bundle); // on any dep update, runs the bundler
-b.on('log', gutil.log); // output build logs to terminal
+b.on('update', bundle);  // on any dep update, runs the bundler
+b.on('log', gutil.log);  // output build logs to terminal
 
 function bundle() {
   return b.bundle()
@@ -41,14 +40,14 @@ function bundle() {
 }
 
 gulp.task('watch', function () {
-  gulp.watch("css/*.css", browserSync.reload);
-  gulp.watch("css/parts/*.css", browserSync.reload);
-  gulp.watch("js/*.js", browserSync.reload);
-  gulp.watch("dist/*.js", browserSync.reload);
+  gulp.watch("css/*.css",           browserSync.reload);
+  gulp.watch("css/parts/*.css",     browserSync.reload);
+  gulp.watch("js/*.js",             browserSync.reload);
+  gulp.watch("dist/*.js",           browserSync.reload);
   gulp.watch("img/*.{png,jpg,svg}", browserSync.reload);
-  gulp.watch("*.html", browserSync.reload);
-  gulp.watch("module1/*.html", browserSync.reload);
-  gulp.watch("module1/*.css",  browserSync.reload);
+  gulp.watch("*.html",              browserSync.reload);
+  gulp.watch("module1/*.html",      browserSync.reload);
+  gulp.watch("module1/*.css",       browserSync.reload);
 });
 
 gulp.task('browser-sync', function() {
@@ -60,4 +59,32 @@ gulp.task('browser-sync', function() {
   });
 });
 
+
+var customOptsTest = {
+  entries: glob.sync('./test/*.js'),
+  debug: true
+};
+var optstest = assign({}, watchify.args, customOptsTest);
+var btest    = watchify(browserify(optstest)).transform(babelify, {presets: ["es2015", "react"]});
+gulp.task('js-test', bundletest);  // so you can run `gulp js` to build the file
+btest.on('update',   bundletest);  // on any dep update, runs the bundler
+btest.on('log',      gutil.log);   // output build logs to terminal
+
+function bundletest() {
+  return btest.bundle()
+    // log errors if they happen
+    .on('error', gutil.log.bind(gutil, 'Browserify Error'))
+    .pipe(source('bundle.js'))
+    // optional, remove if you don't need to buffer file contents
+    .pipe(buffer())
+    // optional, remove if you dont want sourcemaps
+    .pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
+    //.pipe(uglify())                         // lol, sourcemap got much bigger using uglify
+    // Add transformation tasks to the pipeline here.
+    .pipe(sourcemaps.write('./')) // writes .map file
+    .pipe(gulp.dest('./dist-test'));
+}
+
+
 gulp.task('default', ['browser-sync', 'watch', 'js']);
+gulp.task('test',    ['js-test']);

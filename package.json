@@ -33,7 +33,8 @@
     "watchify": "^3.7.0"
   },
   "scripts": {
-    "default": "gulp default"
+    "default": "gulp default",
+    "test":    "gulp test"
   },
   "repository": {
     "type": "git",

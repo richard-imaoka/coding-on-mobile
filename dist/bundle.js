@@ -1199,6 +1199,7 @@ var CssRule = function (_React$Component) {
           var obj = {};obj[behaviorName] = behaviorValue;
           Object.assign(tempOptions[propertyOrValue], obj);
         }
+
         //else, for non-comment delcaration, save the piled-up options to behavior option
         else {
             behaviorOptions[i] = tempOptions;
