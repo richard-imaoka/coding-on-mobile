@@ -41,4 +41,8 @@ store.getProgress = function() {
   return store.getState().navigation.progress;
 }
 
+store.getCurrentStep = function(){
+  return store.getState().currentStep;
+}
+
 export default store;

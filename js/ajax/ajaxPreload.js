@@ -1,16 +1,12 @@
-import { setCssSourceList }  from '../actions/cssSourceListActions'
-import { setHtmlSourceList } from '../actions/htmlSourceListActions'
-import { gotoStep }          from "../actions/stepActions"
 class AjaxPreload {
 
-  constructor(currentStep, numSteps, store ){
+  constructor(currentStep, numSteps, callback ){
     this.HTMLs = [];
     this.CSSs  = [];
     this.completedHTMLSteps = 0;
     this.completedCSSSteps = 0;
-    this.currentStep = currentStep;
     this.numSteps = numSteps;
-    this.store = store;
+    this.onFinishAjax = callback;
 
     for(var i=1; i<=numSteps; i++){
       this.ajaxHTML(i);
@@ -59,17 +55,7 @@ class AjaxPreload {
   isFinishedAjax(){
     return this.numSteps === this.completedHTMLSteps && this.numSteps === this.completedCSSSteps;
   }
-
-  onFinishAjax(){
-    //notify the HTML that it's done
-    console.log("completed. yeaaahhhh!!!!");
-    this.store.dispatch( setHtmlSourceList(this.HTMLs) );
-    this.store.dispatch( setCssSourceList(this.CSSs) );
-    this.store.dispatch( gotoStep( this.currentStep ) );
-  }
-
-
-
+  
 }
 
 export default AjaxPreload;

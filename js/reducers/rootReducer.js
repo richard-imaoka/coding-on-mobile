@@ -7,7 +7,7 @@ import { NEXT_STEP, PREV_STEP, GOTO_STEP, gotoStep } from '../actions/stepAction
 import { SET_HTML_SOURCE_LIST } from '../actions/htmlSourceListActions'
 import { SET_CSS_SOURCE_LIST }  from '../actions/cssSourceListActions'
 
-export function root(state = { currentStep: 0, totalSteps: 0, html: Map(), css: Map(), navigation: {} }, action = undefined){
+export function root(state = { currentStep: 1, totalSteps: 1, html: Map(), css: Map(), navigation: {} }, action = undefined){
   switch(action.type) {
     case NEXT_STEP:
       console.debug("action received", action);
