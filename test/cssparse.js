@@ -1,6 +1,7 @@
 import * as cssParser from 'css';
 import prettyPrint from '../js/es6/prettyprint';
-import { assignBehaviorToArray } from '../js/parsers/cssBehaviorParser'
+import { processCssData } from '../js/parsers/cssDataParser'
+
 
 let ajax = new XMLHttpRequest();
 ajax.open("GET", "sample.css", true);
@@ -16,7 +17,10 @@ ajax.onload = function () {
   console.log(b);
   
   //cssJSON.stylesheet.rules[2].declarations = assignBehaviorToArray( cssJSON.stylesheet.rules[2].declarations );
-  prettyPrint(cssJSON);
+  let processed = processCssData(cssJSON);
+  prettyPrint(processed);
+
+  //console.log(cssParser.stringify(processed));
 
   //console.log(cssParser.stringify(cssJSON));
 
