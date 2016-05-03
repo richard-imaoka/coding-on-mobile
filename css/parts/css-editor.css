@@ -155,6 +155,10 @@
   /*padding:     inherit;*/
   /*color:       inherit;*/
 }
+
+.css-editor-highlight {
+  background-color: yellow;
+}
 /*********************************************************
   Tooltip
 *********************************************************/

@@ -15,7 +15,7 @@ export default class CssProperty extends React.Component {
       )
     else
       return(
-        <div className="css-editor-property" onClick={this.toEdit.bind(this)}>{this.props.property}</div>
+        <div className={this.className()} onClick={this.toEdit.bind(this)}>{this.props.property}</div>
       )
   }
 
@@ -26,6 +26,13 @@ export default class CssProperty extends React.Component {
     //console.log('CSSProperty: property = ' + this.props.property + ' editable? ' + this.props.editable);
     //console.log('CSSProperty: property = ' + this.props.property + ' path? ' + this.props.path);
     //console.log('CSSProperty: property = ' + this.props.property + ' property? ' + this.props.property);
+  }
+
+  className() {
+    if(this.props.highlight)
+      return "css-editor-property css-editor-highlight"
+    else
+      return "css-editor-property"
   }
 
   toEdit(){
@@ -41,17 +48,20 @@ export default class CssProperty extends React.Component {
   }
 };
 CssProperty.propTypes    = {
-  property:        PropTypes.string.isRequired, //value of this value box
-  edit:            PropTypes.bool.isRequired,   //whether you are in edit mode for this field or not
-  store:           PropTypes.object.isRequired,
-  path:            PropTypes.instanceOf(List)
+  store:           PropTypes.object.isRequired, //Redux store object of
+  property:        PropTypes.string, //value of this value box
+  editable:        PropTypes.bool,   //whether the CssProperty component is editable
+  path:            PropTypes.instanceOf(List), //path in the store
+  highlight:       PropTypes.bool,
+  list:            PropTypes.array,  //data list for Awesomplete
+  item:            PropTypes.func    //item rendering function for Awesomplete
 };
 CssProperty.defaultProps = {
-  editable: false
+  property:  "",
+  list:      [],
+  editable:  false,
+  highlight: false
 };
-
-
-
 
 
 

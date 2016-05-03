@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import { List } from  'immutable'
 import CssInput from './CssInput'
 
 export default class CssValue extends React.Component {
@@ -12,23 +13,30 @@ export default class CssValue extends React.Component {
           onInputComplete={this.unEdit.bind(this)}
         />
       );
-    else if(this.props.tooltip)
+    // else if(this.props.tooltip)
+    //   return(
+    //     <div className="css-editor-value" onClick={this.toEdit.bind(this)}><span className="css-tooltip"><span className="css-flashed">{this.props.tooltip}</span></span>{this.props.value}</div>
+    //   );
+    // else
       return(
-        <div className="css-editor-value" onClick={this.toEdit.bind(this)}><span className="css-tooltip"><span className="css-flashed">{this.props.tooltip}</span></span>{this.props.value}</div>
+        <div className={this.className()} onClick={this.toEdit.bind(this)}>{this.props.value}</div>
       );
-    else
-      return(
-        <div className="css-editor-value" onClick={this.toEdit.bind(this)}>{this.props.value}</div>
-      )
   }
 
   componentWillMount() {
     this.setState({
-      edit:  this.props.edit
+      edit:  false
     });
     //console.log('CSSValue: value = ' + this.props.value + ' editable? ' + this.props.editable);
     //console.log('CSSValue: value= ' + this.props.value + ' path? ' + this.props.path);
     //console.log('CSSValue: value= ' + this.props.value + ' value? ' + this.props.value);
+  }
+
+  className() {
+    if(this.props.highlight)
+      return "css-editor-value css-editor-highlight"
+    else
+      return "css-editor-value"
   }
 
   toEdit(){
@@ -44,10 +52,17 @@ export default class CssValue extends React.Component {
   }
 };
 CssValue.propTypes = {
-  value:           PropTypes.string.isRequired, //value of this value box
-  edit:            PropTypes.bool.isRequired,   //whether you are in edit mode for this field or not
-  list:            PropTypes.array.isRequired,  //data list for Awesomplete
-  item:            PropTypes.func.isRequired,   //item rendering function for Awesomplete
-//store:           PropTypes.object.isRequired,
+  store:           PropTypes.object.isRequired, //Redux store object of
+  value:           PropTypes.string, //value of this value box
+  editable:        PropTypes.bool,   //whether the CssValue component is editable
+  highlight:       PropTypes.bool,   //whether the CssValue component is highlighted
+  path:            PropTypes.instanceOf(List), //path in the store
+  list:            PropTypes.array,  //data list for Awesomplete
+  item:            PropTypes.func,   //item rendering function for Awesomplete
 };
-
+CssValue.defaultProps = {
+  value:    "",
+  list:     [],
+  editable: false,
+  highlight: false
+};

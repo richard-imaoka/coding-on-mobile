@@ -5,27 +5,22 @@ import CssRule  from './CssRule'
 export default class CssEditor extends React.Component {
   
   render() {
-    if( this.props.obj === undefined || this.props.obj.rules.length === 0) {
-      return (<div />)
-    }
-    else {
-      let rules           = this.getRules(this.props.obj.rules);
-      let behaviorOptions = this.processComments(this.props.obj.rules);
+    let rules           = this.getRules(this.props.obj.rules);
+    let behaviorOptions = this.processComments(this.props.obj.rules);
 
-      return (
-        <div className="css-editor">
-          {rules.map(rule =>
-            <CssRule
-              key  ={rule.id}
-              obj  ={rule}
-              store={this.props.store}
-              path ={List.of("stylesheet", "rules", rule.id)}
-              behaviorOptions = {behaviorOptions[rule.id]}
-            />
-          )}
-        </div>
-      )
-    }
+    return (
+      <div className="css-editor">
+        {rules.map(rule =>
+          <CssRule
+            key  ={rule.id}
+            obj  ={rule}
+            store={this.props.store}
+            path ={List.of("stylesheet", "rules", rule.id)}
+            behaviorOptions = {behaviorOptions[rule.id]}
+          />
+        )}
+      </div>
+    )
   }
 
   getRules(rulesAndComments){

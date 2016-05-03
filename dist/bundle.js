@@ -688,11 +688,10 @@ var CssDeclaration = function (_React$Component) {
     value: function render() {
       return _react2.default.createElement(
         'div',
-        { className: 'css-line' },
+        { className: this.className() },
         _react2.default.createElement('div', { className: 'css-editor-indent' }),
         _react2.default.createElement(_CssProperty2.default, {
           property: this.props.property,
-          edit: false,
           editable: this.props.propertyBehaviorOptions.editable === "true",
           store: this.props.store,
           path: this.props.path.push("property")
@@ -729,6 +728,11 @@ var CssDeclaration = function (_React$Component) {
       //console.log('valueBehaviorOptions');
       //console.log(this.props.valueBehaviorOptions);
     }
+  }, {
+    key: 'className',
+    value: function className() {
+      if (this.props.highlight) return "css-line css-editor-highlight";else return "css-line";
+    }
   }]);
 
   return CssDeclaration;
@@ -744,6 +748,9 @@ CssDeclaration.propTypes = {
   valueBehaviorOptions: _react.PropTypes.object.isRequired,
   store: _react.PropTypes.object.isRequired,
   path: _react.PropTypes.instanceOf(_immutable.List)
+};
+CssDeclaration.defaultProps = {
+  highlight: false
 };
 
 },{"../../ajax/cssData":8,"./CssProperty":16,"./CssValue":19,"immutable":84,"react":217}],14:[function(require,module,exports){
@@ -1016,7 +1023,7 @@ var CssProperty = function (_React$Component) {
         onInputComplete: this.unEdit.bind(this)
       });else return _react2.default.createElement(
         'div',
-        { className: 'css-editor-property', onClick: this.toEdit.bind(this) },
+        { className: this.className(), onClick: this.toEdit.bind(this) },
         this.props.property
       );
     }
@@ -1029,6 +1036,11 @@ var CssProperty = function (_React$Component) {
       //console.log('CSSProperty: property = ' + this.props.property + ' editable? ' + this.props.editable);
       //console.log('CSSProperty: property = ' + this.props.property + ' path? ' + this.props.path);
       //console.log('CSSProperty: property = ' + this.props.property + ' property? ' + this.props.property);
+    }
+  }, {
+    key: 'className',
+    value: function className() {
+      if (this.props.highlight) return "css-editor-property css-editor-highlight";else return "css-editor-property";
     }
   }, {
     key: 'toEdit',
@@ -1051,13 +1063,18 @@ var CssProperty = function (_React$Component) {
 exports.default = CssProperty;
 ;
 CssProperty.propTypes = {
-  property: _react.PropTypes.string.isRequired, //value of this value box
-  edit: _react.PropTypes.bool.isRequired, //whether you are in edit mode for this field or not
-  store: _react.PropTypes.object.isRequired,
-  path: _react.PropTypes.instanceOf(_immutable.List)
+  store: _react.PropTypes.object.isRequired, //Redux store object of
+  property: _react.PropTypes.string, //value of this value box
+  editable: _react.PropTypes.bool, //whether the CssProperty component is editable
+  path: _react.PropTypes.instanceOf(_immutable.List), //path in the store
+  list: _react.PropTypes.array, //data list for Awesomplete
+  item: _react.PropTypes.func //item rendering function for Awesomplete
 };
 CssProperty.defaultProps = {
-  editable: false
+  property: "",
+  list: [],
+  editable: false,
+  highlight: false
 };
 
 },{"./CssInput":15,"immutable":84,"react":217}],17:[function(require,module,exports){
@@ -1112,7 +1129,7 @@ var CssRule = function (_React$Component) {
 
       return _react2.default.createElement(
         'div',
-        null,
+        { className: this.className() },
         _react2.default.createElement(_CssSelectors2.default, {
           selectors: this.props.obj.selectors,
           behaviorOptions: this.props.behaviorOptions.selectors
@@ -1134,6 +1151,11 @@ var CssRule = function (_React$Component) {
           '}'
         )
       );
+    }
+  }, {
+    key: 'className',
+    value: function className() {
+      if (this.props.highlight) return "css-editor-highlight";else return "";
     }
   }, {
     key: 'getDeclarations',
@@ -1195,6 +1217,9 @@ CssRule.propTypes = {
   obj: _react.PropTypes.object.isRequired, //value of this value box
   store: _react.PropTypes.object.isRequired,
   path: _react.PropTypes.instanceOf(_immutable.List)
+};
+CssRule.defaultProps = {
+  highlight: true
 };
 
 },{"./CssDeclaration":13,"./CssSelectors":18,"immutable":84,"react":217}],18:[function(require,module,exports){
@@ -1283,6 +1308,11 @@ var CssSelectors = function (_React$Component) {
       }
     }
   }, {
+    key: 'className',
+    value: function className() {
+      if (this.props.highlight) return "css-editor-highlight";else return "";
+    }
+  }, {
     key: 'componentWillMount',
     value: function componentWillMount() {
       this.selectorsExceptLast = (0, _immutable.List)(this.props.selectors).pop().toJS();
@@ -1296,7 +1326,8 @@ var CssSelectors = function (_React$Component) {
 exports.default = CssSelectors;
 ;
 CssSelectors.propTypes = {
-  selectors: _react.PropTypes.array.isRequired
+  selectors: _react.PropTypes.array.isRequired,
+  highlight: false
   //store:           PropTypes.object.isRequired,
   //path:            PropTypes.instanceOf(List)
 };
@@ -1313,6 +1344,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
+
+var _immutable = require('immutable');
 
 var _CssInput = require('./CssInput');
 
@@ -1343,22 +1376,15 @@ var CssValue = function (_React$Component) {
         item: this.props.item,
         defaultValue: this.props.value,
         onInputComplete: this.unEdit.bind(this)
-      });else if (this.props.tooltip) return _react2.default.createElement(
+      });
+      // else if(this.props.tooltip)
+      //   return(
+      //     <div className="css-editor-value" onClick={this.toEdit.bind(this)}><span className="css-tooltip"><span className="css-flashed">{this.props.tooltip}</span></span>{this.props.value}</div>
+      //   );
+      // else
+      return _react2.default.createElement(
         'div',
-        { className: 'css-editor-value', onClick: this.toEdit.bind(this) },
-        _react2.default.createElement(
-          'span',
-          { className: 'css-tooltip' },
-          _react2.default.createElement(
-            'span',
-            { className: 'css-flashed' },
-            this.props.tooltip
-          )
-        ),
-        this.props.value
-      );else return _react2.default.createElement(
-        'div',
-        { className: 'css-editor-value', onClick: this.toEdit.bind(this) },
+        { className: this.className(), onClick: this.toEdit.bind(this) },
         this.props.value
       );
     }
@@ -1366,11 +1392,16 @@ var CssValue = function (_React$Component) {
     key: 'componentWillMount',
     value: function componentWillMount() {
       this.setState({
-        edit: this.props.edit
+        edit: false
       });
       //console.log('CSSValue: value = ' + this.props.value + ' editable? ' + this.props.editable);
       //console.log('CSSValue: value= ' + this.props.value + ' path? ' + this.props.path);
       //console.log('CSSValue: value= ' + this.props.value + ' value? ' + this.props.value);
+    }
+  }, {
+    key: 'className',
+    value: function className() {
+      if (this.props.highlight) return "css-editor-value css-editor-highlight";else return "css-editor-value";
     }
   }, {
     key: 'toEdit',
@@ -1393,12 +1424,22 @@ var CssValue = function (_React$Component) {
 exports.default = CssValue;
 ;
 CssValue.propTypes = {
-  value: _react.PropTypes.string.isRequired, //value of this value box
-  edit: _react.PropTypes.bool.isRequired, //whether you are in edit mode for this field or not
-  list: _react.PropTypes.array.isRequired, //data list for Awesomplete
-  item: _react.PropTypes.func.isRequired };
+  store: _react.PropTypes.object.isRequired, //Redux store object of
+  value: _react.PropTypes.string, //value of this value box
+  editable: _react.PropTypes.bool, //whether the CssValue component is editable
+  highlight: _react.PropTypes.bool, //whether the CssValue component is highlighted
+  path: _react.PropTypes.instanceOf(_immutable.List), //path in the store
+  list: _react.PropTypes.array, //data list for Awesomplete
+  item: _react.PropTypes.func };
+//item rendering function for Awesomplete
+CssValue.defaultProps = {
+  value: "",
+  list: [],
+  editable: false,
+  highlight: false
+};
 
-},{"./CssInput":15,"react":217}],20:[function(require,module,exports){
+},{"./CssInput":15,"immutable":84,"react":217}],20:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

@@ -9,7 +9,7 @@ export default class CssRule extends React.Component {
     let behaviorOptions = this.processComments(this.props.obj.declarations);
 
     return (
-      <div>
+      <div className={this.className()}>
         <CssSelectors
           selectors ={this.props.obj.selectors}
           behaviorOptions={this.props.behaviorOptions.selectors}
@@ -28,6 +28,13 @@ export default class CssRule extends React.Component {
         <div className="css-line">&#125;</div>
       </div>
     )
+  }
+
+  className() {
+    if(this.props.highlight)
+      return "css-editor-highlight"
+    else
+      return ""
   }
 
   getDeclarations(declarations){
@@ -68,6 +75,10 @@ export default class CssRule extends React.Component {
 CssRule.propTypes = {
   obj:             PropTypes.object.isRequired,  //value of this value box
   store:           PropTypes.object.isRequired,
-  path:            PropTypes.instanceOf(List)
+  path:            PropTypes.instanceOf(List),
+  highlight:       PropTypes.bool
 }
+CssRule.defaultProps = {
+  highlight: false
+};
 

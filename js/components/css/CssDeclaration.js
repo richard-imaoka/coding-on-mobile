@@ -7,11 +7,10 @@ import CSSData     from '../../ajax/cssData'
 export default class CssDeclaration extends React.Component {
   render() {
     return (
-      <div className="css-line">
+      <div className={this.className()}>
         <div className="css-editor-indent"></div>
         <CssProperty
           property={this.props.property}
-          edit={false}
           editable={this.props.propertyBehaviorOptions.editable === "true" }
           store   ={this.props.store}
           path    ={this.props.path.push("property")}
@@ -40,13 +39,24 @@ export default class CssDeclaration extends React.Component {
     //console.log('valueBehaviorOptions');
     //console.log(this.props.valueBehaviorOptions);
   }
+
+  className(){
+    if(this.props.highlight)
+      return "css-line css-editor-highlight";
+    else
+      return "css-line";
+  }
 };
 
 CssDeclaration.propTypes = {
-  property:                PropTypes.string.isRequired, //property of this value box
+    property:                PropTypes.string.isRequired, //property of this value box
     propertyBehaviorOptions: PropTypes.object.isRequired,
     value:                   PropTypes.string.isRequired, //value of this value box
     valueBehaviorOptions:    PropTypes.object.isRequired,
     store:                   PropTypes.object.isRequired,
-    path:                    PropTypes.instanceOf(List)
-}
+    path:                    PropTypes.instanceOf(List),
+    highlight:               PropTypes.bool
+};
+CssDeclaration.defaultProps = {
+  highlight: false
+};

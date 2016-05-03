@@ -25,13 +25,25 @@ export default class CssSelectors extends React.Component {
       )
     }
   }
+
+  className() {
+    if(this.props.highlight)
+      return "css-editor-highlight"
+    else
+      return ""
+  }
+  
   componentWillMount(){
     this.selectorsExceptLast = List(this.props.selectors).pop().toJS();
     this.lastSelector        = this.props.selectors[ this.props.selectors.length - 1 ];
   }
 };
 CssSelectors.propTypes = {
-  selectors:       PropTypes.array.isRequired
+  highlight:       PropTypes.bool
+}
+CssSelectors.propTypes = {
+  selectors: PropTypes.array.isRequired,
+  highlight: false
   //store:           PropTypes.object.isRequired,
   //path:            PropTypes.instanceOf(List)
 };
