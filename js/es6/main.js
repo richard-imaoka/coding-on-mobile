@@ -9,5 +9,7 @@ store.subscribe(() => {
   ReactDOM.render( <App store={store}/>, document.getElementById("app") );
 })
 
-const totalSteps = 4;
-new AjaxPreload(totalSteps, store)
+const totalSteps  = 4;
+const currentStep = 1;
+
+new AjaxPreload(currentStep, totalSteps, store)

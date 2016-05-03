@@ -3,11 +3,12 @@ import { setHtmlSourceList } from '../actions/htmlSourceListActions'
 import { gotoStep }          from "../actions/stepActions"
 class AjaxPreload {
 
-  constructor(numSteps, store ){
+  constructor(currentStep, numSteps, store ){
     this.HTMLs = [];
     this.CSSs  = [];
     this.completedHTMLSteps = 0;
     this.completedCSSSteps = 0;
+    this.currentStep = currentStep;
     this.numSteps = numSteps;
     this.store = store;
 
@@ -64,7 +65,7 @@ class AjaxPreload {
     console.log("completed. yeaaahhhh!!!!");
     this.store.dispatch( setHtmlSourceList(this.HTMLs) );
     this.store.dispatch( setCssSourceList(this.CSSs) );
-    this.store.dispatch( gotoStep( 1 ) );
+    this.store.dispatch( gotoStep( this.currentStep ) );
   }
 
 
