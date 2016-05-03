@@ -41,7 +41,7 @@ class ProgressBar extends React.Component {
   render() {
     return (
       <div ref="progressBar" className="progress-bar">
-        <div className="done" style={this.doneStyle()}></div>
+        <div className={this.progressClassName()} style={this.doneStyle()}></div>
         <div className="overlayProgress">
           Progress {this.percentage()}&#37;
         </div>
@@ -57,6 +57,13 @@ class ProgressBar extends React.Component {
     else if( this.refs.progressBar.className.includes( "animated pulse" ) ) {
       this.refs.progressBar.className = "progress-bar";
     }
+  }
+
+  progressClassName(){
+    if( this.percentage() >= 100 )
+      return "completed";
+    else
+      return "progress";
   }
 
   percentage(){

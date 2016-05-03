@@ -458,7 +458,7 @@ var ProgressBar = function (_React$Component4) {
       return _react2.default.createElement(
         'div',
         { ref: 'progressBar', className: 'progress-bar' },
-        _react2.default.createElement('div', { className: 'done', style: this.doneStyle() }),
+        _react2.default.createElement('div', { className: this.progressClassName(), style: this.doneStyle() }),
         _react2.default.createElement(
           'div',
           { className: 'overlayProgress' },
@@ -477,6 +477,11 @@ var ProgressBar = function (_React$Component4) {
       } else if (this.refs.progressBar.className.includes("animated pulse")) {
         this.refs.progressBar.className = "progress-bar";
       }
+    }
+  }, {
+    key: 'progressClassName',
+    value: function progressClassName() {
+      if (this.percentage() >= 100) return "completed";else return "progress";
     }
   }, {
     key: 'percentage',
@@ -612,16 +617,20 @@ var CssContainer = function (_React$Component) {
   _createClass(CssContainer, [{
     key: 'render',
     value: function render() {
-      return _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement(
+      if (this.props.obj === undefined || this.props.obj.rules.length === 0) {
+        return _react2.default.createElement('div', null);
+      } else {
+        return _react2.default.createElement(
           'div',
-          { className: 'bar' },
-          'CSS code'
-        ),
-        _react2.default.createElement(_CssEditor2.default, { store: this.props.store, obj: this.props.obj })
-      );
+          null,
+          _react2.default.createElement(
+            'div',
+            { className: 'bar' },
+            'CSS code'
+          ),
+          _react2.default.createElement(_CssEditor2.default, { store: this.props.store, obj: this.props.obj })
+        );
+      }
     }
   }]);
 
@@ -746,8 +755,6 @@ Object.defineProperty(exports, "__esModule", {
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = require('react');
@@ -782,32 +789,22 @@ var CssEditor = function (_React$Component) {
     value: function render() {
       var _this2 = this;
 
-      if (this.props.obj === undefined || this.props.obj.rules.length === 0) {
-        return _react2.default.createElement('div', null);
-      } else {
-        var _ret = function () {
-          var rules = _this2.getRules(_this2.props.obj.rules);
-          var behaviorOptions = _this2.processComments(_this2.props.obj.rules);
+      var rules = this.getRules(this.props.obj.rules);
+      var behaviorOptions = this.processComments(this.props.obj.rules);
 
-          return {
-            v: _react2.default.createElement(
-              'div',
-              { className: 'css-editor' },
-              rules.map(function (rule) {
-                return _react2.default.createElement(_CssRule2.default, {
-                  key: rule.id,
-                  obj: rule,
-                  store: _this2.props.store,
-                  path: _immutable.List.of("stylesheet", "rules", rule.id),
-                  behaviorOptions: behaviorOptions[rule.id]
-                });
-              })
-            )
-          };
-        }();
-
-        if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
-      }
+      return _react2.default.createElement(
+        'div',
+        { className: 'css-editor' },
+        rules.map(function (rule) {
+          return _react2.default.createElement(_CssRule2.default, {
+            key: rule.id,
+            obj: rule,
+            store: _this2.props.store,
+            path: _immutable.List.of("stylesheet", "rules", rule.id),
+            behaviorOptions: behaviorOptions[rule.id]
+          });
+        })
+      );
     }
   }, {
     key: 'getRules',

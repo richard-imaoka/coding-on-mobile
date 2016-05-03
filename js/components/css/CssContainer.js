@@ -3,11 +3,16 @@ import CssEditor  from './CssEditor'
 
 export default class CssContainer extends React.Component {
   render() {
-    return (
-      <div>
-        <div className="bar">CSS code</div>
-        <CssEditor store={this.props.store} obj={this.props.obj}></CssEditor>
-      </div>
-    );
+    if( this.props.obj === undefined || this.props.obj.rules.length === 0) {
+      return (<div />)
+    }
+    else {
+      return (
+        <div>
+          <div className="bar">CSS code</div>
+          <CssEditor store={this.props.store} obj={this.props.obj}></CssEditor>
+        </div>
+      );
+    }
   }
 }

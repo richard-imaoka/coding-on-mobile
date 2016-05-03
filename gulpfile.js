@@ -42,10 +42,13 @@ function bundle() {
 
 gulp.task('watch', function () {
   gulp.watch("css/*.css", browserSync.reload);
+  gulp.watch("css/parts/*.css", browserSync.reload);
   gulp.watch("js/*.js", browserSync.reload);
   gulp.watch("dist/*.js", browserSync.reload);
   gulp.watch("img/*.{png,jpg,svg}", browserSync.reload);
   gulp.watch("*.html", browserSync.reload);
+  gulp.watch("module1/*.html", browserSync.reload);
+  gulp.watch("module1/*.css",  browserSync.reload);
 });
 
 gulp.task('browser-sync', function() {
