@@ -8,4 +8,7 @@ export default class HtmlStartTag extends React.Component {
       </div>
     );
   }
-}
+};
+HtmlStartTag.defaultProps = {
+  highlight: false
+};

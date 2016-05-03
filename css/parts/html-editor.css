@@ -28,3 +28,7 @@
 .html-doctype {
   color: lightgray;
 }
+
+.html-editor-highlight {
+  background-color: yellow;
+}

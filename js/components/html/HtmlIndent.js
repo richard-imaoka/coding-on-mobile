@@ -10,4 +10,4 @@ export default class HtmlIndent extends React.Component {
       width: this.props.indent + "em"
     }
   }
-}
+};

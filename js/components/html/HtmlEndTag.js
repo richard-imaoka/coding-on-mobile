@@ -9,3 +9,7 @@ export default class HtmlEndTag extends React.Component {
     );
   }
 }
+HtmlEndTag.defaultProps = {
+  highlight: false
+};
+
