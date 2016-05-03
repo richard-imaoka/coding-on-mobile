@@ -1,13 +1,14 @@
 import React, { Component, PropTypes } from 'react'
 import {Navigation}             from './Navigation'
 import {HTMLNode}               from './HtmlEditor'
-import CssEditor                from './css/CssEditor'
+import CssContainer             from './css/CssContainer'
 import {Result}                 from './Result'
 
 export default class App extends React.Component {
   render() {
     return (
       <div>
+        
         <div id="logo-container">
           <div id="logo">CSS Learning</div>
         </div>
@@ -25,12 +26,8 @@ export default class App extends React.Component {
           </div>
         </div>
 
-        <div id="css-container">
-          <div className="bar">CSS code</div>
-          <CssEditor store={this.props.store} obj={this.props.store.getCssData()}/>
-        </div>
-
-
+        <CssContainer store={this.props.store} obj={this.props.store.getCssData()}/>
+        
       </div>
     )
    }

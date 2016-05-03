@@ -5,7 +5,7 @@ import CssRule  from './CssRule'
 export default class CssEditor extends React.Component {
   
   render() {
-    if( this.props.obj === undefined ) {
+    if( this.props.obj === undefined || this.props.obj.rules.length === 0) {
       return (<div />)
     }
     else {
@@ -13,7 +13,7 @@ export default class CssEditor extends React.Component {
       let behaviorOptions = this.processComments(this.props.obj.rules);
 
       return (
-        <div>
+        <div className="css-editor">
           {rules.map(rule =>
             <CssRule
               key  ={rule.id}

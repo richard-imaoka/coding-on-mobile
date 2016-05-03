@@ -9,7 +9,7 @@ export default class CssRule extends React.Component {
     let behaviorOptions = this.processComments(this.props.obj.declarations);
 
     return (
-      <div className="css-editor">
+      <div>
         <CssSelectors
           selectors ={this.props.obj.selectors}
           behaviorOptions={this.props.behaviorOptions.selectors}
