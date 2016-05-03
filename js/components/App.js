@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import {Navigation}             from './Navigation'
-import {HTMLNode}               from './HtmlEditor'
+import HtmlContainer            from './html/HtmlContainer'
 import CssContainer             from './css/CssContainer'
 import {Result}                 from './Result'
 
@@ -19,14 +19,9 @@ export default class App extends React.Component {
           <Result store={this.props.store}/>
         </div>
 
-        <div id="html-container">
-          <div className="bar">HTML code</div>
-          <div className="html-editor">
-            <HTMLNode children={this.props.store.getHtmlData()} tagName={"html"} textContent={"dummy"} />
-          </div>
-        </div>
-
-        <CssContainer store={this.props.store} obj={this.props.store.getCssData()}/>
+        <HtmlContainer data={this.props.store.getHtmlData()} />
+     
+        <CssContainer  store={this.props.store} obj={this.props.store.getCssData()}/>
         
       </div>
     )
