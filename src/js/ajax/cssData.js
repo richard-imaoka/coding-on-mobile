@@ -21,7 +21,7 @@ class CSSData {
 
   loadColors(){
     var ajax = new XMLHttpRequest();
-    ajax.open("GET", "../data/awesomplete-colors.json", true);
+    ajax.open("GET", "../../src/data/awesomplete-colors.json", true);
     let self = this;
     ajax.onload = function () {
       self.colors = JSON.parse(ajax.responseText);

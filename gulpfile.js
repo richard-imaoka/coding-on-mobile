@@ -15,7 +15,7 @@ var uglify      = require('gulp-uglify')
 
 // add custom browserify options here
 var customOpts = {
-  entries: glob.sync('./js/?(actions|ajax|components|es6|reducers|store")/*.js'),
+  entries: glob.sync('./src/js/?(actions|ajax|components|es6|reducers|store")/*.js'),
   debug: true
 };
 var opts = assign({}, watchify.args, customOpts);
@@ -40,14 +40,11 @@ function bundle() {
 }
 
 gulp.task('watch', function () {
-  gulp.watch("css/*.css",           browserSync.reload);
-  gulp.watch("css/parts/*.css",     browserSync.reload);
-  gulp.watch("js/*.js",             browserSync.reload);
+  gulp.watch("src/css/*.css",       browserSync.reload);
   gulp.watch("dist/*.js",           browserSync.reload);
   gulp.watch("img/*.{png,jpg,svg}", browserSync.reload);
   gulp.watch("*.html",              browserSync.reload);
-  gulp.watch("module1/*.html",      browserSync.reload);
-  gulp.watch("module1/*.css",       browserSync.reload);
+  gulp.watch("lessons/*/*.{html,css,js}", browserSync.reload);
 });
 
 gulp.task('browser-sync', function() {
@@ -61,7 +58,7 @@ gulp.task('browser-sync', function() {
 
 
 var customOptsTest = {
-  entries: glob.sync('./test/*.js'),
+  entries: glob.sync('./src/test/*.js'),
   debug: true
 };
 var optstest = assign({}, watchify.args, customOptsTest);
@@ -82,7 +79,7 @@ function bundletest() {
     //.pipe(uglify())                         // lol, sourcemap got much bigger using uglify
     // Add transformation tasks to the pipeline here.
     .pipe(sourcemaps.write('./')) // writes .map file
-    .pipe(gulp.dest('./dist-test'));
+    .pipe(gulp.dest('./dist/test'));
 }
 
 
