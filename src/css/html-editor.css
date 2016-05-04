@@ -4,15 +4,26 @@
   font-family     : "Source Code Pro";
 }
 
+.html-tag{
+  display: flex;
+}
+
+.html-attribute {
+  display: flex;
+}
 .html-tag-name {
   color: #006699;
 }
 
 .html-attribute-name {
-  color:       gray;
+  color: gray;
 }
 .html-attribute-value {
-  color:       blue;
+  color: blue;
+}
+
+.html-indent{
+  width: 0.5em;
 }
 
 .html-line {

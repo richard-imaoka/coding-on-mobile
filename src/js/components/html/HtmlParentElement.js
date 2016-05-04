@@ -15,25 +15,30 @@ export default class HtmlParentElement extends React.Component {
       )
     }
     else {
-      //html element's children is not an array, so children.map() method is not available
-      let htmlNodes = [];
-      for(let i = 0; i < this.props.element.children.length; i++ ) {
-        let element = this.props.element.children[i];
-        htmlNodes.push(
-          <div key={i} className="html-block">
-            <HtmlIndent />
-            <HtmlParentElement element={element} highlight={this.props.highlight} />
-          </div>
-        );
-      }
       return (
         <div>
-          <HtmlStartTag tagName={this.props.element.localName} />
-          {htmlNodes}
-          <HtmlEndTag tagName={this.props.element.localName} />
+          <HtmlStartTag tagName={this.props.element.localName} attributes={this.props.element.attributes} />
+          {this.childrenElements()}
+          <HtmlEndTag   tagName={this.props.element.localName} />
         </div>
       )
     }
+  }
+  
+  childrenElements(){
+    //html element's children is not an array, so children.map() method is not available
+    let htmlElements = [];
+    for(let i = 0; i < this.props.element.children.length; i++ ) {
+      let element = this.props.element.children[i];
+      htmlElements.push(
+        <div key={i} className="html-block">
+          <HtmlIndent />
+          <HtmlParentElement element={element} highlight={this.props.highlight} />
+        </div>
+      );
+    }
+    
+    return htmlElements;    
   }
 
   className() {
@@ -45,10 +50,8 @@ export default class HtmlParentElement extends React.Component {
 };
 HtmlTerminalElement.propTypes = {
   element  : PropTypes.object.isRequired, //data model of the component
-  highlight: PropTypes.bool,
-  indent   : PropTypes.number
+  highlight: PropTypes.bool               //whether to highlight this component
 };
 HtmlParentElement.defaultProps = {
   highlight: false,
-  indent:    0
 };

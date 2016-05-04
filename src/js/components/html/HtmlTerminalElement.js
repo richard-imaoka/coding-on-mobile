@@ -7,8 +7,8 @@ export default class HtmlTerminalElement extends React.Component {
   render() {
     return (
       <div className={this.className()}>
-        <HtmlStartTag tagName  ={this.props.element.localName}  />
-        <HtmlContent  highlight={this.props.highlightContent} textContent={this.props.element.textContent}/>
+        <HtmlStartTag tagName  ={this.props.element.localName} attributes={this.props.element.attributes}/>
+        <HtmlContent  highlight={this.props.highlightContent}  textContent={this.props.element.textContent}/>
         <HtmlEndTag   tagName  ={this.props.element.localName}  />
       </div>
     );
@@ -20,15 +20,11 @@ export default class HtmlTerminalElement extends React.Component {
     else
       return "html-block";
   }
-  
-
 };
 HtmlTerminalElement.propTypes = {
   element  : PropTypes.object.isRequired, //data model of the component
-  highlight: PropTypes.bool,
-  indent   : PropTypes.number
+  highlight: PropTypes.bool               //whether to highlight this component
 };
 HtmlTerminalElement.defaultProps = {
   highlight: false,
-  indent   : 0
 };

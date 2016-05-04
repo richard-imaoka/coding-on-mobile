@@ -29991,7 +29991,7 @@ var App = function (_React$Component) {
 
 exports.default = App;
 
-},{"./Navigation":207,"./Result":208,"./css/CssContainer":210,"./html/HtmlContainer":218,"react":181}],207:[function(require,module,exports){
+},{"./Navigation":207,"./Result":208,"./css/CssContainer":210,"./html/HtmlContainer":219,"react":181}],207:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -30211,14 +30211,24 @@ var Result = exports.Result = function (_React$Component) {
       );
     }
   }, {
-    key: "componentDidUpdate",
-    value: function componentDidUpdate() {
+    key: "iframeWrite",
+    value: function iframeWrite() {
       var src = this.props.store.getSource();
       var iframe = this.refs.iframe;
       var iframe_doc = iframe.contentDocument;
       iframe_doc.open();
       iframe_doc.write(src);
       iframe_doc.close();
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.iframeWrite();
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate() {
+      this.iframeWrite();
     }
   }]);
 
@@ -31095,6 +31105,87 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _HtmlIndent = require('./HtmlIndent');
+
+var _HtmlIndent2 = _interopRequireDefault(_HtmlIndent);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var HtmlAttribute = function (_React$Component) {
+  _inherits(HtmlAttribute, _React$Component);
+
+  function HtmlAttribute() {
+    _classCallCheck(this, HtmlAttribute);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(HtmlAttribute).apply(this, arguments));
+  }
+
+  _createClass(HtmlAttribute, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'html-attribute' },
+        _react2.default.createElement(_HtmlIndent2.default, null),
+        _react2.default.createElement(
+          'div',
+          { className: 'html-attribute-name' },
+          this.props.name
+        ),
+        _react2.default.createElement(
+          'div',
+          null,
+          '='
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'html-attribute-value' },
+          _react2.default.createElement(
+            'span',
+            null,
+            '"'
+          ),
+          this.props.value,
+          _react2.default.createElement(
+            'span',
+            null,
+            '"'
+          )
+        )
+      );
+    }
+  }]);
+
+  return HtmlAttribute;
+}(_react2.default.Component);
+
+exports.default = HtmlAttribute;
+
+HtmlAttribute.propTypes = {
+  name: _react.PropTypes.string.isRequired,
+  value: _react.PropTypes.string.isRequired,
+  highlight: _react.PropTypes.bool
+};
+
+},{"./HtmlIndent":224,"react":181}],219:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
 var _HtmlEditor = require('./HtmlEditor');
 
 var _HtmlEditor2 = _interopRequireDefault(_HtmlEditor);
@@ -31137,7 +31228,7 @@ var HtmlContainer = function (_React$Component) {
 
 exports.default = HtmlContainer;
 
-},{"./HtmlEditor":221,"react":181}],219:[function(require,module,exports){
+},{"./HtmlEditor":222,"react":181}],220:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31196,7 +31287,7 @@ HtmlContent.defaultProps = {
   highlight: false
 };
 
-},{"react":181}],220:[function(require,module,exports){
+},{"react":181}],221:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31270,7 +31361,7 @@ HtmlDocType.propTypes = {
   name: _react.PropTypes.string.isRequired //data model of the component
 };
 
-},{"./HtmlIndent":223,"react":181}],221:[function(require,module,exports){
+},{"./HtmlIndent":224,"react":181}],222:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31325,7 +31416,7 @@ var HtmlEditor = function (_React$Component) {
 
 exports.default = HtmlEditor;
 
-},{"./HtmlDocType":220,"./HtmlParentElement":224,"react":181}],222:[function(require,module,exports){
+},{"./HtmlDocType":221,"./HtmlParentElement":225,"react":181}],223:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31394,7 +31485,7 @@ HtmlEndTag.defaultProps = {
   highlight: false
 };
 
-},{"react":181}],223:[function(require,module,exports){
+},{"react":181}],224:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31427,7 +31518,7 @@ var HtmlIndent = function (_React$Component) {
   _createClass(HtmlIndent, [{
     key: "render",
     value: function render() {
-      return _react2.default.createElement("div", { style: { width: "0.5em" } });
+      return _react2.default.createElement("div", { className: "html-indent" });
     }
   }]);
 
@@ -31437,7 +31528,7 @@ var HtmlIndent = function (_React$Component) {
 exports.default = HtmlIndent;
 ;
 
-},{"react":181}],224:[function(require,module,exports){
+},{"react":181}],225:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31492,25 +31583,31 @@ var HtmlParentElement = function (_React$Component) {
           highlight: this.props.highlight
         });
       } else {
-        //html element's children is not an array, so children.map() method is not available
-        var htmlNodes = [];
-        for (var i = 0; i < this.props.element.children.length; i++) {
-          var element = this.props.element.children[i];
-          htmlNodes.push(_react2.default.createElement(
-            'div',
-            { key: i, className: 'html-block' },
-            _react2.default.createElement(_HtmlIndent2.default, null),
-            _react2.default.createElement(HtmlParentElement, { element: element, highlight: this.props.highlight })
-          ));
-        }
         return _react2.default.createElement(
           'div',
           null,
-          _react2.default.createElement(_HtmlStartTag2.default, { tagName: this.props.element.localName }),
-          htmlNodes,
+          _react2.default.createElement(_HtmlStartTag2.default, { tagName: this.props.element.localName, attributes: this.props.element.attributes }),
+          this.childrenElements(),
           _react2.default.createElement(_HtmlEndTag2.default, { tagName: this.props.element.localName })
         );
       }
+    }
+  }, {
+    key: 'childrenElements',
+    value: function childrenElements() {
+      //html element's children is not an array, so children.map() method is not available
+      var htmlElements = [];
+      for (var i = 0; i < this.props.element.children.length; i++) {
+        var element = this.props.element.children[i];
+        htmlElements.push(_react2.default.createElement(
+          'div',
+          { key: i, className: 'html-block' },
+          _react2.default.createElement(_HtmlIndent2.default, null),
+          _react2.default.createElement(HtmlParentElement, { element: element, highlight: this.props.highlight })
+        ));
+      }
+
+      return htmlElements;
     }
   }, {
     key: 'className',
@@ -31526,16 +31623,14 @@ exports.default = HtmlParentElement;
 ;
 _HtmlTerminalElement2.default.propTypes = {
   element: _react.PropTypes.object.isRequired, //data model of the component
-  highlight: _react.PropTypes.bool,
-  indent: _react.PropTypes.number
+  highlight: _react.PropTypes.bool //whether to highlight this component
 };
 HtmlParentElement.defaultProps = {
-  highlight: false,
-  indent: 0
+  highlight: false
 };
 
-},{"./HtmlEndTag":222,"./HtmlIndent":223,"./HtmlStartTag":225,"./HtmlTerminalElement":226,"react":181}],225:[function(require,module,exports){
-"use strict";
+},{"./HtmlEndTag":223,"./HtmlIndent":224,"./HtmlStartTag":226,"./HtmlTerminalElement":227,"react":181}],226:[function(require,module,exports){
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -31543,9 +31638,13 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = require("react");
+var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
+
+var _HtmlAttribute = require('./HtmlAttribute');
+
+var _HtmlAttribute2 = _interopRequireDefault(_HtmlAttribute);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31565,27 +31664,40 @@ var HtmlStartTag = function (_React$Component) {
   }
 
   _createClass(HtmlStartTag, [{
-    key: "render",
+    key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        "div",
-        { className: "html-tag" },
+        'div',
+        { className: 'html-tag' },
         _react2.default.createElement(
-          "span",
-          { className: "html-angle-bracket" },
-          "<"
+          'div',
+          { className: 'html-angle-bracket' },
+          '<'
         ),
         _react2.default.createElement(
-          "span",
-          { className: "html-tag-name" },
+          'div',
+          { className: 'html-tag-name' },
           this.props.tagName
         ),
+        this.attributeElements(),
         _react2.default.createElement(
-          "span",
-          { className: "html-angle-bracket" },
-          ">"
+          'div',
+          { className: 'html-angle-bracket' },
+          '>'
         )
       );
+    }
+  }, {
+    key: 'attributeElements',
+    value: function attributeElements() {
+      //html element's children is not an array, so children.map() method is not available
+      var htmlElements = [];
+      for (var i = 0; i < this.props.attributes.length; i++) {
+        var attribute = this.props.attributes[i];
+        htmlElements.push(_react2.default.createElement(_HtmlAttribute2.default, { name: attribute.name, value: attribute.nodeValue, highlight: this.props.highlight }));
+      }
+
+      return htmlElements;
     }
   }]);
 
@@ -31594,11 +31706,12 @@ var HtmlStartTag = function (_React$Component) {
 
 exports.default = HtmlStartTag;
 ;
+HtmlStartTag.propTypes = {};
 HtmlStartTag.defaultProps = {
   highlight: false
 };
 
-},{"react":181}],226:[function(require,module,exports){
+},{"./HtmlAttribute":218,"react":181}],227:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31646,7 +31759,7 @@ var HtmlTerminalElement = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         { className: this.className() },
-        _react2.default.createElement(_HtmlStartTag2.default, { tagName: this.props.element.localName }),
+        _react2.default.createElement(_HtmlStartTag2.default, { tagName: this.props.element.localName, attributes: this.props.element.attributes }),
         _react2.default.createElement(_HtmlContent2.default, { highlight: this.props.highlightContent, textContent: this.props.element.textContent }),
         _react2.default.createElement(_HtmlEndTag2.default, { tagName: this.props.element.localName })
       );
@@ -31665,15 +31778,13 @@ exports.default = HtmlTerminalElement;
 ;
 HtmlTerminalElement.propTypes = {
   element: _react.PropTypes.object.isRequired, //data model of the component
-  highlight: _react.PropTypes.bool,
-  indent: _react.PropTypes.number
+  highlight: _react.PropTypes.bool //whether to highlight this component
 };
 HtmlTerminalElement.defaultProps = {
-  highlight: false,
-  indent: 0
+  highlight: false
 };
 
-},{"./HtmlContent":219,"./HtmlEndTag":222,"./HtmlStartTag":225,"react":181}],227:[function(require,module,exports){
+},{"./HtmlContent":220,"./HtmlEndTag":223,"./HtmlStartTag":226,"react":181}],228:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -31731,7 +31842,7 @@ var preLoad = new _ajaxPreload2.default(currentStep, totalSteps, function () {
   _store2.default.dispatch((0, _stepActions.gotoStep)(currentStep));
 });
 
-},{"../actions/cssSourceListActions":198,"../actions/htmlSourceListActions":200,"../actions/stepActions":202,"../ajax/ajaxPreload":203,"../browserURL/history":205,"../components/App":206,"../store/store":239,"react":181,"react-dom":52}],228:[function(require,module,exports){
+},{"../actions/cssSourceListActions":198,"../actions/htmlSourceListActions":200,"../actions/stepActions":202,"../ajax/ajaxPreload":203,"../browserURL/history":205,"../components/App":206,"../store/store":240,"react":181,"react-dom":52}],229:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31745,7 +31856,7 @@ function prettyPrint(jsonObj) {
   if (_immutable.Map.isMap(jsonObj)) console.log(JSON.stringify(jsonObj.toJS(), null, " "));else console.log(JSON.stringify(jsonObj, null, " "));
 }
 
-},{"immutable":48}],229:[function(require,module,exports){
+},{"immutable":48}],230:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31831,7 +31942,7 @@ function formatCommentLine(commentLine) {
   return commentLine.replace(/\s/g, "");
 }
 
-},{}],230:[function(require,module,exports){
+},{}],231:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31968,7 +32079,7 @@ function processCssData(data) {
   return ret;
 }
 
-},{"./cssBehaviorCommentParser":229}],231:[function(require,module,exports){
+},{"./cssBehaviorCommentParser":230}],232:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32000,7 +32111,7 @@ function cssDataReducer() {
   }
 }
 
-},{"../actions/cssActions":197,"immutable":48}],232:[function(require,module,exports){
+},{"../actions/cssActions":197,"immutable":48}],233:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32041,7 +32152,7 @@ function css() {
   }
 }
 
-},{"../actions/stepActions":202,"../parsers/cssDataParser":230,"./cssDataReducer":231,"./cssSourceListReducer":233,"css":4,"immutable":48}],233:[function(require,module,exports){
+},{"../actions/stepActions":202,"../parsers/cssDataParser":231,"./cssDataReducer":232,"./cssSourceListReducer":234,"css":4,"immutable":48}],234:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32068,7 +32179,7 @@ function cssSourceList() {
   }
 }
 
-},{"../actions/cssSourceListActions":198,"immutable":48}],234:[function(require,module,exports){
+},{"../actions/cssSourceListActions":198,"immutable":48}],235:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32086,7 +32197,7 @@ function htmlDataReducer() {
   }
 }
 
-},{}],235:[function(require,module,exports){
+},{}],236:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32119,7 +32230,7 @@ function html() {
   }
 }
 
-},{"../actions/stepActions":202,"./htmlDataReducer":234,"./htmlSourceListReducer":236,"immutable":48}],236:[function(require,module,exports){
+},{"../actions/stepActions":202,"./htmlDataReducer":235,"./htmlSourceListReducer":237,"immutable":48}],237:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32146,7 +32257,7 @@ function htmlSourceList() {
   }
 }
 
-},{"../actions/htmlSourceListActions":200,"immutable":48}],237:[function(require,module,exports){
+},{"../actions/htmlSourceListActions":200,"immutable":48}],238:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32169,7 +32280,7 @@ function navigation() {
   }
 }
 
-},{"../actions/navigationActions":201}],238:[function(require,module,exports){
+},{"../actions/navigationActions":201}],239:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32282,7 +32393,7 @@ function root() {
   }
 }
 
-},{"../actions/cssSourceListActions":198,"../actions/htmlSourceListActions":200,"../actions/navigationActions":201,"../actions/stepActions":202,"./cssReducer":232,"./htmlReducer":235,"./navigationReducer":237,"immutable":48}],239:[function(require,module,exports){
+},{"../actions/cssSourceListActions":198,"../actions/htmlSourceListActions":200,"../actions/navigationActions":201,"../actions/stepActions":202,"./cssReducer":233,"./htmlReducer":236,"./navigationReducer":238,"immutable":48}],240:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32338,7 +32449,7 @@ store.getCurrentStep = function () {
 
 exports.default = store;
 
-},{"../reducers/rootReducer":238,"css":4,"redux":187}]},{},[197,198,199,200,201,202,203,204,206,207,208,227,228,231,232,233,234,235,236,237,238])
+},{"../reducers/rootReducer":239,"css":4,"redux":187}]},{},[197,198,199,200,201,202,203,204,206,207,208,228,229,232,233,234,235,236,237,238,239])
 
 
 //# sourceMappingURL=bundle.js.map

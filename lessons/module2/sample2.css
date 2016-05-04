@@ -12,3 +12,16 @@
   margin:           10px;
   background-color: red;
 }
+
+.container {
+  display: flex;
+}
+
+.text-center {
+  display        : flex;
+  font-size      : 40px;
+  text-shadow    : 2px 2px Gray;
+  color          : white;
+  align-items    : center;
+  justify-content: center;
+}

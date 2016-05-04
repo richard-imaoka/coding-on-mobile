@@ -9,7 +9,7 @@ export class Result extends React.Component {
     );
   }
 
-  componentDidUpdate(){
+  iframeWrite(){
     const src    = this.props.store.getSource();
     const iframe = this.refs.iframe;
     const iframe_doc = iframe.contentDocument;
@@ -18,4 +18,11 @@ export class Result extends React.Component {
     iframe_doc.close();
   }
 
+  componentDidMount(){
+    this.iframeWrite();
+  }
+
+  componentDidUpdate(){
+    this.iframeWrite();
+  }
 }
