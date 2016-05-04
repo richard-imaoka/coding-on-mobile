@@ -1,14 +1,14 @@
 .box {
-  width:            150px;
-  height:           150px;
+  width:            80px;
+  height:           80px;
   margin:           10px;
   background-color: red;
 }
 
 .circle {
-  width:            150px;
-  height:           150px;
-  border-radius:    150px;
+  width:            80px;
+  height:           80px;
+  border-radius:    80px;
   margin:           10px;
   background-color: red;
 }
@@ -19,7 +19,7 @@
 
 .text-center {
   display        : flex;
-  font-size      : 40px;
+  font-size      : 16px;
   text-shadow    : 2px 2px Gray;
   color          : white;
   align-items    : center;
