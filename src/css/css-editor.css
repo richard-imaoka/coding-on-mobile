@@ -115,6 +115,10 @@
   background-color: white;
 }
 
+.css-editor div{
+  flex-shrink: 0;
+}
+
 .css-line {
   display: flex;
 }
@@ -131,13 +135,12 @@
 }
 
 .css-editor-property {
-  width: 200px;
+  min-width: 200px;
   color: #006699;
   font-weight: bold;
 
 }
 .css-editor-value {
-  width: 100px;
   color: #009900;
 }
 
@@ -162,6 +165,10 @@
 
 .css-editor-highlight {
   background-color: yellow;
+}
+
+.css-editor .css-grayout {
+  color: darkgray;
 }
 /*********************************************************
   Tooltip
