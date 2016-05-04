@@ -1,5 +1,6 @@
 const HIGHLIGHT = 'HIGHLIGHT';
 const EDITABLE  = 'EDITABLE';
+const GRAYOUT   = 'GRAYOUT';
 
 const VALUE       = 'VALUE';
 const PROPERTY    = 'PROPERTY';
@@ -11,6 +12,8 @@ function isValidBehavior(behavior){
     case HIGHLIGHT:
       return true;
     case EDITABLE:
+      return true;
+    case GRAYOUT:
       return true;
     default:
       return false;

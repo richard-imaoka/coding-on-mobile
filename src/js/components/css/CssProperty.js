@@ -30,11 +30,15 @@ export default class CssProperty extends React.Component {
     //console.log('CSSProperty: property = ' + this.props.property + ' property? ' + this.props.property);
   }
 
+  defaultClass(){
+    return "css-editor-property";
+  }
+
   className() {
-    if(this.props.highlight)
-      return "css-editor-property css-editor-highlight"
-    else
-      return "css-editor-property"
+    let clazz = this.defaultClass();
+    if(this.props.highlight) clazz += " css-editor-highlight";
+    if(this.props.grayout  ) clazz += " css-editor-grayout";
+    return clazz;
   }
 
   toEdit(){
@@ -55,6 +59,7 @@ CssProperty.propTypes    = {
   property:        PropTypes.string, //data model of the component
   editable:        PropTypes.bool,   //whether the component is editable
   highlight:       PropTypes.bool,   //whether the component is highlighted
+  grayout:         PropTypes.bool,   //whether the component is grayed out
   list:            PropTypes.array,  //data list for Awesomplete
   item:            PropTypes.func    //item rendering function for Awesomplete
 };

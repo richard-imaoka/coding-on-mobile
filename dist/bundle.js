@@ -30413,7 +30413,8 @@ var CssDeclaration = function (_React$Component) {
           path: this.props.path.push("property"),
           property: this.props.declaration.property,
           editable: this.editableProperty(),
-          highlight: this.highlightProperty()
+          highlight: this.highlightProperty(),
+          grayout: this.grayoutProperty()
         }),
         _react2.default.createElement(
           'div',
@@ -30426,6 +30427,7 @@ var CssDeclaration = function (_React$Component) {
           value: this.props.declaration.value,
           editable: this.editableValue(),
           highlight: this.highlightValue(),
+          grayout: this.grayoutValue(),
           list: _cssData2.default.getData('background-color'),
           item: _cssData2.default.getRenderItem('background-color')
         }),
@@ -30447,29 +30449,62 @@ var CssDeclaration = function (_React$Component) {
       //console.log(this.props.valueBehaviorOptions);
     }
   }, {
+    key: 'defaultClass',
+    value: function defaultClass() {
+      return "css-line";
+    }
+  }, {
     key: 'className',
     value: function className() {
-      if (this.props.highlight) return "css-line css-editor-highlight";else return "css-line";
+      var clazz = this.defaultClass();
+      if (this.highlight()) clazz += " css-editor-highlight";
+      if (this.grayout()) clazz += " css-editor-grayout";
+      return clazz;
+    }
+  }, {
+    key: 'editable',
+    value: function editable() {
+      return this.props.editable || this.props.declaration.editable;
+    }
+  }, {
+    key: 'highlight',
+    value: function highlight() {
+      return this.props.highlight || this.props.declaration.highlight;
+    }
+  }, {
+    key: 'grayout',
+    value: function grayout() {
+      return this.props.grayout || this.props.declaration.grayout;
     }
   }, {
     key: 'editableProperty',
     value: function editableProperty() {
-      return this.props.declaration.editable || this.props.declaration.highlightProperty;
+      return this.props.editable || this.props.declaration.editable || this.props.declaration.highlightProperty;
     }
   }, {
     key: 'highlightProperty',
     value: function highlightProperty() {
-      return this.props.declaration.highlight || this.props.declaration.highlightProperty;
+      return this.props.highlight || this.props.declaration.highlight || this.props.declaration.highlightProperty;
+    }
+  }, {
+    key: 'grayoutProperty',
+    value: function grayoutProperty() {
+      return this.props.grayout || this.props.declaration.grayout || this.props.declaration.grayoutProperty;
     }
   }, {
     key: 'editableValue',
     value: function editableValue() {
-      return this.props.declaration.editable || this.props.declaration.editableValue;
+      return this.props.editable || this.props.declaration.editable || this.props.declaration.editableValue;
     }
   }, {
     key: 'highlightValue',
     value: function highlightValue() {
-      return this.props.declaration.highlight || this.props.declaration.highlightValue;
+      return this.props.highlight || this.props.declaration.highlight || this.props.declaration.highlightValue;
+    }
+  }, {
+    key: 'grayoutValue',
+    value: function grayoutValue() {
+      return this.props.grayout || this.props.declaration.grayout || this.props.declaration.grayoutProperty;
     }
   }]);
 
@@ -30749,9 +30784,17 @@ var CssProperty = function (_React$Component) {
       //console.log('CSSProperty: property = ' + this.props.property + ' property? ' + this.props.property);
     }
   }, {
+    key: 'defaultClass',
+    value: function defaultClass() {
+      return "css-editor-property";
+    }
+  }, {
     key: 'className',
     value: function className() {
-      if (this.props.highlight) return "css-editor-property css-editor-highlight";else return "css-editor-property";
+      var clazz = this.defaultClass();
+      if (this.props.highlight) clazz += " css-editor-highlight";
+      if (this.props.grayout) clazz += " css-editor-grayout";
+      return clazz;
     }
   }, {
     key: 'toEdit',
@@ -30779,6 +30822,7 @@ CssProperty.propTypes = {
   property: _react.PropTypes.string, //data model of the component
   editable: _react.PropTypes.bool, //whether the component is editable
   highlight: _react.PropTypes.bool, //whether the component is highlighted
+  grayout: _react.PropTypes.bool, //whether the component is grayed out
   list: _react.PropTypes.array, //data list for Awesomplete
   item: _react.PropTypes.func //item rendering function for Awesomplete
 };
@@ -30845,14 +30889,18 @@ var CssRule = function (_React$Component) {
           //selectors are special in CSS data structure - the 'selectors' component is just an array of selectors, impossible to have behavior options
           //so we need to pass behavior options from CssRule to CssSelectors
           , editable: this.editableSelectors(),
-          highlight: this.highlightSelectors()
+          highlight: this.highlightSelectors(),
+          grayout: this.grayoutSelectors()
         }),
         this.props.rule.declarations.map(function (d) {
           return _react2.default.createElement(_CssDeclaration2.default, {
             key: i,
             store: _this2.props.store,
             path: _this2.props.path.push("declarations").push(i++),
-            declaration: d
+            declaration: d,
+            editable: _this2.editable(),
+            highlight: _this2.highlight(),
+            grayout: _this2.grayout()
           });
         }),
         _react2.default.createElement(
@@ -30863,19 +30911,47 @@ var CssRule = function (_React$Component) {
       );
     }
   }, {
+    key: 'defaultClass',
+    value: function defaultClass() {
+      return "";
+    }
+  }, {
     key: 'className',
     value: function className() {
-      if (this.props.rule.highlight) return "css-editor-highlight";else return "";
+      var clazz = this.defaultClass();
+      if (this.highlight()) clazz += " css-editor-highlight";
+      if (this.grayout()) clazz += " css-editor-grayout";
+      return clazz;
+    }
+  }, {
+    key: 'editable',
+    value: function editable() {
+      return this.props.editable || this.props.rule.editable;
+    }
+  }, {
+    key: 'highlight',
+    value: function highlight() {
+      return this.props.highlight || this.props.rule.highlight;
+    }
+  }, {
+    key: 'grayout',
+    value: function grayout() {
+      return this.props.grayout || this.props.rule.grayout;
     }
   }, {
     key: 'editableSelectors',
     value: function editableSelectors() {
-      return this.props.rule.highlight || this.props.highlightSelectors;
+      return this.props.editable || this.props.rule.editable || this.props.editableSelectors;
     }
   }, {
     key: 'highlightSelectors',
     value: function highlightSelectors() {
-      return this.props.editable || this.props.highlightSelectors;
+      return this.props.highlight || this.props.rule.highlight || this.props.highlightSelectors;
+    }
+  }, {
+    key: 'grayoutSelectors',
+    value: function grayoutSelectors() {
+      return this.props.grayout || this.props.rule.grayout || this.props.grayoutSelectors;
     }
   }]);
 
@@ -30887,7 +30963,10 @@ exports.default = CssRule;
 CssRule.propTypes = {
   store: _react.PropTypes.object.isRequired, //Redux store object
   path: _react.PropTypes.instanceOf(_immutable.List), //path in the store
-  rule: _react.PropTypes.object.isRequired //data model of the component
+  rule: _react.PropTypes.object.isRequired, //data model of the component
+  highlight: _react.PropTypes.bool, //whether the CssSelectors component is highlighted
+  editable: _react.PropTypes.bool, //whether the CssSelectors component is editable
+  grayout: _react.PropTypes.bool //whether the component is grayed out
 };
 
 },{"./CssDeclaration":211,"./CssSelectors":216,"immutable":48,"react":181}],216:[function(require,module,exports){
@@ -30956,9 +31035,17 @@ var CssSelectors = function (_React$Component) {
       );
     }
   }, {
+    key: 'defaultClass',
+    value: function defaultClass() {
+      return "";
+    }
+  }, {
     key: 'className',
     value: function className() {
-      if (this.props.highlight) return "css-editor-highlight";else return "";
+      var clazz = "";
+      if (this.props.highlight) clazz += " css-editor-highlight";
+      if (this.props.grayout) clazz += " css-editor-grayout";
+      return clazz;
     }
   }, {
     key: 'componentWillMount',
@@ -30980,7 +31067,8 @@ CssSelectors.propTypes = {
   //selectors are special in CSS data structure - the 'selectors' component is just an array of selectors, impossible to have behavior options
   //so we need to pass behavior options from CssRule to CssSelectors
   highlight: _react.PropTypes.bool, //whether the CssSelectors component is highlighted
-  editable: _react.PropTypes.bool //whether the CssSelectors component is editable
+  editable: _react.PropTypes.bool, //whether the CssSelectors component is editable
+  grayout: _react.PropTypes.bool //whether the component is grayed out
 };
 
 },{"immutable":48,"react":181}],217:[function(require,module,exports){
@@ -31052,9 +31140,17 @@ var CssValue = function (_React$Component) {
       //console.log('CSSValue: value= ' + this.props.value + ' value? ' + this.props.value);
     }
   }, {
+    key: 'defaultClass',
+    value: function defaultClass() {
+      return "css-editor-value";
+    }
+  }, {
     key: 'className',
     value: function className() {
-      if (this.props.highlight) return "css-editor-value css-editor-highlight";else return "css-editor-value";
+      var clazz = this.defaultClass();
+      if (this.props.highlight) clazz += " css-editor-highlight";
+      if (this.props.grayout) clazz += " css-editor-grayout";
+      return clazz;
     }
   }, {
     key: 'toEdit',
@@ -31082,6 +31178,7 @@ CssValue.propTypes = {
   value: _react.PropTypes.string, //data model of the component
   editable: _react.PropTypes.bool, //whether the component is editable
   highlight: _react.PropTypes.bool, //whether the component is highlighted
+  grayout: _react.PropTypes.bool, //whether the component is grayed out
   list: _react.PropTypes.array, //data list for Awesomplete
   item: _react.PropTypes.func //item rendering function for Awesomplete
 };
@@ -31694,7 +31791,7 @@ var HtmlStartTag = function (_React$Component) {
       var htmlElements = [];
       for (var i = 0; i < this.props.attributes.length; i++) {
         var attribute = this.props.attributes[i];
-        htmlElements.push(_react2.default.createElement(_HtmlAttribute2.default, { name: attribute.name, value: attribute.nodeValue, highlight: this.props.highlight }));
+        htmlElements.push(_react2.default.createElement(_HtmlAttribute2.default, { key: i, name: attribute.name, value: attribute.nodeValue, highlight: this.props.highlight }));
       }
 
       return htmlElements;
@@ -31870,6 +31967,7 @@ exports.parseBehaviorComment = parseBehaviorComment;
 exports.formatCommentLine = formatCommentLine;
 var HIGHLIGHT = 'HIGHLIGHT';
 var EDITABLE = 'EDITABLE';
+var GRAYOUT = 'GRAYOUT';
 
 var VALUE = 'VALUE';
 var PROPERTY = 'PROPERTY';
@@ -31881,6 +31979,8 @@ function isValidBehavior(behavior) {
     case HIGHLIGHT:
       return true;
     case EDITABLE:
+      return true;
+    case GRAYOUT:
       return true;
     default:
       return false;

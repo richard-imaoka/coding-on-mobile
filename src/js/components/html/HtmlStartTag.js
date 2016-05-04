@@ -19,7 +19,7 @@ export default class HtmlStartTag extends React.Component {
     for(let i = 0; i < this.props.attributes.length; i++ ) {
       let attribute = this.props.attributes[i];
       htmlElements.push(
-        <HtmlAttribute name={attribute.name} value={attribute.nodeValue} highlight={this.props.highlight} />
+        <HtmlAttribute key={i} name={attribute.name} value={attribute.nodeValue} highlight={this.props.highlight} />
       );
     }
 

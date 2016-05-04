@@ -6,18 +6,27 @@ export default class CssSelectors extends React.Component {
     return (
       <div>
         {this.selectorsExceptLast.map(s =>
-          <div className="css-line" key={s}><span className={this.className()}>{s}</span>&#44;</div>
+          <div className="css-line" key={s}>
+            <span className={this.className()}>{s}</span>&#44;
+          </div>
         )}
-        <div className="css-line"><span className={this.className()}>{this.lastSelector}</span><div className="css-editor-indent"></div>&#123;</div>
+        <div className="css-line">
+          <span className={this.className()}>{this.lastSelector}</span>
+          <div className="css-editor-indent"></div>&#123;
+        </div>
       </div>
     )
   }
 
+  defaultClass(){
+    return "";
+  }
+
   className() {
-    if(this.props.highlight)
-      return "css-editor-highlight"
-    else
-      return ""
+    let clazz = "";
+    if(this.props.highlight) clazz += " css-editor-highlight";
+    if(this.props.grayout)   clazz += " css-editor-grayout";
+    return clazz;
   }
   
   componentWillMount(){
@@ -33,6 +42,7 @@ CssSelectors.propTypes = {
     //selectors are special in CSS data structure - the 'selectors' component is just an array of selectors, impossible to have behavior options
     //so we need to pass behavior options from CssRule to CssSelectors
   highlight: PropTypes.bool, //whether the CssSelectors component is highlighted
-  editable : PropTypes.bool  //whether the CssSelectors component is editable
+  editable : PropTypes.bool, //whether the CssSelectors component is editable
+  grayout:   PropTypes.bool  //whether the component is grayed out
 };
 

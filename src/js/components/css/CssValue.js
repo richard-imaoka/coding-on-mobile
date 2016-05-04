@@ -33,11 +33,15 @@ export default class CssValue extends React.Component {
     //console.log('CSSValue: value= ' + this.props.value + ' value? ' + this.props.value);
   }
 
+  defaultClass(){
+    return "css-editor-value"; 
+  }
+
   className() {
-    if(this.props.highlight)
-      return "css-editor-value css-editor-highlight"
-    else
-      return "css-editor-value"
+    let clazz = this.defaultClass();
+    if(this.props.highlight) clazz += " css-editor-highlight";
+    if(this.props.grayout  ) clazz += " css-editor-grayout";
+    return clazz;
   }
 
   toEdit(){
@@ -58,6 +62,7 @@ CssValue.propTypes = {
   value:           PropTypes.string, //data model of the component
   editable:        PropTypes.bool,   //whether the component is editable
   highlight:       PropTypes.bool,   //whether the component is highlighted
+  grayout:         PropTypes.bool,   //whether the component is grayed out
   list:            PropTypes.array,  //data list for Awesomplete
   item:            PropTypes.func    //item rendering function for Awesomplete
 };

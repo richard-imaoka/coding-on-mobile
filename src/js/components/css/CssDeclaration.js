@@ -15,6 +15,7 @@ export default class CssDeclaration extends React.Component {
           property ={this.props.declaration.property}
           editable ={this.editableProperty()}
           highlight={this.highlightProperty()}
+          grayout  ={this.grayoutProperty()}
         />
         <div className="css-editor-colon">:</div>
         <CssValue
@@ -23,6 +24,7 @@ export default class CssDeclaration extends React.Component {
           value     ={this.props.declaration.value}
           editable  ={this.editableValue()}
           highlight ={this.highlightValue()}
+          grayout   ={this.grayoutValue()}
           list={CSSData.getData('background-color')}
           item={CSSData.getRenderItem('background-color')}
         />
@@ -40,28 +42,53 @@ export default class CssDeclaration extends React.Component {
     //console.log(this.props.valueBehaviorOptions);
   }
 
-  className(){
-    if(this.props.highlight)
-      return "css-line css-editor-highlight";
-    else
-      return "css-line";
+  defaultClass(){
+    return "css-line";
   }
 
+  className() {
+    let clazz = this.defaultClass();
+    if(this.highlight()) clazz += " css-editor-highlight";
+    if(this.grayout())   clazz += " css-editor-grayout";
+    return clazz;
+  }
+
+  editable() {
+    return this.props.editable || this.props.declaration.editable;
+  }
+
+  highlight() {
+    return this.props.highlight || this.props.declaration.highlight;
+  }
+
+  grayout() {
+    return this.props.grayout || this.props.declaration.grayout;
+  }
+  
   editableProperty(){
-    return this.props.declaration.editable  || this.props.declaration.highlightProperty;
+    return this.props.editable  || this.props.declaration.editable  || this.props.declaration.highlightProperty;
   }
 
   highlightProperty(){
-    return this.props.declaration.highlight || this.props.declaration.highlightProperty;
+    return this.props.highlight || this.props.declaration.highlight || this.props.declaration.highlightProperty;
+  }
+
+  grayoutProperty(){
+    return this.props.grayout   || this.props.declaration.grayout   || this.props.declaration.grayoutProperty;
   }
 
   editableValue(){
-    return this.props.declaration.editable  || this.props.declaration.editableValue;
+    return this.props.editable  || this.props.declaration.editable  || this.props.declaration.editableValue;
   }
 
   highlightValue(){
-    return this.props.declaration.highlight || this.props.declaration.highlightValue;
+    return this.props.highlight || this.props.declaration.highlight || this.props.declaration.highlightValue;
   }
+
+  grayoutValue(){
+    return this.props.grayout   || this.props.declaration.grayout   || this.props.declaration.grayoutProperty;
+  }
+
 };
 CssDeclaration.propTypes = {
   store:                   PropTypes.object.isRequired, //Redux store object of
