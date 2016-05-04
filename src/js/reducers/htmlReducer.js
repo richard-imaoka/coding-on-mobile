@@ -10,8 +10,7 @@ export function html(state = Map({htmlData: {}, htmlSourceList: List(), htmlSour
       const htmlSource = state.get("htmlSourceList").get(action.step);
       const parser     = new DOMParser();
       const doc        = parser.parseFromString(htmlSource, "text/html");
-      let   html       = doc.children[0];
-      return state.set("htmlData", html).set("htmlSource", htmlSource);
+      return state.set("htmlData", doc).set("htmlSource", htmlSource);
     default:
       //console.log("CSS: undefined action received", action);
       return state

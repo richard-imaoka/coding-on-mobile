@@ -1,13 +1,20 @@
 import React, { Component, PropTypes } from 'react'
-import HtmlNode  from './HtmlNode'
+import HtmlDocType        from './HtmlDocType'
+import HtmlParentElement  from './HtmlParentElement'
 
 export default class HtmlEditor extends React.Component {
   render() {
-    return (
-        <div className="html-editor">
-          <HtmlNode children={this.props.data} tagName={"html"} />
-        </div>
-    )
+    if(this.props.doc === undefined)
+      return (
+        <div />
+      )
+    else
+      return (
+          <div className="html-editor">
+            <HtmlDocType       name   ={this.props.doc.doctype.name}/>
+            <HtmlParentElement element={this.props.doc.children[0]} />
+          </div>
+      );
   }
 }
 

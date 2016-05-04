@@ -4,21 +4,16 @@ import { processCssData } from '../js/parsers/cssDataParser'
 
 
 let ajax = new XMLHttpRequest();
-ajax.open("GET", "sample.css", true);
+ajax.open("GET", "sample.html", true);
 ajax.onload = function () {
-  const  cssSource = ajax.responseText;
-  const  cssJSON   = cssParser.parse(cssSource);
 
-  let b = {};
-  cssJSON.stylesheet.rules.forEach(a => {
-    b[a.type] = 1;
-  });
-  
-  console.log(b);
-  
+  const htmlSource = ajax.responseText;
+  const parser     = new DOMParser();
+  const doc        = parser.parseFromString(htmlSource, "text/html");
+  let   html       = doc;
+
+
   //cssJSON.stylesheet.rules[2].declarations = assignBehaviorToArray( cssJSON.stylesheet.rules[2].declarations );
-  let processed = processCssData(cssJSON);
-  //prettyPrint(processed);
 
   //console.log(cssParser.stringify(processed));
 

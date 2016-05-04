@@ -5,7 +5,7 @@ import { root }    from '../reducers/rootReducer'
 const store = createStore(root);
 
 store.getHtmlData = function() {
-  return store.getState().html.get("htmlData").children;
+  return store.getState().html.get("htmlData");
 }
 
 store.getHtmlSource = function(){

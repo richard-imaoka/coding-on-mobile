@@ -31107,16 +31107,16 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var CssContainer = function (_React$Component) {
-  _inherits(CssContainer, _React$Component);
+var HtmlContainer = function (_React$Component) {
+  _inherits(HtmlContainer, _React$Component);
 
-  function CssContainer() {
-    _classCallCheck(this, CssContainer);
+  function HtmlContainer() {
+    _classCallCheck(this, HtmlContainer);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(CssContainer).apply(this, arguments));
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(HtmlContainer).apply(this, arguments));
   }
 
-  _createClass(CssContainer, [{
+  _createClass(HtmlContainer, [{
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
@@ -31127,17 +31127,17 @@ var CssContainer = function (_React$Component) {
           { className: 'bar' },
           'HTML code'
         ),
-        _react2.default.createElement(_HtmlEditor2.default, { data: this.props.data })
+        _react2.default.createElement(_HtmlEditor2.default, { doc: this.props.data })
       );
     }
   }]);
 
-  return CssContainer;
+  return HtmlContainer;
 }(_react2.default.Component);
 
-exports.default = CssContainer;
+exports.default = HtmlContainer;
 
-},{"./HtmlEditor":220,"react":181}],219:[function(require,module,exports){
+},{"./HtmlEditor":221,"react":181}],219:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31209,9 +31209,87 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _HtmlNode = require('./HtmlNode');
+var _HtmlIndent = require('./HtmlIndent');
 
-var _HtmlNode2 = _interopRequireDefault(_HtmlNode);
+var _HtmlIndent2 = _interopRequireDefault(_HtmlIndent);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var HtmlDocType = function (_React$Component) {
+  _inherits(HtmlDocType, _React$Component);
+
+  function HtmlDocType() {
+    _classCallCheck(this, HtmlDocType);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(HtmlDocType).apply(this, arguments));
+  }
+
+  _createClass(HtmlDocType, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'html-line html-doctype' },
+        _react2.default.createElement(
+          'span',
+          null,
+          '<!'
+        ),
+        _react2.default.createElement(
+          'span',
+          null,
+          'DOCTYPE'
+        ),
+        _react2.default.createElement(_HtmlIndent2.default, { indent: 1 }),
+        _react2.default.createElement(
+          'span',
+          null,
+          this.props.name
+        ),
+        _react2.default.createElement(
+          'span',
+          null,
+          '>'
+        )
+      );
+    }
+  }]);
+
+  return HtmlDocType;
+}(_react2.default.Component);
+
+exports.default = HtmlDocType;
+;
+HtmlDocType.propTypes = {
+  name: _react.PropTypes.string.isRequired //data model of the component
+};
+
+},{"./HtmlIndent":223,"react":181}],221:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _HtmlDocType = require('./HtmlDocType');
+
+var _HtmlDocType2 = _interopRequireDefault(_HtmlDocType);
+
+var _HtmlParentElement = require('./HtmlParentElement');
+
+var _HtmlParentElement2 = _interopRequireDefault(_HtmlParentElement);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31233,10 +31311,11 @@ var HtmlEditor = function (_React$Component) {
   _createClass(HtmlEditor, [{
     key: 'render',
     value: function render() {
-      return _react2.default.createElement(
+      if (this.props.doc === undefined) return _react2.default.createElement('div', null);else return _react2.default.createElement(
         'div',
         { className: 'html-editor' },
-        _react2.default.createElement(_HtmlNode2.default, { children: this.props.data, tagName: "html" })
+        _react2.default.createElement(_HtmlDocType2.default, { name: this.props.doc.doctype.name }),
+        _react2.default.createElement(_HtmlParentElement2.default, { element: this.props.doc.children[0] })
       );
     }
   }]);
@@ -31246,7 +31325,7 @@ var HtmlEditor = function (_React$Component) {
 
 exports.default = HtmlEditor;
 
-},{"./HtmlNode":223,"react":181}],221:[function(require,module,exports){
+},{"./HtmlDocType":220,"./HtmlParentElement":224,"react":181}],222:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31315,7 +31394,7 @@ HtmlEndTag.defaultProps = {
   highlight: false
 };
 
-},{"react":181}],222:[function(require,module,exports){
+},{"react":181}],223:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31365,7 +31444,7 @@ var HtmlIndent = function (_React$Component) {
 exports.default = HtmlIndent;
 ;
 
-},{"react":181}],223:[function(require,module,exports){
+},{"react":181}],224:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31378,6 +31457,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _HtmlTerminalElement = require('./HtmlTerminalElement');
+
+var _HtmlTerminalElement2 = _interopRequireDefault(_HtmlTerminalElement);
+
 var _HtmlStartTag = require('./HtmlStartTag');
 
 var _HtmlStartTag2 = _interopRequireDefault(_HtmlStartTag);
@@ -31385,14 +31468,6 @@ var _HtmlStartTag2 = _interopRequireDefault(_HtmlStartTag);
 var _HtmlEndTag = require('./HtmlEndTag');
 
 var _HtmlEndTag2 = _interopRequireDefault(_HtmlEndTag);
-
-var _HtmlIndent = require('./HtmlIndent');
-
-var _HtmlIndent2 = _interopRequireDefault(_HtmlIndent);
-
-var _HtmlContent = require('./HtmlContent');
-
-var _HtmlContent2 = _interopRequireDefault(_HtmlContent);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31402,112 +31477,67 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var HtmlNode = function (_React$Component) {
-  _inherits(HtmlNode, _React$Component);
+var HtmlParentElement = function (_React$Component) {
+  _inherits(HtmlParentElement, _React$Component);
 
-  function HtmlNode() {
-    _classCallCheck(this, HtmlNode);
+  function HtmlParentElement() {
+    _classCallCheck(this, HtmlParentElement);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(HtmlNode).apply(this, arguments));
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(HtmlParentElement).apply(this, arguments));
   }
 
-  _createClass(HtmlNode, [{
+  _createClass(HtmlParentElement, [{
     key: 'render',
     value: function render() {
-      //if terminal node
-      if (this.props.children === undefined) return _react2.default.createElement('div', null);else if (this.props.children.length === 0) {
-        //console.log( "terminal node rendered ", this.props.tagName );
+      if (this.props.element.children.length === 0) {
+        return _react2.default.createElement(_HtmlTerminalElement2.default, {
+          element: this.props.element,
+          highlight: this.props.highlight,
+          indent: this.props.indent
+        });
+      } else {
+        //html element's children is not an array, so children.map() method is not available
+        var htmlNodes = [];
+        for (var i = 0; i < this.props.element.children.length; i++) {
+          var element = this.props.element.children[i];
+          htmlNodes.push(_react2.default.createElement(HtmlParentElement, {
+            key: i,
+            element: element,
+            highlight: this.props.highlight
+          }));
+        }
         return _react2.default.createElement(
           'div',
-          { className: this.className() },
-          _react2.default.createElement(_HtmlStartTag2.default, { tagName: this.props.tagName, highlight: this.props.highlight }),
-          _react2.default.createElement(
-            'div',
-            { className: 'html-line' },
-            _react2.default.createElement(_HtmlIndent2.default, { indent: this.indent(this.props.textContent) }),
-            _react2.default.createElement(_HtmlContent2.default, { highlight: this.props.highlightContent, textContent: this.props.textContent })
-          ),
-          _react2.default.createElement(_HtmlEndTag2.default, { tagName: this.props.tagName, highlight: this.props.highlight })
+          { className: 'html-node' },
+          _react2.default.createElement(_HtmlStartTag2.default, { tagName: this.props.element.localName }),
+          htmlNodes,
+          _react2.default.createElement(_HtmlEndTag2.default, { tagName: this.props.element.localName })
         );
       }
-      //if the node has children
-      else {
-          var htmlNodes = [];
-          var children = this.props.children;
-          for (var i = 0; i < children.length; i++) {
-            var c = this.props.children[i];
-            htmlNodes.push(_react2.default.createElement(HtmlNode, {
-              key: i,
-              children: c.children,
-              tagName: c.localName,
-              textContent: c.textContent //TODO: better not evaluate it for performance?
-            }));
-          }
-
-          return _react2.default.createElement(
-            'div',
-            { className: 'html-node' },
-            _react2.default.createElement(_HtmlStartTag2.default, { tagName: this.props.tagName }),
-            htmlNodes,
-            _react2.default.createElement(_HtmlEndTag2.default, { tagName: this.props.tagName })
-          );
-        }
     }
   }, {
     key: 'className',
     value: function className() {
-      if (this.props.highlight) return "html-node html-editor-highlight";else return "html-node";
-    }
-  }, {
-    key: 'indent',
-    value: function indent(text) {
-      var indent = 0;
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
-
-      try {
-        for (var _iterator = text[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-          var ch = _step.value;
-
-          switch (ch) {
-            case "\n":
-              break;
-            case " ":
-              indent++;
-              break;
-            default:
-              return indent;
-          }
-        }
-      } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion && _iterator.return) {
-            _iterator.return();
-          }
-        } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
-          }
-        }
-      }
+      if (this.props.highlight) return "html-node html-highlight";else return "html-node";
     }
   }]);
 
-  return HtmlNode;
+  return HtmlParentElement;
 }(_react2.default.Component);
 
-exports.default = HtmlNode;
+exports.default = HtmlParentElement;
 ;
-HtmlNode.defaultProps = {
+_HtmlTerminalElement2.default.propTypes = {
+  element: _react.PropTypes.object.isRequired, //data model of the component
+  highlight: _react.PropTypes.bool,
+  indent: _react.PropTypes.number
+};
+HtmlParentElement.defaultProps = {
   highlight: false,
-  highlightContent: true
+  indent: 0
 };
 
-},{"./HtmlContent":219,"./HtmlEndTag":221,"./HtmlIndent":222,"./HtmlStartTag":224,"react":181}],224:[function(require,module,exports){
+},{"./HtmlEndTag":222,"./HtmlStartTag":225,"./HtmlTerminalElement":226,"react":181}],225:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31571,7 +31601,124 @@ HtmlStartTag.defaultProps = {
   highlight: false
 };
 
-},{"react":181}],225:[function(require,module,exports){
+},{"react":181}],226:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _HtmlStartTag = require('./HtmlStartTag');
+
+var _HtmlStartTag2 = _interopRequireDefault(_HtmlStartTag);
+
+var _HtmlEndTag = require('./HtmlEndTag');
+
+var _HtmlEndTag2 = _interopRequireDefault(_HtmlEndTag);
+
+var _HtmlIndent = require('./HtmlIndent');
+
+var _HtmlIndent2 = _interopRequireDefault(_HtmlIndent);
+
+var _HtmlContent = require('./HtmlContent');
+
+var _HtmlContent2 = _interopRequireDefault(_HtmlContent);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var HtmlTerminalElement = function (_React$Component) {
+  _inherits(HtmlTerminalElement, _React$Component);
+
+  function HtmlTerminalElement() {
+    _classCallCheck(this, HtmlTerminalElement);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(HtmlTerminalElement).apply(this, arguments));
+  }
+
+  _createClass(HtmlTerminalElement, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { className: this.className() },
+        _react2.default.createElement(_HtmlIndent2.default, { indent: this.props.indent + this.textIndent(this.props.element.textContent) }),
+        _react2.default.createElement(_HtmlStartTag2.default, { tagName: this.props.element.localName }),
+        _react2.default.createElement(_HtmlContent2.default, { highlight: this.props.highlightContent, textContent: this.props.element.textContent }),
+        _react2.default.createElement(_HtmlEndTag2.default, { tagName: this.props.element.localName })
+      );
+    }
+  }, {
+    key: 'className',
+    value: function className() {
+      if (this.props.highlight) return "html-line html-highlight";else return "html-line";
+    }
+  }, {
+    key: 'textIndent',
+    value: function textIndent(text) {
+      var indent = 0;
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = text[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var ch = _step.value;
+
+          switch (ch) {
+            case "\n":
+              break;
+            case " ":
+              indent++;
+              break;
+            default:
+              return indent;
+          }
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator.return) {
+            _iterator.return();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+    }
+  }]);
+
+  return HtmlTerminalElement;
+}(_react2.default.Component);
+
+exports.default = HtmlTerminalElement;
+;
+HtmlTerminalElement.propTypes = {
+  element: _react.PropTypes.object.isRequired, //data model of the component
+  highlight: _react.PropTypes.bool,
+  indent: _react.PropTypes.number
+};
+HtmlTerminalElement.defaultProps = {
+  highlight: false,
+  indent: 0
+};
+
+},{"./HtmlContent":219,"./HtmlEndTag":222,"./HtmlIndent":223,"./HtmlStartTag":225,"react":181}],227:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -31629,7 +31776,7 @@ var preLoad = new _ajaxPreload2.default(currentStep, totalSteps, function () {
   _store2.default.dispatch((0, _stepActions.gotoStep)(currentStep));
 });
 
-},{"../actions/cssSourceListActions":198,"../actions/htmlSourceListActions":200,"../actions/stepActions":202,"../ajax/ajaxPreload":203,"../browserURL/history":205,"../components/App":206,"../store/store":237,"react":181,"react-dom":52}],226:[function(require,module,exports){
+},{"../actions/cssSourceListActions":198,"../actions/htmlSourceListActions":200,"../actions/stepActions":202,"../ajax/ajaxPreload":203,"../browserURL/history":205,"../components/App":206,"../store/store":239,"react":181,"react-dom":52}],228:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31643,7 +31790,7 @@ function prettyPrint(jsonObj) {
   if (_immutable.Map.isMap(jsonObj)) console.log(JSON.stringify(jsonObj.toJS(), null, " "));else console.log(JSON.stringify(jsonObj, null, " "));
 }
 
-},{"immutable":48}],227:[function(require,module,exports){
+},{"immutable":48}],229:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31729,7 +31876,7 @@ function formatCommentLine(commentLine) {
   return commentLine.replace(/\s/g, "");
 }
 
-},{}],228:[function(require,module,exports){
+},{}],230:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31866,7 +32013,7 @@ function processCssData(data) {
   return ret;
 }
 
-},{"./cssBehaviorCommentParser":227}],229:[function(require,module,exports){
+},{"./cssBehaviorCommentParser":229}],231:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31898,7 +32045,7 @@ function cssDataReducer() {
   }
 }
 
-},{"../actions/cssActions":197,"immutable":48}],230:[function(require,module,exports){
+},{"../actions/cssActions":197,"immutable":48}],232:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31939,7 +32086,7 @@ function css() {
   }
 }
 
-},{"../actions/stepActions":202,"../parsers/cssDataParser":228,"./cssDataReducer":229,"./cssSourceListReducer":231,"css":4,"immutable":48}],231:[function(require,module,exports){
+},{"../actions/stepActions":202,"../parsers/cssDataParser":230,"./cssDataReducer":231,"./cssSourceListReducer":233,"css":4,"immutable":48}],233:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31966,7 +32113,7 @@ function cssSourceList() {
   }
 }
 
-},{"../actions/cssSourceListActions":198,"immutable":48}],232:[function(require,module,exports){
+},{"../actions/cssSourceListActions":198,"immutable":48}],234:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31984,7 +32131,7 @@ function htmlDataReducer() {
   }
 }
 
-},{}],233:[function(require,module,exports){
+},{}],235:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32010,15 +32157,14 @@ function html() {
       var htmlSource = state.get("htmlSourceList").get(action.step);
       var parser = new DOMParser();
       var doc = parser.parseFromString(htmlSource, "text/html");
-      var html = doc.children[0];
-      return state.set("htmlData", html).set("htmlSource", htmlSource);
+      return state.set("htmlData", doc).set("htmlSource", htmlSource);
     default:
       //console.log("CSS: undefined action received", action);
       return state.set("htmlData", (0, _htmlDataReducer.htmlDataReducer)(state.get("htmlData"), action)).set("htmlSourceList", (0, _htmlSourceListReducer.htmlSourceList)(state.get("htmlSourceList"), action));
   }
 }
 
-},{"../actions/stepActions":202,"./htmlDataReducer":232,"./htmlSourceListReducer":234,"immutable":48}],234:[function(require,module,exports){
+},{"../actions/stepActions":202,"./htmlDataReducer":234,"./htmlSourceListReducer":236,"immutable":48}],236:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32045,7 +32191,7 @@ function htmlSourceList() {
   }
 }
 
-},{"../actions/htmlSourceListActions":200,"immutable":48}],235:[function(require,module,exports){
+},{"../actions/htmlSourceListActions":200,"immutable":48}],237:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32068,7 +32214,7 @@ function navigation() {
   }
 }
 
-},{"../actions/navigationActions":201}],236:[function(require,module,exports){
+},{"../actions/navigationActions":201}],238:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32181,7 +32327,7 @@ function root() {
   }
 }
 
-},{"../actions/cssSourceListActions":198,"../actions/htmlSourceListActions":200,"../actions/navigationActions":201,"../actions/stepActions":202,"./cssReducer":230,"./htmlReducer":233,"./navigationReducer":235,"immutable":48}],237:[function(require,module,exports){
+},{"../actions/cssSourceListActions":198,"../actions/htmlSourceListActions":200,"../actions/navigationActions":201,"../actions/stepActions":202,"./cssReducer":232,"./htmlReducer":235,"./navigationReducer":237,"immutable":48}],239:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32201,7 +32347,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 var store = (0, _redux.createStore)(_rootReducer.root);
 
 store.getHtmlData = function () {
-  return store.getState().html.get("htmlData").children;
+  return store.getState().html.get("htmlData");
 };
 
 store.getHtmlSource = function () {
@@ -32237,7 +32383,7 @@ store.getCurrentStep = function () {
 
 exports.default = store;
 
-},{"../reducers/rootReducer":236,"css":4,"redux":187}]},{},[197,198,199,200,201,202,203,204,206,207,208,225,226,229,230,231,232,233,234,235,236])
+},{"../reducers/rootReducer":238,"css":4,"redux":187}]},{},[197,198,199,200,201,202,203,204,206,207,208,227,228,231,232,233,234,235,236,237,238])
 
 
 //# sourceMappingURL=bundle.js.map
