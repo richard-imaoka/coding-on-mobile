@@ -1,16 +1,11 @@
 .html-editor {
   padding         : 5px;
   background-color: white;
-  font-family: "Source Code Pro";
+  font-family     : "Source Code Pro";
 }
 
 .html-tag-name {
-  font-weight: bold;
-  color:        #006699;
-}
-
-.html-indent {
-  width: 1em;
+  color: #006699;
 }
 
 .html-attribute-name {
@@ -21,8 +16,12 @@
 }
 
 .html-line {
-  display: flex;
+  display:     flex;
   line-height: 18px;
+}
+
+.html-block {
+  display: flex;
 }
 
 .html-doctype {

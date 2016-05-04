@@ -31360,7 +31360,7 @@ var HtmlEndTag = function (_React$Component) {
     value: function render() {
       return _react2.default.createElement(
         "div",
-        { className: "html-tag html-line" },
+        { className: "html-tag" },
         _react2.default.createElement(
           "span",
           { className: "html-angle-bracket" },
@@ -31427,14 +31427,7 @@ var HtmlIndent = function (_React$Component) {
   _createClass(HtmlIndent, [{
     key: "render",
     value: function render() {
-      return _react2.default.createElement("div", { style: this.divStyle() });
-    }
-  }, {
-    key: "divStyle",
-    value: function divStyle() {
-      return {
-        width: this.props.indent + "em"
-      };
+      return _react2.default.createElement("div", { style: { width: "0.5em" } });
     }
   }]);
 
@@ -31469,6 +31462,10 @@ var _HtmlEndTag = require('./HtmlEndTag');
 
 var _HtmlEndTag2 = _interopRequireDefault(_HtmlEndTag);
 
+var _HtmlIndent = require('./HtmlIndent');
+
+var _HtmlIndent2 = _interopRequireDefault(_HtmlIndent);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -31492,23 +31489,23 @@ var HtmlParentElement = function (_React$Component) {
       if (this.props.element.children.length === 0) {
         return _react2.default.createElement(_HtmlTerminalElement2.default, {
           element: this.props.element,
-          highlight: this.props.highlight,
-          indent: this.props.indent
+          highlight: this.props.highlight
         });
       } else {
         //html element's children is not an array, so children.map() method is not available
         var htmlNodes = [];
         for (var i = 0; i < this.props.element.children.length; i++) {
           var element = this.props.element.children[i];
-          htmlNodes.push(_react2.default.createElement(HtmlParentElement, {
-            key: i,
-            element: element,
-            highlight: this.props.highlight
-          }));
+          htmlNodes.push(_react2.default.createElement(
+            'div',
+            { key: i, className: 'html-block' },
+            _react2.default.createElement(_HtmlIndent2.default, null),
+            _react2.default.createElement(HtmlParentElement, { element: element, highlight: this.props.highlight })
+          ));
         }
         return _react2.default.createElement(
           'div',
-          { className: 'html-node' },
+          null,
           _react2.default.createElement(_HtmlStartTag2.default, { tagName: this.props.element.localName }),
           htmlNodes,
           _react2.default.createElement(_HtmlEndTag2.default, { tagName: this.props.element.localName })
@@ -31537,7 +31534,7 @@ HtmlParentElement.defaultProps = {
   indent: 0
 };
 
-},{"./HtmlEndTag":222,"./HtmlStartTag":225,"./HtmlTerminalElement":226,"react":181}],225:[function(require,module,exports){
+},{"./HtmlEndTag":222,"./HtmlIndent":223,"./HtmlStartTag":225,"./HtmlTerminalElement":226,"react":181}],225:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31572,7 +31569,7 @@ var HtmlStartTag = function (_React$Component) {
     value: function render() {
       return _react2.default.createElement(
         "div",
-        { className: "html-tag html-line" },
+        { className: "html-tag" },
         _react2.default.createElement(
           "span",
           { className: "html-angle-bracket" },
@@ -31622,10 +31619,6 @@ var _HtmlEndTag = require('./HtmlEndTag');
 
 var _HtmlEndTag2 = _interopRequireDefault(_HtmlEndTag);
 
-var _HtmlIndent = require('./HtmlIndent');
-
-var _HtmlIndent2 = _interopRequireDefault(_HtmlIndent);
-
 var _HtmlContent = require('./HtmlContent');
 
 var _HtmlContent2 = _interopRequireDefault(_HtmlContent);
@@ -31653,7 +31646,6 @@ var HtmlTerminalElement = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         { className: this.className() },
-        _react2.default.createElement(_HtmlIndent2.default, { indent: this.props.indent + this.textIndent(this.props.element.textContent) }),
         _react2.default.createElement(_HtmlStartTag2.default, { tagName: this.props.element.localName }),
         _react2.default.createElement(_HtmlContent2.default, { highlight: this.props.highlightContent, textContent: this.props.element.textContent }),
         _react2.default.createElement(_HtmlEndTag2.default, { tagName: this.props.element.localName })
@@ -31662,44 +31654,7 @@ var HtmlTerminalElement = function (_React$Component) {
   }, {
     key: 'className',
     value: function className() {
-      if (this.props.highlight) return "html-line html-highlight";else return "html-line";
-    }
-  }, {
-    key: 'textIndent',
-    value: function textIndent(text) {
-      var indent = 0;
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
-
-      try {
-        for (var _iterator = text[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-          var ch = _step.value;
-
-          switch (ch) {
-            case "\n":
-              break;
-            case " ":
-              indent++;
-              break;
-            default:
-              return indent;
-          }
-        }
-      } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion && _iterator.return) {
-            _iterator.return();
-          }
-        } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
-          }
-        }
-      }
+      if (this.props.highlight) return "html-block html-highlight";else return "html-block";
     }
   }]);
 
@@ -31718,7 +31673,7 @@ HtmlTerminalElement.defaultProps = {
   indent: 0
 };
 
-},{"./HtmlContent":219,"./HtmlEndTag":222,"./HtmlIndent":223,"./HtmlStartTag":225,"react":181}],227:[function(require,module,exports){
+},{"./HtmlContent":219,"./HtmlEndTag":222,"./HtmlStartTag":225,"react":181}],227:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');

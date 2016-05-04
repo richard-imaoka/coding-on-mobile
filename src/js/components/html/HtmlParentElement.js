@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import HtmlTerminalElement from './HtmlTerminalElement'
 import HtmlStartTag  from './HtmlStartTag'
 import HtmlEndTag    from './HtmlEndTag'
+import HtmlIndent    from './HtmlIndent'
 
 export default class HtmlParentElement extends React.Component {
   render() {
@@ -10,7 +11,6 @@ export default class HtmlParentElement extends React.Component {
         <HtmlTerminalElement
           element  ={this.props.element}
           highlight={this.props.highlight}
-          indent   ={this.props.indent}
         />
       )
     }
@@ -20,15 +20,14 @@ export default class HtmlParentElement extends React.Component {
       for(let i = 0; i < this.props.element.children.length; i++ ) {
         let element = this.props.element.children[i];
         htmlNodes.push(
-          <HtmlParentElement
-            key      ={i}
-            element  ={element}
-            highlight={this.props.highlight}
-          />
+          <div key={i} className="html-block">
+            <HtmlIndent />
+            <HtmlParentElement element={element} highlight={this.props.highlight} />
+          </div>
         );
       }
       return (
-        <div className="html-node">
+        <div>
           <HtmlStartTag tagName={this.props.element.localName} />
           {htmlNodes}
           <HtmlEndTag tagName={this.props.element.localName} />
