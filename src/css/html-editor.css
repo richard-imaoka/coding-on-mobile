@@ -2,10 +2,15 @@
   padding         : 5px;
   background-color: white;
   font-family     : "Source Code Pro";
+  overflow        : auto;
+}
+
+.html-editor div {
+  flex-shrink: 0;
 }
 
 .html-tag{
-  display: flex;
+  display:         flex;
 }
 
 .html-attribute {
