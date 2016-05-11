@@ -1,30 +1,18 @@
 import React, { Component, PropTypes } from 'react'
 import { List } from 'immutable'
-import CssInput from './CssInput'
-import {updatePropertyName} from '../../actions/cssActions'
-
+import {popupEditor} from '../../actions/popupEditorActions'
 
 export default class CssProperty extends React.Component {
   render() {
-    if(this.state.edit)
-      return (
-        <CssInput
-          list={this.props.list}
-          item={this.props.item}
-          defaultValue={this.props.property}
-          onInputComplete={this.unEdit.bind(this)}
-        />
-      )
-    else
-      return(
-        <div className={this.className()} onClick={this.toEdit.bind(this)}>{this.props.property}</div>
-      )
+    return(
+      <div ref      ="myself"
+           className={this.className()}
+           onClick  ={this.toEdit.bind(this)}
+      >{this.props.property}</div>
+    )
   }
 
   componentWillMount() {
-    this.setState({
-      edit:     this.props.edit
-    });
     //console.log('CSSProperty: property = ' + this.props.property + ' editable? ' + this.props.editable);
     //console.log('CSSProperty: property = ' + this.props.property + ' path? ' + this.props.path);
     //console.log('CSSProperty: property = ' + this.props.property + ' property? ' + this.props.property);
@@ -41,16 +29,14 @@ export default class CssProperty extends React.Component {
     return clazz;
   }
 
-  toEdit(){
-    if(this.props.editable)
-      this.setState({ edit: true });
-  }
+  toEdit(event){
+    //Since the root-level <App> component has onClick = kill Editor
+    //TODO: hmm knowning <App>'s implementation detail...? Anyway, preventing the default behavior is not preferable. Seek for a better way
+    event.stopPropagation();
 
-  unEdit(value){
-    this.setState({
-      edit: !this.state.edit
-    });
-    this.props.store.dispatch(updatePropertyName(this.props.path, value));
+    const rectangle  = this.refs.myself.getBoundingClientRect();
+    const offset     = { x: window.pageXOffset, y: window.pageYOffset };
+    this.props.store.dispatch(popupEditor( rectangle, offset, this.props.path, "property", this.props.property ));
   }
 };
 CssProperty.propTypes    = {
@@ -69,6 +55,3 @@ CssProperty.defaultProps = {
   editable:  false,
   highlight: false
 };
-
-
-

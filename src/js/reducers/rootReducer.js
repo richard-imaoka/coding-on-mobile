@@ -2,12 +2,13 @@ import { Map }             from 'immutable'
 import { html }            from './htmlReducer'
 import { css }             from './cssReducer'
 import { navigation }      from './navigationReducer'
+import { popup }           from './popupEditorReducer'
 import { setProgress }     from '../actions/navigationActions'
 import { NEXT_STEP, PREV_STEP, GOTO_STEP, gotoStep } from '../actions/stepActions'
 import { SET_HTML_SOURCE_LIST } from '../actions/htmlSourceListActions'
 import { SET_CSS_SOURCE_LIST }  from '../actions/cssSourceListActions'
 
-export function root(state = { currentStep: 1, totalSteps: 1, html: Map(), css: Map(), navigation: {} }, action = undefined){
+export function root(state = { currentStep: 1, totalSteps: 1, html: Map(), css: Map(), navigation: {}, popup: {} }, action = undefined){
   switch(action.type) {
     case NEXT_STEP:
       console.debug("action received", action);
@@ -23,7 +24,8 @@ export function root(state = { currentStep: 1, totalSteps: 1, html: Map(), css: 
           totalSteps:  state.totalSteps,
           html:        html( state.html, gotoStep(nextStep) ),
           css:         css(  state.css,  gotoStep(nextStep) ),
-          navigation:  navigation( state.navigation, setProgress(nextStep, state.totalSteps) )
+          navigation:  navigation( state.navigation, setProgress(nextStep, state.totalSteps) ),
+          popup:       popup(state.popup, action )
         };
       }
 
@@ -41,7 +43,8 @@ export function root(state = { currentStep: 1, totalSteps: 1, html: Map(), css: 
           totalSteps:  state.totalSteps,
           html:        html( state.html, gotoStep(prevStep) ),
           css:         css(  state.css,  gotoStep(prevStep) ),
-          navigation:  navigation( state.navigation, setProgress(prevStep, state.totalSteps) )
+          navigation:  navigation( state.navigation, setProgress(prevStep, state.totalSteps) ),
+          popup:       popup(state.popup, action )
         };
       }
 
@@ -62,7 +65,8 @@ export function root(state = { currentStep: 1, totalSteps: 1, html: Map(), css: 
           totalSteps:  state.totalSteps,
           html:        html( state.html, action ),
           css:         css(  state.css,  action ),
-          navigation:  navigation( state.navigation, setProgress(action.step, state.totalSteps) )
+          navigation:  navigation( state.navigation, setProgress(action.step, state.totalSteps) ),
+          popup:       popup(state.popup, action )
         };
       }
 
@@ -73,7 +77,8 @@ export function root(state = { currentStep: 1, totalSteps: 1, html: Map(), css: 
         totalSteps:  htmlState.get("htmlSourceList").size - 1,
         html:        htmlState,
         css:         css( state.css, action ),
-        navigation:  navigation( state.navigation, action )
+        navigation:  navigation( state.navigation, action ),
+        popup:       popup(state.popup, action )
       };
 
     case SET_CSS_SOURCE_LIST:
@@ -83,7 +88,8 @@ export function root(state = { currentStep: 1, totalSteps: 1, html: Map(), css: 
         totalSteps:  cssState.get("cssSourceList").size - 1,
         html:        html( state.html, action ),
         css:         cssState,
-        navigation:  navigation( state.navigation, action )
+        navigation:  navigation( state.navigation, action ),
+        popup:       popup(state.popup, action )
       };
 
     default:
@@ -92,7 +98,8 @@ export function root(state = { currentStep: 1, totalSteps: 1, html: Map(), css: 
         totalSteps:  state.totalSteps,
         html:        html( state.html, action ),
         css:         css(  state.css,  action ),
-        navigation:  navigation( state.navigation, action )
+        navigation:  navigation( state.navigation, action ),
+        popup:       popup(state.popup, action )
       };
   }
 }

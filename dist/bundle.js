@@ -29689,6 +29689,25 @@ function setProgress(currentStep, totalSteps) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.popupEditor = popupEditor;
+exports.closeEditor = closeEditor;
+var POPUP_EDITOR = exports.POPUP_EDITOR = 'POPUP_EDITOR';
+var CLOSE_EDITOR = exports.CLOSE_EDITOR = 'CLOSE_EDITOR';
+
+function popupEditor(rectangle, offset, path, editorType, data) {
+  return { type: POPUP_EDITOR, rectangle: rectangle, offset: offset, path: path, editorType: editorType, data: data };
+}
+
+function closeEditor() {
+  return { type: CLOSE_EDITOR };
+}
+
+},{}],203:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.nextStep = nextStep;
 exports.prevStep = prevStep;
 exports.gotoStep = gotoStep;
@@ -29708,7 +29727,7 @@ function gotoStep(step) {
   return { type: GOTO_STEP, step: step };
 }
 
-},{}],203:[function(require,module,exports){
+},{}],204:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29788,7 +29807,7 @@ var AjaxPreload = function () {
 
 exports.default = AjaxPreload;
 
-},{}],204:[function(require,module,exports){
+},{}],205:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29869,7 +29888,7 @@ var CSSData = function () {
 var CSSDataSingleton = new CSSData();
 exports.default = CSSDataSingleton;
 
-},{}],205:[function(require,module,exports){
+},{}],206:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -29912,7 +29931,7 @@ function getCurrentStepFromUrl(url) {
   }
 }
 
-},{}],206:[function(require,module,exports){
+},{}],207:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -29937,6 +29956,12 @@ var _CssContainer2 = _interopRequireDefault(_CssContainer);
 
 var _Result = require('./Result');
 
+var _PopupEditor = require('./PopupEditor');
+
+var _PopupEditor2 = _interopRequireDefault(_PopupEditor);
+
+var _popupEditorActions = require('../actions/popupEditorActions');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -29959,7 +29984,7 @@ var App = function (_React$Component) {
     value: function render() {
       return _react2.default.createElement(
         'div',
-        null,
+        { onClick: this._handleClick.bind(this) },
         _react2.default.createElement(
           'div',
           { id: 'logo-container' },
@@ -29981,8 +30006,22 @@ var App = function (_React$Component) {
           _react2.default.createElement(_Result.Result, { store: this.props.store })
         ),
         _react2.default.createElement(_HtmlContainer2.default, { data: this.props.store.getHtmlData() }),
-        _react2.default.createElement(_CssContainer2.default, { store: this.props.store, data: this.props.store.getCssData() })
+        _react2.default.createElement(_CssContainer2.default, { store: this.props.store, data: this.props.store.getCssData() }),
+        _react2.default.createElement(_PopupEditor2.default, {
+          store: this.props.store,
+          popup: this.props.store.getState().popup
+        })
       );
+    }
+
+    //Called due to event-bubbling from inner elements, if event.stopPropagation(); is not called
+    //See what components call event.stopPropagation();
+    //TODO: Bad design? Knowing inner element's behavior...
+
+  }, {
+    key: '_handleClick',
+    value: function _handleClick() {
+      this.props.store.dispatch((0, _popupEditorActions.closeEditor)());
     }
   }]);
 
@@ -29991,7 +30030,7 @@ var App = function (_React$Component) {
 
 exports.default = App;
 
-},{"./Navigation":207,"./Result":208,"./css/CssContainer":210,"./html/HtmlContainer":219,"react":181}],207:[function(require,module,exports){
+},{"../actions/popupEditorActions":202,"./Navigation":208,"./PopupEditor":209,"./Result":210,"./css/CssContainer":212,"./html/HtmlContainer":222,"react":181}],208:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -30170,7 +30209,56 @@ var Navigation = exports.Navigation = function (_React$Component5) {
   return Navigation;
 }(_react2.default.Component);
 
-},{"../actions/stepActions":202,"react":181}],208:[function(require,module,exports){
+},{"../actions/stepActions":203,"react":181}],209:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _CssPropertyEditor = require('./css/CssPropertyEditor');
+
+var _CssPropertyEditor2 = _interopRequireDefault(_CssPropertyEditor);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var App = function (_React$Component) {
+  _inherits(App, _React$Component);
+
+  function App() {
+    _classCallCheck(this, App);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(App).apply(this, arguments));
+  }
+
+  _createClass(App, [{
+    key: 'render',
+    value: function render() {
+      if (this.props.popup.rectangle === undefined) return _react2.default.createElement('div', null);else return _react2.default.createElement(_CssPropertyEditor2.default, {
+        store: this.props.store,
+        popup: this.props.store.getState().popup
+      });
+    }
+  }]);
+
+  return App;
+}(_react2.default.Component);
+
+exports.default = App;
+
+},{"./css/CssPropertyEditor":217,"react":181}],210:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -30235,7 +30323,7 @@ var Result = exports.Result = function (_React$Component) {
   return Result;
 }(_react2.default.Component);
 
-},{"react":181}],209:[function(require,module,exports){
+},{"react":181}],211:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -30298,7 +30386,7 @@ exports.default = CssSelectors;
 CssSelectors.propTypes = {
   comment: _react.PropTypes.string.isRequired };
 
-},{"react":181}],210:[function(require,module,exports){
+},{"react":181}],212:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -30357,7 +30445,7 @@ var CssContainer = function (_React$Component) {
 
 exports.default = CssContainer;
 
-},{"./CssEditor":212,"react":181}],211:[function(require,module,exports){
+},{"./CssEditor":214,"react":181}],213:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -30522,7 +30610,7 @@ CssDeclaration.defaultProps = {
   declaration: { property: "", value: "" }
 };
 
-},{"../../ajax/cssData":204,"./CssProperty":214,"./CssValue":217,"immutable":48,"react":181}],212:[function(require,module,exports){
+},{"../../ajax/cssData":205,"./CssProperty":216,"./CssValue":220,"immutable":48,"react":181}],214:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -30618,7 +30706,7 @@ CssEditor.propTypes = {
   stylesheet: _react.PropTypes.object.isRequired //data model of the component
 };
 
-},{"./CssComment":209,"./CssRule":215,"immutable":48,"react":181}],213:[function(require,module,exports){
+},{"./CssComment":211,"./CssRule":218,"immutable":48,"react":181}],215:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -30721,7 +30809,7 @@ CssInput.propTypes = {
   onInputComplete: _react.PropTypes.func.isRequired //callback invoked when input is completed
 };
 
-},{"awesomplete":2,"react":181,"react-dom":52}],214:[function(require,module,exports){
+},{"awesomplete":2,"react":181,"react-dom":52}],216:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -30736,11 +30824,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _immutable = require('immutable');
 
-var _CssInput = require('./CssInput');
-
-var _CssInput2 = _interopRequireDefault(_CssInput);
-
-var _cssActions = require('../../actions/cssActions');
+var _popupEditorActions = require('../../actions/popupEditorActions');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -30762,23 +30846,18 @@ var CssProperty = function (_React$Component) {
   _createClass(CssProperty, [{
     key: 'render',
     value: function render() {
-      if (this.state.edit) return _react2.default.createElement(_CssInput2.default, {
-        list: this.props.list,
-        item: this.props.item,
-        defaultValue: this.props.property,
-        onInputComplete: this.unEdit.bind(this)
-      });else return _react2.default.createElement(
+      return _react2.default.createElement(
         'div',
-        { className: this.className(), onClick: this.toEdit.bind(this) },
+        { ref: 'myself',
+          className: this.className(),
+          onClick: this.toEdit.bind(this)
+        },
         this.props.property
       );
     }
   }, {
     key: 'componentWillMount',
     value: function componentWillMount() {
-      this.setState({
-        edit: this.props.edit
-      });
       //console.log('CSSProperty: property = ' + this.props.property + ' editable? ' + this.props.editable);
       //console.log('CSSProperty: property = ' + this.props.property + ' path? ' + this.props.path);
       //console.log('CSSProperty: property = ' + this.props.property + ' property? ' + this.props.property);
@@ -30798,16 +30877,14 @@ var CssProperty = function (_React$Component) {
     }
   }, {
     key: 'toEdit',
-    value: function toEdit() {
-      if (this.props.editable) this.setState({ edit: true });
-    }
-  }, {
-    key: 'unEdit',
-    value: function unEdit(value) {
-      this.setState({
-        edit: !this.state.edit
-      });
-      this.props.store.dispatch((0, _cssActions.updatePropertyName)(this.props.path, value));
+    value: function toEdit(event) {
+      //Since the root-level <App> component has onClick = kill Editor
+      //TODO: hmm knowning <App>'s implementation detail...? Anyway, preventing the default behavior is not preferable. Seek for a better way
+      event.stopPropagation();
+
+      var rectangle = this.refs.myself.getBoundingClientRect();
+      var offset = { x: window.pageXOffset, y: window.pageYOffset };
+      this.props.store.dispatch((0, _popupEditorActions.popupEditor)(rectangle, offset, this.props.path, "property", this.props.property));
     }
   }]);
 
@@ -30833,7 +30910,150 @@ CssProperty.defaultProps = {
   highlight: false
 };
 
-},{"../../actions/cssActions":197,"./CssInput":213,"immutable":48,"react":181}],215:[function(require,module,exports){
+},{"../../actions/popupEditorActions":202,"immutable":48,"react":181}],217:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = require('react-dom');
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _awesomplete = require('awesomplete');
+
+var _awesomplete2 = _interopRequireDefault(_awesomplete);
+
+var _cssData = require('../../ajax/cssData');
+
+var _cssData2 = _interopRequireDefault(_cssData);
+
+var _cssActions = require('../../actions/cssActions');
+
+var _popupEditorActions = require('../../actions/popupEditorActions');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var CssPropertyEditor = function (_React$Component) {
+  _inherits(CssPropertyEditor, _React$Component);
+
+  function CssPropertyEditor() {
+    _classCallCheck(this, CssPropertyEditor);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(CssPropertyEditor).apply(this, arguments));
+  }
+
+  _createClass(CssPropertyEditor, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { style: this.getStyle() },
+        _react2.default.createElement('input', {
+          className: 'css-editor-input',
+          type: 'text',
+          ref: 'input',
+          value: this.state.value,
+          onChange: this._handleChange.bind(this),
+          onKeyPress: this._handleKeyPress.bind(this)
+        })
+      );
+    }
+  }, {
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      this.setState({ value: this.props.popup.data });
+    }
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(newProps) {
+      this.setState({ value: newProps.popup.data });
+    }
+  }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate() {
+      var input = _reactDom2.default.findDOMNode(this.refs.input);
+      input.focus();
+    }
+  }, {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      //console.log('componentdidmount called in InputBox')
+      var config = {
+        minChars: 0,
+        list: _cssData2.default.getData('background-color'),
+        item: _cssData2.default.getRenderItem('background-color') //if undefined, deleted below
+      };
+      if (config.item === undefined) delete config['item'];
+
+      var input = _reactDom2.default.findDOMNode(this.refs.input);
+      this._autocomplete = new _awesomplete2.default(input, config);
+
+      input.addEventListener('awesomplete-selectcomplete', this._handleAutocompleteSelect.bind(this));
+      input.focus();
+      this._autocomplete.evaluate();
+    }
+  }, {
+    key: 'getStyle',
+    value: function getStyle() {
+      return {
+        position: "absolute",
+        top: this.props.popup.rectangle.top + this.props.popup.offset.y,
+        left: this.props.popup.rectangle.left + this.props.popup.offset.x,
+        height: this.props.popup.rectangle.height,
+        width: this.props.popup.rectangle.width,
+        zIndex: "10",
+        borderWidth: "1px",
+        backgroundColor: "lightgreen"
+      };
+    }
+  }, {
+    key: 'getText',
+    value: function getText() {
+      if (this.props.popup.rectangle === undefined) return "I am an editor";else return "bottom = " + this.props.popup.rectangle.bottom + ", left = " + this.props.popup.rectangle.left;
+    }
+  }, {
+    key: '_handleChange',
+    value: function _handleChange(event) {
+      this.setState({ value: event.target.value });
+    }
+  }, {
+    key: '_handleKeyPress',
+    value: function _handleKeyPress(event) {
+      //charCode === 13 is Enter
+      if (event.charCode === 13) {
+        this.props.store.dispatch((0, _cssActions.updatePropertyName)(this.props.popup.path, this.refs.input.value));
+        this.props.store.dispatch((0, _popupEditorActions.closeEditor)());
+      }
+    }
+  }, {
+    key: '_handleAutocompleteSelect',
+    value: function _handleAutocompleteSelect(event) {
+      this.props.store.dispatch((0, _cssActions.updatePropertyName)(this.props.popup.path, event.target.value));
+      this.props.store.dispatch((0, _popupEditorActions.closeEditor)());
+    }
+  }]);
+
+  return CssPropertyEditor;
+}(_react2.default.Component);
+
+exports.default = CssPropertyEditor;
+;
+
+},{"../../actions/cssActions":197,"../../actions/popupEditorActions":202,"../../ajax/cssData":205,"awesomplete":2,"react":181,"react-dom":52}],218:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -30969,7 +31189,7 @@ CssRule.propTypes = {
   grayout: _react.PropTypes.bool //whether the component is grayed out
 };
 
-},{"./CssDeclaration":211,"./CssSelectors":216,"immutable":48,"react":181}],216:[function(require,module,exports){
+},{"./CssDeclaration":213,"./CssSelectors":219,"immutable":48,"react":181}],219:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31071,7 +31291,7 @@ CssSelectors.propTypes = {
   grayout: _react.PropTypes.bool //whether the component is grayed out
 };
 
-},{"immutable":48,"react":181}],217:[function(require,module,exports){
+},{"immutable":48,"react":181}],220:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31189,7 +31409,7 @@ CssValue.defaultProps = {
   highlight: false
 };
 
-},{"../../actions/cssActions":197,"./CssInput":213,"immutable":48,"react":181}],218:[function(require,module,exports){
+},{"../../actions/cssActions":197,"./CssInput":215,"immutable":48,"react":181}],221:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31270,7 +31490,7 @@ HtmlAttribute.propTypes = {
   highlight: _react.PropTypes.bool
 };
 
-},{"./HtmlIndent":224,"react":181}],219:[function(require,module,exports){
+},{"./HtmlIndent":227,"react":181}],222:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31325,7 +31545,7 @@ var HtmlContainer = function (_React$Component) {
 
 exports.default = HtmlContainer;
 
-},{"./HtmlEditor":222,"react":181}],220:[function(require,module,exports){
+},{"./HtmlEditor":225,"react":181}],223:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31384,7 +31604,7 @@ HtmlContent.defaultProps = {
   highlight: false
 };
 
-},{"react":181}],221:[function(require,module,exports){
+},{"react":181}],224:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31458,7 +31678,7 @@ HtmlDocType.propTypes = {
   name: _react.PropTypes.string.isRequired //data model of the component
 };
 
-},{"./HtmlIndent":224,"react":181}],222:[function(require,module,exports){
+},{"./HtmlIndent":227,"react":181}],225:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31513,7 +31733,7 @@ var HtmlEditor = function (_React$Component) {
 
 exports.default = HtmlEditor;
 
-},{"./HtmlDocType":221,"./HtmlParentElement":225,"react":181}],223:[function(require,module,exports){
+},{"./HtmlDocType":224,"./HtmlParentElement":228,"react":181}],226:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31582,7 +31802,7 @@ HtmlEndTag.defaultProps = {
   highlight: false
 };
 
-},{"react":181}],224:[function(require,module,exports){
+},{"react":181}],227:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31625,7 +31845,7 @@ var HtmlIndent = function (_React$Component) {
 exports.default = HtmlIndent;
 ;
 
-},{"react":181}],225:[function(require,module,exports){
+},{"react":181}],228:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31726,7 +31946,7 @@ HtmlParentElement.defaultProps = {
   highlight: false
 };
 
-},{"./HtmlEndTag":223,"./HtmlIndent":224,"./HtmlStartTag":226,"./HtmlTerminalElement":227,"react":181}],226:[function(require,module,exports){
+},{"./HtmlEndTag":226,"./HtmlIndent":227,"./HtmlStartTag":229,"./HtmlTerminalElement":230,"react":181}],229:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31808,7 +32028,7 @@ HtmlStartTag.defaultProps = {
   highlight: false
 };
 
-},{"./HtmlAttribute":218,"react":181}],227:[function(require,module,exports){
+},{"./HtmlAttribute":221,"react":181}],230:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31881,7 +32101,7 @@ HtmlTerminalElement.defaultProps = {
   highlight: false
 };
 
-},{"./HtmlContent":220,"./HtmlEndTag":223,"./HtmlStartTag":226,"react":181}],228:[function(require,module,exports){
+},{"./HtmlContent":223,"./HtmlEndTag":226,"./HtmlStartTag":229,"react":181}],231:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -31939,7 +32159,7 @@ var preLoad = new _ajaxPreload2.default(currentStep, totalSteps, function () {
   _store2.default.dispatch((0, _stepActions.gotoStep)(currentStep));
 });
 
-},{"../actions/cssSourceListActions":198,"../actions/htmlSourceListActions":200,"../actions/stepActions":202,"../ajax/ajaxPreload":203,"../browserURL/history":205,"../components/App":206,"../store/store":240,"react":181,"react-dom":52}],229:[function(require,module,exports){
+},{"../actions/cssSourceListActions":198,"../actions/htmlSourceListActions":200,"../actions/stepActions":203,"../ajax/ajaxPreload":204,"../browserURL/history":206,"../components/App":207,"../store/store":244,"react":181,"react-dom":52}],232:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31953,7 +32173,7 @@ function prettyPrint(jsonObj) {
   if (_immutable.Map.isMap(jsonObj)) console.log(JSON.stringify(jsonObj.toJS(), null, " "));else console.log(JSON.stringify(jsonObj, null, " "));
 }
 
-},{"immutable":48}],230:[function(require,module,exports){
+},{"immutable":48}],233:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32042,7 +32262,7 @@ function formatCommentLine(commentLine) {
   return commentLine.replace(/\s/g, "");
 }
 
-},{}],231:[function(require,module,exports){
+},{}],234:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32179,7 +32399,7 @@ function processCssData(data) {
   return ret;
 }
 
-},{"./cssBehaviorCommentParser":230}],232:[function(require,module,exports){
+},{"./cssBehaviorCommentParser":233}],235:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32211,7 +32431,7 @@ function cssDataReducer() {
   }
 }
 
-},{"../actions/cssActions":197,"immutable":48}],233:[function(require,module,exports){
+},{"../actions/cssActions":197,"immutable":48}],236:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32252,7 +32472,7 @@ function css() {
   }
 }
 
-},{"../actions/stepActions":202,"../parsers/cssDataParser":231,"./cssDataReducer":232,"./cssSourceListReducer":234,"css":4,"immutable":48}],234:[function(require,module,exports){
+},{"../actions/stepActions":203,"../parsers/cssDataParser":234,"./cssDataReducer":235,"./cssSourceListReducer":237,"css":4,"immutable":48}],237:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32279,7 +32499,7 @@ function cssSourceList() {
   }
 }
 
-},{"../actions/cssSourceListActions":198,"immutable":48}],235:[function(require,module,exports){
+},{"../actions/cssSourceListActions":198,"immutable":48}],238:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32297,7 +32517,7 @@ function htmlDataReducer() {
   }
 }
 
-},{}],236:[function(require,module,exports){
+},{}],239:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32330,7 +32550,7 @@ function html() {
   }
 }
 
-},{"../actions/stepActions":202,"./htmlDataReducer":235,"./htmlSourceListReducer":237,"immutable":48}],237:[function(require,module,exports){
+},{"../actions/stepActions":203,"./htmlDataReducer":238,"./htmlSourceListReducer":240,"immutable":48}],240:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32357,7 +32577,7 @@ function htmlSourceList() {
   }
 }
 
-},{"../actions/htmlSourceListActions":200,"immutable":48}],238:[function(require,module,exports){
+},{"../actions/htmlSourceListActions":200,"immutable":48}],241:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32380,7 +32600,33 @@ function navigation() {
   }
 }
 
-},{"../actions/navigationActions":201}],239:[function(require,module,exports){
+},{"../actions/navigationActions":201}],242:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.popup = popup;
+
+var _popupEditorActions = require("../actions/popupEditorActions");
+
+function popup() {
+  var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+  var action = arguments.length <= 1 || arguments[1] === undefined ? undefined : arguments[1];
+
+  switch (action.type) {
+    case _popupEditorActions.CLOSE_EDITOR:
+      return {};
+    case _popupEditorActions.POPUP_EDITOR:
+      console.log("action received:", action);
+      return action;
+    default:
+      //console.log("HTML: undefined action received", action);
+      return state;
+  }
+}
+
+},{"../actions/popupEditorActions":202}],243:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32396,6 +32642,8 @@ var _cssReducer = require('./cssReducer');
 
 var _navigationReducer = require('./navigationReducer');
 
+var _popupEditorReducer = require('./popupEditorReducer');
+
 var _navigationActions = require('../actions/navigationActions');
 
 var _stepActions = require('../actions/stepActions');
@@ -32405,7 +32653,7 @@ var _htmlSourceListActions = require('../actions/htmlSourceListActions');
 var _cssSourceListActions = require('../actions/cssSourceListActions');
 
 function root() {
-  var state = arguments.length <= 0 || arguments[0] === undefined ? { currentStep: 1, totalSteps: 1, html: (0, _immutable.Map)(), css: (0, _immutable.Map)(), navigation: {} } : arguments[0];
+  var state = arguments.length <= 0 || arguments[0] === undefined ? { currentStep: 1, totalSteps: 1, html: (0, _immutable.Map)(), css: (0, _immutable.Map)(), navigation: {}, popup: {} } : arguments[0];
   var action = arguments.length <= 1 || arguments[1] === undefined ? undefined : arguments[1];
 
   switch (action.type) {
@@ -32422,7 +32670,8 @@ function root() {
           totalSteps: state.totalSteps,
           html: (0, _htmlReducer.html)(state.html, (0, _stepActions.gotoStep)(nextStep)),
           css: (0, _cssReducer.css)(state.css, (0, _stepActions.gotoStep)(nextStep)),
-          navigation: (0, _navigationReducer.navigation)(state.navigation, (0, _navigationActions.setProgress)(nextStep, state.totalSteps))
+          navigation: (0, _navigationReducer.navigation)(state.navigation, (0, _navigationActions.setProgress)(nextStep, state.totalSteps)),
+          popup: (0, _popupEditorReducer.popup)(state.popup, action)
         };
       }
 
@@ -32439,7 +32688,8 @@ function root() {
           totalSteps: state.totalSteps,
           html: (0, _htmlReducer.html)(state.html, (0, _stepActions.gotoStep)(prevStep)),
           css: (0, _cssReducer.css)(state.css, (0, _stepActions.gotoStep)(prevStep)),
-          navigation: (0, _navigationReducer.navigation)(state.navigation, (0, _navigationActions.setProgress)(prevStep, state.totalSteps))
+          navigation: (0, _navigationReducer.navigation)(state.navigation, (0, _navigationActions.setProgress)(prevStep, state.totalSteps)),
+          popup: (0, _popupEditorReducer.popup)(state.popup, action)
         };
       }
 
@@ -32458,7 +32708,8 @@ function root() {
           totalSteps: state.totalSteps,
           html: (0, _htmlReducer.html)(state.html, action),
           css: (0, _cssReducer.css)(state.css, action),
-          navigation: (0, _navigationReducer.navigation)(state.navigation, (0, _navigationActions.setProgress)(action.step, state.totalSteps))
+          navigation: (0, _navigationReducer.navigation)(state.navigation, (0, _navigationActions.setProgress)(action.step, state.totalSteps)),
+          popup: (0, _popupEditorReducer.popup)(state.popup, action)
         };
       }
 
@@ -32469,7 +32720,8 @@ function root() {
         totalSteps: htmlState.get("htmlSourceList").size - 1,
         html: htmlState,
         css: (0, _cssReducer.css)(state.css, action),
-        navigation: (0, _navigationReducer.navigation)(state.navigation, action)
+        navigation: (0, _navigationReducer.navigation)(state.navigation, action),
+        popup: (0, _popupEditorReducer.popup)(state.popup, action)
       };
 
     case _cssSourceListActions.SET_CSS_SOURCE_LIST:
@@ -32479,7 +32731,8 @@ function root() {
         totalSteps: cssState.get("cssSourceList").size - 1,
         html: (0, _htmlReducer.html)(state.html, action),
         css: cssState,
-        navigation: (0, _navigationReducer.navigation)(state.navigation, action)
+        navigation: (0, _navigationReducer.navigation)(state.navigation, action),
+        popup: (0, _popupEditorReducer.popup)(state.popup, action)
       };
 
     default:
@@ -32488,12 +32741,13 @@ function root() {
         totalSteps: state.totalSteps,
         html: (0, _htmlReducer.html)(state.html, action),
         css: (0, _cssReducer.css)(state.css, action),
-        navigation: (0, _navigationReducer.navigation)(state.navigation, action)
+        navigation: (0, _navigationReducer.navigation)(state.navigation, action),
+        popup: (0, _popupEditorReducer.popup)(state.popup, action)
       };
   }
 }
 
-},{"../actions/cssSourceListActions":198,"../actions/htmlSourceListActions":200,"../actions/navigationActions":201,"../actions/stepActions":202,"./cssReducer":233,"./htmlReducer":236,"./navigationReducer":238,"immutable":48}],240:[function(require,module,exports){
+},{"../actions/cssSourceListActions":198,"../actions/htmlSourceListActions":200,"../actions/navigationActions":201,"../actions/stepActions":203,"./cssReducer":236,"./htmlReducer":239,"./navigationReducer":241,"./popupEditorReducer":242,"immutable":48}],244:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32549,7 +32803,7 @@ store.getCurrentStep = function () {
 
 exports.default = store;
 
-},{"../reducers/rootReducer":239,"css":4,"redux":187}]},{},[197,198,199,200,201,202,203,204,206,207,208,228,229,232,233,234,235,236,237,238,239])
+},{"../reducers/rootReducer":243,"css":4,"redux":187}]},{},[197,198,199,200,201,202,203,204,205,207,208,209,210,231,232,235,236,237,238,239,240,241,242,243])
 
 
 //# sourceMappingURL=bundle.js.map
