@@ -31593,9 +31593,16 @@ var HtmlContent = function (_React$Component) {
       );
     }
   }, {
+    key: "defaultClass",
+    value: function defaultClass() {
+      return "";
+    }
+  }, {
     key: "className",
     value: function className() {
-      if (this.props.highlight) return "html-editor-highlight";else return "";
+      var clazz = this.defaultClass();
+      if (this.props.highlight) clazz += " css-editor-highlight";
+      return clazz;
     }
   }]);
 
@@ -32019,7 +32026,7 @@ var HtmlStartTag = function (_React$Component) {
       var htmlElements = [];
       for (var i = 0; i < this.props.attributes.length; i++) {
         var attribute = this.props.attributes[i];
-        htmlElements.push(_react2.default.createElement(_HtmlAttribute2.default, { key: i, name: attribute.name, value: attribute.nodeValue, highlight: this.props.highlight }));
+        if (!attribute.name.startsWith("data-html")) htmlElements.push(_react2.default.createElement(_HtmlAttribute2.default, { key: i, name: attribute.name, value: attribute.nodeValue, highlight: this.props.highlight }));
       }
 
       return htmlElements;
@@ -32085,14 +32092,31 @@ var HtmlTerminalElement = function (_React$Component) {
         'div',
         { className: this.className() },
         _react2.default.createElement(_HtmlStartTag2.default, { tagName: this.props.element.localName, attributes: this.props.element.attributes }),
-        _react2.default.createElement(_HtmlContent2.default, { highlight: this.props.highlightContent, textContent: this.props.element.textContent }),
+        _react2.default.createElement(_HtmlContent2.default, { highlight: this.highlightContent(), textContent: this.props.element.textContent }),
         _react2.default.createElement(_HtmlEndTag2.default, { tagName: this.props.element.localName })
       );
     }
   }, {
+    key: 'defaultClass',
+    value: function defaultClass() {
+      return "html-block";
+    }
+  }, {
     key: 'className',
     value: function className() {
-      if (this.props.highlight) return "html-block html-highlight";else return "html-block";
+      var clazz = this.defaultClass();
+      if (this.highlight()) clazz += " html-highlight";
+      return clazz;
+    }
+  }, {
+    key: 'highlight',
+    value: function highlight() {
+      return this.props.highlight || this.props.element.hasAttribute("data-html-highlight");
+    }
+  }, {
+    key: 'highlightContent',
+    value: function highlightContent() {
+      return this.props.element.hasAttribute("data-html-highlight-content");
     }
   }]);
 

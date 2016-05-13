@@ -8,18 +8,30 @@ export default class HtmlTerminalElement extends React.Component {
     return (
       <div className={this.className()}>
         <HtmlStartTag tagName  ={this.props.element.localName} attributes={this.props.element.attributes}/>
-        <HtmlContent  highlight={this.props.highlightContent}  textContent={this.props.element.textContent}/>
+        <HtmlContent  highlight={this.highlightContent()}      textContent={this.props.element.textContent}/>
         <HtmlEndTag   tagName  ={this.props.element.localName}  />
       </div>
     );
   }
 
-  className() {
-    if(this.props.highlight)
-      return "html-block html-highlight";
-    else
-      return "html-block";
+  defaultClass(){
+    return "html-block";
   }
+
+  className() {
+    let clazz = this.defaultClass();
+    if(this.highlight()) clazz += " html-highlight";
+    return clazz;
+  }
+
+  highlight() {
+    return this.props.highlight || this.props.element.hasAttribute("data-html-highlight")
+  }
+
+  highlightContent() {
+    return this.props.element.hasAttribute("data-html-highlight-content")
+  }
+
 };
 HtmlTerminalElement.propTypes = {
   element  : PropTypes.object.isRequired, //data model of the component

@@ -6,11 +6,15 @@ export default class HtmlContent extends React.Component {
       <div className={this.className()}>{this.props.textContent}</div>
     );
   }
+
+  defaultClass(){
+    return "";
+  }
+
   className() {
-    if(this.props.highlight)
-      return "html-editor-highlight"
-    else
-      return ""
+    let clazz = this.defaultClass();
+    if(this.props.highlight) clazz += " css-editor-highlight";
+    return clazz;
   }
 }
 HtmlContent.propTypes = {
