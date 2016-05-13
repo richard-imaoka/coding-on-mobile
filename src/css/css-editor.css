@@ -138,8 +138,8 @@
   min-width: 200px;
   color: #006699;
   font-weight: bold;
-
 }
+
 .css-editor-value {
   color: #009900;
 }
@@ -156,11 +156,12 @@
 
 .css-editor-input {
   font-size: 1em;
-  width: 100%;
-  /*border-width: 0.5px;*/
-  /*line-hegith: inherit;*/
-  /*padding:     inherit;*/
-  /*color:       inherit;*/
+  padding  : 0px;
+  margin   : 0px;
+  border-width: 0px;
+  font-family : "Source Code Pro";
+  font-weight: bold;
+  background-color: #bbbaf1;
 }
 
 .css-editor-highlight {

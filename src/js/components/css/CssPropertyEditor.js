@@ -17,6 +17,10 @@ export default class CssPropertyEditor extends React.Component {
           onChange={this._handleChange.bind(this)}
           onKeyPress ={this._handleKeyPress.bind(this)}
         />
+        <i
+          className="fa fa-remove css-delete-button" aria-hidden="true"
+          onClick  ={this._handleClear.bind(this)}
+        />
       </div>
     )
   }
@@ -57,10 +61,8 @@ export default class CssPropertyEditor extends React.Component {
       top    : this.props.popup.rectangle.top  + this.props.popup.offset.y,
       left   : this.props.popup.rectangle.left + this.props.popup.offset.x,
       height : this.props.popup.rectangle.height,
-      width  : this.props.popup.rectangle.width,
       zIndex : "10",
-      borderWidth: "1px",
-      backgroundColor: "lightgreen"
+      display: "flex"
     });
   }
 
@@ -86,5 +88,10 @@ export default class CssPropertyEditor extends React.Component {
   _handleAutocompleteSelect(event) {
     this.props.store.dispatch(updatePropertyName(this.props.popup.path, event.target.value));
     this.props.store.dispatch(closeEditor());
-  }  
+  }
+
+  _handleClear(event){
+    event.stopPropagation();
+    this.setState({value: ""});
+  }
 };
