@@ -4,6 +4,11 @@ import { root }    from '../reducers/rootReducer'
 
 const store = createStore(root);
 
+
+store.getInstructionData = function(){
+  return store.getState().instruction.get("instructionData");
+}
+
 store.getHtmlData = function() {
   return store.getState().html.get("htmlData");
 }

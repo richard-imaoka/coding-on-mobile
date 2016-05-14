@@ -1,14 +1,16 @@
 import { Map }             from 'immutable'
 import { html }            from './htmlReducer'
 import { css }             from './cssReducer'
+import { instruction }     from './instructionReducer'
 import { navigation }      from './navigationReducer'
 import { popup }           from './popupEditorReducer'
 import { setProgress }     from '../actions/navigationActions'
 import { NEXT_STEP, PREV_STEP, GOTO_STEP, gotoStep } from '../actions/stepActions'
 import { SET_HTML_SOURCE_LIST } from '../actions/htmlSourceListActions'
 import { SET_CSS_SOURCE_LIST }  from '../actions/cssSourceListActions'
+import { SET_INSTRUCTION_SOURCE_LIST }  from '../actions/instructionSourceListActions'
 
-export function root(state = { currentStep: 1, totalSteps: 1, html: Map(), css: Map(), navigation: {}, popup: {} }, action = undefined){
+export function root(state = { currentStep: 1, totalSteps: 1, html: Map(), css: Map(), instruction: Map(), navigation: {}, popup: {} }, action = undefined){
   switch(action.type) {
     case NEXT_STEP:
       console.debug("action received", action);
@@ -24,6 +26,7 @@ export function root(state = { currentStep: 1, totalSteps: 1, html: Map(), css: 
           totalSteps:  state.totalSteps,
           html:        html( state.html, gotoStep(nextStep) ),
           css:         css(  state.css,  gotoStep(nextStep) ),
+          instruction: instruction( state.instruction, gotoStep(nextStep) ),
           navigation:  navigation( state.navigation, setProgress(nextStep, state.totalSteps) ),
           popup:       popup(state.popup, action )
         };
@@ -43,6 +46,7 @@ export function root(state = { currentStep: 1, totalSteps: 1, html: Map(), css: 
           totalSteps:  state.totalSteps,
           html:        html( state.html, gotoStep(prevStep) ),
           css:         css(  state.css,  gotoStep(prevStep) ),
+          instruction: instruction( state.instruction, gotoStep(prevStep) ),
           navigation:  navigation( state.navigation, setProgress(prevStep, state.totalSteps) ),
           popup:       popup(state.popup, action )
         };
@@ -65,6 +69,7 @@ export function root(state = { currentStep: 1, totalSteps: 1, html: Map(), css: 
           totalSteps:  state.totalSteps,
           html:        html( state.html, action ),
           css:         css(  state.css,  action ),
+          instruction: instruction( state.instruction, action ),
           navigation:  navigation( state.navigation, setProgress(action.step, state.totalSteps) ),
           popup:       popup(state.popup, action )
         };
@@ -77,6 +82,7 @@ export function root(state = { currentStep: 1, totalSteps: 1, html: Map(), css: 
         totalSteps:  htmlState.get("htmlSourceList").size - 1,
         html:        htmlState,
         css:         css( state.css, action ),
+        instruction: instruction( state.instruction, action ),
         navigation:  navigation( state.navigation, action ),
         popup:       popup(state.popup, action )
       };
@@ -88,6 +94,19 @@ export function root(state = { currentStep: 1, totalSteps: 1, html: Map(), css: 
         totalSteps:  cssState.get("cssSourceList").size - 1,
         html:        html( state.html, action ),
         css:         cssState,
+        instruction: instruction( state.instruction, action ),
+        navigation:  navigation( state.navigation, action ),
+        popup:       popup(state.popup, action )
+      };
+
+    case SET_INSTRUCTION_SOURCE_LIST:
+      const instructionState = instruction( state.instruction,  action );
+      return {
+        currentStep: state.currentStep,
+        totalSteps:  instructionState.get("instructionSourceList").size - 1,
+        html:        html( state.html, action ),
+        css:         css( state.css, action ),
+        instruction: instructionState,
         navigation:  navigation( state.navigation, action ),
         popup:       popup(state.popup, action )
       };
@@ -98,6 +117,7 @@ export function root(state = { currentStep: 1, totalSteps: 1, html: Map(), css: 
         totalSteps:  state.totalSteps,
         html:        html( state.html, action ),
         css:         css(  state.css,  action ),
+        instruction: instruction( state.instruction, action ),
         navigation:  navigation( state.navigation, action ),
         popup:       popup(state.popup, action )
       };

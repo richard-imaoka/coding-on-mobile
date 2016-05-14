@@ -1,0 +1,13 @@
+.instruction-button {
+  font-family:      Chewy;
+  font-size:        24px;
+  height:           40px;
+  width:            200px;
+  color:            #fff;
+  background-color: #56c244;
+  border-width:     0px;
+  flex-basis:       20%;
+  padding:          0px;
+  margin:           0px;
+}
+

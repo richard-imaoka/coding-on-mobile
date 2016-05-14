@@ -44,7 +44,7 @@ gulp.task('watch', function () {
   gulp.watch("dist/*.js",           browserSync.reload);
   gulp.watch("img/*.{png,jpg,svg}", browserSync.reload);
   gulp.watch("*.html",              browserSync.reload);
-  gulp.watch("lessons/*/*.{html,css,js}", browserSync.reload);
+  gulp.watch("lessons/*/*.{html,css,js,json}", browserSync.reload);
 });
 
 gulp.task('browser-sync', function() {

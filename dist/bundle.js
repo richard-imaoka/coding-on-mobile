@@ -29671,6 +29671,22 @@ function setHtmlSourceList(htmlSourceList) {
 }
 
 },{}],201:[function(require,module,exports){
+"use strict";
+
+},{}],202:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.setInstructionSourceList = setInstructionSourceList;
+var SET_INSTRUCTION_SOURCE_LIST = exports.SET_INSTRUCTION_SOURCE_LIST = 'SET_INSTRUCTION_SOURCE_LIST';
+
+function setInstructionSourceList(instructionSourceList) {
+  return { type: SET_INSTRUCTION_SOURCE_LIST, instructionSourceList: instructionSourceList };
+}
+
+},{}],203:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -29683,7 +29699,7 @@ function setProgress(currentStep, totalSteps) {
   return { type: SET_PROGRESS, currentStep: currentStep, totalSteps: totalSteps };
 }
 
-},{}],202:[function(require,module,exports){
+},{}],204:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -29702,7 +29718,7 @@ function closeEditor() {
   return { type: CLOSE_EDITOR };
 }
 
-},{}],203:[function(require,module,exports){
+},{}],205:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -29727,7 +29743,7 @@ function gotoStep(step) {
   return { type: GOTO_STEP, step: step };
 }
 
-},{}],204:[function(require,module,exports){
+},{}],206:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29744,20 +29760,23 @@ var AjaxPreload = function () {
 
     this.HTMLs = [];
     this.CSSs = [];
+    this.InstructionJSONs = [];
     this.completedHTMLSteps = 0;
     this.completedCSSSteps = 0;
+    this.completedInstructionSteps = 0;
     this.numSteps = numSteps;
     this.onFinishAjax = callback;
 
     for (var i = 1; i <= numSteps; i++) {
       this.ajaxHTML(i);
       this.ajaxCSS(i);
+      this.ajaxInstructionJSON(i);
     }
   }
 
   _createClass(AjaxPreload, [{
     key: "ajaxHTML",
-    value: function ajaxHTML(i, suffix) {
+    value: function ajaxHTML(i) {
       var ajax = new XMLHttpRequest();
       ajax.open("GET", "sample" + i + ".html", true);
 
@@ -29772,7 +29791,7 @@ var AjaxPreload = function () {
     }
   }, {
     key: "ajaxCSS",
-    value: function ajaxCSS(i, suffix) {
+    value: function ajaxCSS(i) {
       var ajax = new XMLHttpRequest();
       ajax.open("GET", "sample" + i + ".css", true);
 
@@ -29781,6 +29800,21 @@ var AjaxPreload = function () {
         self.completedCSSSteps++;
 
         self.CSSs[i] = ajax.responseText;
+        if (self.isFinishedAjax()) self.onFinishAjax();
+      };
+      ajax.send();
+    }
+  }, {
+    key: "ajaxInstructionJSON",
+    value: function ajaxInstructionJSON(i) {
+      var ajax = new XMLHttpRequest();
+      ajax.open("GET", "instruction" + i + ".json", true);
+
+      var self = this;
+      ajax.onload = function () {
+        self.completedInstructionSteps++;
+
+        self.InstructionJSONs[i] = ajax.responseText;
         if (self.isFinishedAjax()) self.onFinishAjax();
       };
       ajax.send();
@@ -29796,9 +29830,14 @@ var AjaxPreload = function () {
       return this.CSSs[i];
     }
   }, {
+    key: "getInstructionJSON",
+    value: function getInstructionJSON(i) {
+      return this.InstructionJSONs[i];
+    }
+  }, {
     key: "isFinishedAjax",
     value: function isFinishedAjax() {
-      return this.numSteps === this.completedHTMLSteps && this.numSteps === this.completedCSSSteps;
+      return this.numSteps === this.completedHTMLSteps && this.numSteps === this.completedCSSSteps && this.numSteps === this.completedInstructionSteps;
     }
   }]);
 
@@ -29807,7 +29846,7 @@ var AjaxPreload = function () {
 
 exports.default = AjaxPreload;
 
-},{}],205:[function(require,module,exports){
+},{}],207:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29888,7 +29927,7 @@ var CSSData = function () {
 var CSSDataSingleton = new CSSData();
 exports.default = CSSDataSingleton;
 
-},{}],206:[function(require,module,exports){
+},{}],208:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -29931,7 +29970,7 @@ function getCurrentStepFromUrl(url) {
   }
 }
 
-},{}],207:[function(require,module,exports){
+},{}],209:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -30030,7 +30069,7 @@ var App = function (_React$Component) {
 
 exports.default = App;
 
-},{"../actions/popupEditorActions":202,"./Navigation":208,"./PopupEditor":209,"./Result":210,"./css/CssContainer":212,"./html/HtmlContainer":222,"react":181}],208:[function(require,module,exports){
+},{"../actions/popupEditorActions":204,"./Navigation":210,"./PopupEditor":211,"./Result":212,"./css/CssContainer":214,"./html/HtmlContainer":224,"react":181}],210:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -30209,7 +30248,7 @@ var Navigation = exports.Navigation = function (_React$Component5) {
   return Navigation;
 }(_react2.default.Component);
 
-},{"../actions/stepActions":203,"react":181}],209:[function(require,module,exports){
+},{"../actions/stepActions":205,"react":181}],211:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -30258,7 +30297,7 @@ var App = function (_React$Component) {
 
 exports.default = App;
 
-},{"./css/CssPropertyEditor":217,"react":181}],210:[function(require,module,exports){
+},{"./css/CssPropertyEditor":219,"react":181}],212:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -30323,7 +30362,7 @@ var Result = exports.Result = function (_React$Component) {
   return Result;
 }(_react2.default.Component);
 
-},{"react":181}],211:[function(require,module,exports){
+},{"react":181}],213:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -30386,7 +30425,7 @@ exports.default = CssSelectors;
 CssSelectors.propTypes = {
   comment: _react.PropTypes.string.isRequired };
 
-},{"react":181}],212:[function(require,module,exports){
+},{"react":181}],214:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -30445,7 +30484,7 @@ var CssContainer = function (_React$Component) {
 
 exports.default = CssContainer;
 
-},{"./CssEditor":214,"react":181}],213:[function(require,module,exports){
+},{"./CssEditor":216,"react":181}],215:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -30610,7 +30649,7 @@ CssDeclaration.defaultProps = {
   declaration: { property: "", value: "" }
 };
 
-},{"../../ajax/cssData":205,"./CssProperty":216,"./CssValue":220,"immutable":48,"react":181}],214:[function(require,module,exports){
+},{"../../ajax/cssData":207,"./CssProperty":218,"./CssValue":222,"immutable":48,"react":181}],216:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -30706,7 +30745,7 @@ CssEditor.propTypes = {
   stylesheet: _react.PropTypes.object.isRequired //data model of the component
 };
 
-},{"./CssComment":211,"./CssRule":218,"immutable":48,"react":181}],215:[function(require,module,exports){
+},{"./CssComment":213,"./CssRule":220,"immutable":48,"react":181}],217:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -30809,7 +30848,7 @@ CssInput.propTypes = {
   onInputComplete: _react.PropTypes.func.isRequired //callback invoked when input is completed
 };
 
-},{"awesomplete":2,"react":181,"react-dom":52}],216:[function(require,module,exports){
+},{"awesomplete":2,"react":181,"react-dom":52}],218:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -30910,7 +30949,7 @@ CssProperty.defaultProps = {
   highlight: false
 };
 
-},{"../../actions/popupEditorActions":202,"immutable":48,"react":181}],217:[function(require,module,exports){
+},{"../../actions/popupEditorActions":204,"immutable":48,"react":181}],219:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31061,7 +31100,7 @@ var CssPropertyEditor = function (_React$Component) {
 exports.default = CssPropertyEditor;
 ;
 
-},{"../../actions/cssActions":197,"../../actions/popupEditorActions":202,"../../ajax/cssData":205,"awesomplete":2,"react":181,"react-dom":52}],218:[function(require,module,exports){
+},{"../../actions/cssActions":197,"../../actions/popupEditorActions":204,"../../ajax/cssData":207,"awesomplete":2,"react":181,"react-dom":52}],220:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31197,7 +31236,7 @@ CssRule.propTypes = {
   grayout: _react.PropTypes.bool //whether the component is grayed out
 };
 
-},{"./CssDeclaration":213,"./CssSelectors":219,"immutable":48,"react":181}],219:[function(require,module,exports){
+},{"./CssDeclaration":215,"./CssSelectors":221,"immutable":48,"react":181}],221:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31299,7 +31338,7 @@ CssSelectors.propTypes = {
   grayout: _react.PropTypes.bool //whether the component is grayed out
 };
 
-},{"immutable":48,"react":181}],220:[function(require,module,exports){
+},{"immutable":48,"react":181}],222:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31417,7 +31456,7 @@ CssValue.defaultProps = {
   highlight: false
 };
 
-},{"../../actions/cssActions":197,"./CssInput":215,"immutable":48,"react":181}],221:[function(require,module,exports){
+},{"../../actions/cssActions":197,"./CssInput":217,"immutable":48,"react":181}],223:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31498,7 +31537,7 @@ HtmlAttribute.propTypes = {
   highlight: _react.PropTypes.bool
 };
 
-},{"./HtmlIndent":227,"react":181}],222:[function(require,module,exports){
+},{"./HtmlIndent":229,"react":181}],224:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31553,7 +31592,7 @@ var HtmlContainer = function (_React$Component) {
 
 exports.default = HtmlContainer;
 
-},{"./HtmlEditor":225,"react":181}],223:[function(require,module,exports){
+},{"./HtmlEditor":227,"react":181}],225:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31619,7 +31658,7 @@ HtmlContent.defaultProps = {
   highlight: false
 };
 
-},{"react":181}],224:[function(require,module,exports){
+},{"react":181}],226:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31693,7 +31732,7 @@ HtmlDocType.propTypes = {
   name: _react.PropTypes.string.isRequired //data model of the component
 };
 
-},{"./HtmlIndent":227,"react":181}],225:[function(require,module,exports){
+},{"./HtmlIndent":229,"react":181}],227:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31748,7 +31787,7 @@ var HtmlEditor = function (_React$Component) {
 
 exports.default = HtmlEditor;
 
-},{"./HtmlDocType":224,"./HtmlParentElement":228,"react":181}],226:[function(require,module,exports){
+},{"./HtmlDocType":226,"./HtmlParentElement":230,"react":181}],228:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31817,7 +31856,7 @@ HtmlEndTag.defaultProps = {
   highlight: false
 };
 
-},{"react":181}],227:[function(require,module,exports){
+},{"react":181}],229:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31860,7 +31899,7 @@ var HtmlIndent = function (_React$Component) {
 exports.default = HtmlIndent;
 ;
 
-},{"react":181}],228:[function(require,module,exports){
+},{"react":181}],230:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31961,7 +32000,7 @@ HtmlParentElement.defaultProps = {
   highlight: false
 };
 
-},{"./HtmlEndTag":226,"./HtmlIndent":227,"./HtmlStartTag":229,"./HtmlTerminalElement":230,"react":181}],229:[function(require,module,exports){
+},{"./HtmlEndTag":228,"./HtmlIndent":229,"./HtmlStartTag":231,"./HtmlTerminalElement":232,"react":181}],231:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32043,7 +32082,7 @@ HtmlStartTag.defaultProps = {
   highlight: false
 };
 
-},{"./HtmlAttribute":221,"react":181}],230:[function(require,module,exports){
+},{"./HtmlAttribute":223,"react":181}],232:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32133,7 +32172,7 @@ HtmlTerminalElement.defaultProps = {
   highlight: false
 };
 
-},{"./HtmlContent":223,"./HtmlEndTag":226,"./HtmlStartTag":229,"react":181}],231:[function(require,module,exports){
+},{"./HtmlContent":225,"./HtmlEndTag":228,"./HtmlStartTag":231,"react":181}],233:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -32162,6 +32201,8 @@ var _cssSourceListActions = require('../actions/cssSourceListActions');
 
 var _htmlSourceListActions = require('../actions/htmlSourceListActions');
 
+var _instructionSourceListActions = require('../actions/instructionSourceListActions');
+
 var _history = require('../browserURL/history');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -32179,6 +32220,7 @@ var preLoad = new _ajaxPreload2.default(currentStep, totalSteps, function () {
   console.log("completed. yeaaahhhh!!!!");
   _store2.default.dispatch((0, _htmlSourceListActions.setHtmlSourceList)(preLoad.HTMLs));
   _store2.default.dispatch((0, _cssSourceListActions.setCssSourceList)(preLoad.CSSs));
+  _store2.default.dispatch((0, _instructionSourceListActions.setInstructionSourceList)(preLoad.InstructionJSONs));
   _store2.default.subscribe(function () {
     console.log("re render");
     var step = _store2.default.getCurrentStep();
@@ -32186,12 +32228,15 @@ var preLoad = new _ajaxPreload2.default(currentStep, totalSteps, function () {
     if (url !== window.location.href) window.history.pushState({}, "" + currentStep, url);
 
     _reactDom2.default.render(_react2.default.createElement(_App2.default, { store: _store2.default }), document.getElementById("app"));
+    // Start the tour!
+    var tour = _store2.default.getInstructionData();
+    if (tour !== undefined && Object.keys(tour).length !== 0) hopscotch.startTour(tour);else hopscotch.endTour();
   });
 
   _store2.default.dispatch((0, _stepActions.gotoStep)(currentStep));
 });
 
-},{"../actions/cssSourceListActions":198,"../actions/htmlSourceListActions":200,"../actions/stepActions":203,"../ajax/ajaxPreload":204,"../browserURL/history":206,"../components/App":207,"../store/store":244,"react":181,"react-dom":52}],232:[function(require,module,exports){
+},{"../actions/cssSourceListActions":198,"../actions/htmlSourceListActions":200,"../actions/instructionSourceListActions":202,"../actions/stepActions":205,"../ajax/ajaxPreload":206,"../browserURL/history":208,"../components/App":209,"../store/store":249,"react":181,"react-dom":52}],234:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32205,7 +32250,7 @@ function prettyPrint(jsonObj) {
   if (_immutable.Map.isMap(jsonObj)) console.log(JSON.stringify(jsonObj.toJS(), null, " "));else console.log(JSON.stringify(jsonObj, null, " "));
 }
 
-},{"immutable":48}],233:[function(require,module,exports){
+},{"immutable":48}],235:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32294,7 +32339,7 @@ function formatCommentLine(commentLine) {
   return commentLine.replace(/\s/g, "");
 }
 
-},{}],234:[function(require,module,exports){
+},{}],236:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32431,7 +32476,7 @@ function processCssData(data) {
   return ret;
 }
 
-},{"./cssBehaviorCommentParser":233}],235:[function(require,module,exports){
+},{"./cssBehaviorCommentParser":235}],237:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32463,7 +32508,7 @@ function cssDataReducer() {
   }
 }
 
-},{"../actions/cssActions":197,"immutable":48}],236:[function(require,module,exports){
+},{"../actions/cssActions":197,"immutable":48}],238:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32504,7 +32549,7 @@ function css() {
   }
 }
 
-},{"../actions/stepActions":203,"../parsers/cssDataParser":234,"./cssDataReducer":235,"./cssSourceListReducer":237,"css":4,"immutable":48}],237:[function(require,module,exports){
+},{"../actions/stepActions":205,"../parsers/cssDataParser":236,"./cssDataReducer":237,"./cssSourceListReducer":239,"css":4,"immutable":48}],239:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32523,7 +32568,7 @@ function cssSourceList() {
   switch (action.type) {
     case _cssSourceListActions.SET_CSS_SOURCE_LIST:
       console.log("action received", action);
-      if (Object.prototype.toString.call(action.cssSourceList)) return (0, _immutable.List)(action.cssSourceList);else if (_immutable.List.isList(action.cssSourceList)) return action.cssSourceList;else console.warn('invalid action received', action);
+      if (Object.prototype.toString.call(action.cssSourceList) === '[object Array]') return (0, _immutable.List)(action.cssSourceList);else if (_immutable.List.isList(action.cssSourceList)) return action.cssSourceList;else console.warn('invalid action received', action);
       return state;
     default:
       //console.log("CSS: undefined action received", action);
@@ -32531,7 +32576,7 @@ function cssSourceList() {
   }
 }
 
-},{"../actions/cssSourceListActions":198,"immutable":48}],238:[function(require,module,exports){
+},{"../actions/cssSourceListActions":198,"immutable":48}],240:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32549,7 +32594,7 @@ function htmlDataReducer() {
   }
 }
 
-},{}],239:[function(require,module,exports){
+},{}],241:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32582,7 +32627,7 @@ function html() {
   }
 }
 
-},{"../actions/stepActions":203,"./htmlDataReducer":238,"./htmlSourceListReducer":240,"immutable":48}],240:[function(require,module,exports){
+},{"../actions/stepActions":205,"./htmlDataReducer":240,"./htmlSourceListReducer":242,"immutable":48}],242:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32601,7 +32646,7 @@ function htmlSourceList() {
   switch (action.type) {
     case _htmlSourceListActions.SET_HTML_SOURCE_LIST:
       console.log("action received", action);
-      if (Object.prototype.toString.call(action.htmlSourceList)) return (0, _immutable.List)(action.htmlSourceList);else if (_immutable.List.isList(action.htmlSourceList)) return action.htmlSourceList;else console.warn('invalid action received', action);
+      if (Object.prototype.toString.call(action.htmlSourceList) === '[object Array]') return (0, _immutable.List)(action.htmlSourceList);else if (_immutable.List.isList(action.htmlSourceList)) return action.htmlSourceList;else console.warn('invalid action received', action);
       return state;
     default:
       //console.log("HTML: undefined action received", action);
@@ -32609,7 +32654,84 @@ function htmlSourceList() {
   }
 }
 
-},{"../actions/htmlSourceListActions":200,"immutable":48}],241:[function(require,module,exports){
+},{"../actions/htmlSourceListActions":200,"immutable":48}],243:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.instructionData = instructionData;
+function instructionData() {
+  var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+  var action = arguments.length <= 1 || arguments[1] === undefined ? undefined : arguments[1];
+
+  switch (action.type) {
+    default:
+      //console.log("HTML: undefined action received", action);
+      return state;
+  }
+}
+
+},{}],244:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.instruction = instruction;
+
+var _immutable = require('immutable');
+
+var _instructionDataReducer = require('./instructionDataReducer');
+
+var _instructionSourceListReducer = require('./instructionSourceListReducer');
+
+var _stepActions = require('../actions/stepActions');
+
+function instruction() {
+  var state = arguments.length <= 0 || arguments[0] === undefined ? (0, _immutable.Map)({ instructionData: {}, instructionSourceList: (0, _immutable.List)(), instructionSource: "" }) : arguments[0];
+  var action = arguments.length <= 1 || arguments[1] === undefined ? undefined : arguments[1];
+
+
+  switch (action.type) {
+    case _stepActions.GOTO_STEP:
+      var jsonSource = state.get("instructionSourceList").get(action.step);
+      var data = JSON.parse(jsonSource);
+      return state.set("instructionData", data);
+    default:
+      //console.log("CSS: undefined action received", action);
+      return state.set("instructionData", (0, _instructionDataReducer.instructionData)(state.get("instructionData"), action)).set("instructionSourceList", (0, _instructionSourceListReducer.instructionSourceList)(state.get("instructionSourceList"), action));
+  }
+}
+
+},{"../actions/stepActions":205,"./instructionDataReducer":243,"./instructionSourceListReducer":245,"immutable":48}],245:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.instructionSourceList = instructionSourceList;
+
+var _instructionSourceListActions = require("../actions/instructionSourceListActions");
+
+var _immutable = require("immutable");
+
+function instructionSourceList() {
+  var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+  var action = arguments.length <= 1 || arguments[1] === undefined ? undefined : arguments[1];
+
+  switch (action.type) {
+    case _instructionSourceListActions.SET_INSTRUCTION_SOURCE_LIST:
+      console.log("action received", action);
+      if (Object.prototype.toString.call(action.instructionSourceList) === '[object Array]') return (0, _immutable.List)(action.instructionSourceList);else if (_immutable.List.isList(action.instructionSourceList)) return action.instructionSourceList;else console.warn('invalid action received', action);
+      return state;
+    default:
+      //console.log("HTML: undefined action received", action);
+      return state;
+  }
+}
+
+},{"../actions/instructionSourceListActions":202,"immutable":48}],246:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32632,7 +32754,7 @@ function navigation() {
   }
 }
 
-},{"../actions/navigationActions":201}],242:[function(require,module,exports){
+},{"../actions/navigationActions":203}],247:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32659,7 +32781,7 @@ function popup() {
   }
 }
 
-},{"../actions/popupEditorActions":202}],243:[function(require,module,exports){
+},{"../actions/popupEditorActions":204}],248:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32673,6 +32795,8 @@ var _htmlReducer = require('./htmlReducer');
 
 var _cssReducer = require('./cssReducer');
 
+var _instructionReducer = require('./instructionReducer');
+
 var _navigationReducer = require('./navigationReducer');
 
 var _popupEditorReducer = require('./popupEditorReducer');
@@ -32685,8 +32809,10 @@ var _htmlSourceListActions = require('../actions/htmlSourceListActions');
 
 var _cssSourceListActions = require('../actions/cssSourceListActions');
 
+var _instructionSourceListActions = require('../actions/instructionSourceListActions');
+
 function root() {
-  var state = arguments.length <= 0 || arguments[0] === undefined ? { currentStep: 1, totalSteps: 1, html: (0, _immutable.Map)(), css: (0, _immutable.Map)(), navigation: {}, popup: {} } : arguments[0];
+  var state = arguments.length <= 0 || arguments[0] === undefined ? { currentStep: 1, totalSteps: 1, html: (0, _immutable.Map)(), css: (0, _immutable.Map)(), instruction: (0, _immutable.Map)(), navigation: {}, popup: {} } : arguments[0];
   var action = arguments.length <= 1 || arguments[1] === undefined ? undefined : arguments[1];
 
   switch (action.type) {
@@ -32703,6 +32829,7 @@ function root() {
           totalSteps: state.totalSteps,
           html: (0, _htmlReducer.html)(state.html, (0, _stepActions.gotoStep)(nextStep)),
           css: (0, _cssReducer.css)(state.css, (0, _stepActions.gotoStep)(nextStep)),
+          instruction: (0, _instructionReducer.instruction)(state.instruction, (0, _stepActions.gotoStep)(nextStep)),
           navigation: (0, _navigationReducer.navigation)(state.navigation, (0, _navigationActions.setProgress)(nextStep, state.totalSteps)),
           popup: (0, _popupEditorReducer.popup)(state.popup, action)
         };
@@ -32721,6 +32848,7 @@ function root() {
           totalSteps: state.totalSteps,
           html: (0, _htmlReducer.html)(state.html, (0, _stepActions.gotoStep)(prevStep)),
           css: (0, _cssReducer.css)(state.css, (0, _stepActions.gotoStep)(prevStep)),
+          instruction: (0, _instructionReducer.instruction)(state.instruction, (0, _stepActions.gotoStep)(prevStep)),
           navigation: (0, _navigationReducer.navigation)(state.navigation, (0, _navigationActions.setProgress)(prevStep, state.totalSteps)),
           popup: (0, _popupEditorReducer.popup)(state.popup, action)
         };
@@ -32741,6 +32869,7 @@ function root() {
           totalSteps: state.totalSteps,
           html: (0, _htmlReducer.html)(state.html, action),
           css: (0, _cssReducer.css)(state.css, action),
+          instruction: (0, _instructionReducer.instruction)(state.instruction, action),
           navigation: (0, _navigationReducer.navigation)(state.navigation, (0, _navigationActions.setProgress)(action.step, state.totalSteps)),
           popup: (0, _popupEditorReducer.popup)(state.popup, action)
         };
@@ -32753,6 +32882,7 @@ function root() {
         totalSteps: htmlState.get("htmlSourceList").size - 1,
         html: htmlState,
         css: (0, _cssReducer.css)(state.css, action),
+        instruction: (0, _instructionReducer.instruction)(state.instruction, action),
         navigation: (0, _navigationReducer.navigation)(state.navigation, action),
         popup: (0, _popupEditorReducer.popup)(state.popup, action)
       };
@@ -32764,6 +32894,19 @@ function root() {
         totalSteps: cssState.get("cssSourceList").size - 1,
         html: (0, _htmlReducer.html)(state.html, action),
         css: cssState,
+        instruction: (0, _instructionReducer.instruction)(state.instruction, action),
+        navigation: (0, _navigationReducer.navigation)(state.navigation, action),
+        popup: (0, _popupEditorReducer.popup)(state.popup, action)
+      };
+
+    case _instructionSourceListActions.SET_INSTRUCTION_SOURCE_LIST:
+      var instructionState = (0, _instructionReducer.instruction)(state.instruction, action);
+      return {
+        currentStep: state.currentStep,
+        totalSteps: instructionState.get("instructionSourceList").size - 1,
+        html: (0, _htmlReducer.html)(state.html, action),
+        css: (0, _cssReducer.css)(state.css, action),
+        instruction: instructionState,
         navigation: (0, _navigationReducer.navigation)(state.navigation, action),
         popup: (0, _popupEditorReducer.popup)(state.popup, action)
       };
@@ -32774,13 +32917,14 @@ function root() {
         totalSteps: state.totalSteps,
         html: (0, _htmlReducer.html)(state.html, action),
         css: (0, _cssReducer.css)(state.css, action),
+        instruction: (0, _instructionReducer.instruction)(state.instruction, action),
         navigation: (0, _navigationReducer.navigation)(state.navigation, action),
         popup: (0, _popupEditorReducer.popup)(state.popup, action)
       };
   }
 }
 
-},{"../actions/cssSourceListActions":198,"../actions/htmlSourceListActions":200,"../actions/navigationActions":201,"../actions/stepActions":203,"./cssReducer":236,"./htmlReducer":239,"./navigationReducer":241,"./popupEditorReducer":242,"immutable":48}],244:[function(require,module,exports){
+},{"../actions/cssSourceListActions":198,"../actions/htmlSourceListActions":200,"../actions/instructionSourceListActions":202,"../actions/navigationActions":203,"../actions/stepActions":205,"./cssReducer":238,"./htmlReducer":241,"./instructionReducer":244,"./navigationReducer":246,"./popupEditorReducer":247,"immutable":48}],249:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32798,6 +32942,10 @@ var _rootReducer = require('../reducers/rootReducer');
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 var store = (0, _redux.createStore)(_rootReducer.root);
+
+store.getInstructionData = function () {
+  return store.getState().instruction.get("instructionData");
+};
 
 store.getHtmlData = function () {
   return store.getState().html.get("htmlData");
@@ -32836,7 +32984,7 @@ store.getCurrentStep = function () {
 
 exports.default = store;
 
-},{"../reducers/rootReducer":243,"css":4,"redux":187}]},{},[197,198,199,200,201,202,203,204,205,207,208,209,210,231,232,235,236,237,238,239,240,241,242,243])
+},{"../reducers/rootReducer":248,"css":4,"redux":187}]},{},[197,198,199,200,201,202,203,204,205,206,207,209,210,211,212,233,234,237,238,239,240,241,242,243,244,245,246,247,248])
 
 
 //# sourceMappingURL=bundle.js.map
