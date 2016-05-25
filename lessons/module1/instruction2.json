@@ -2,22 +2,10 @@
   "id":"welcome_tour",
   "steps":[
     {
-      "target":"result-container",
+      "target":"hello-world",
       "placement":"bottom",
-      "title":"This is the navigation menu",
-      "content":"Use the links here to get around on our site!"
-    },
-    {
-      "target":"profile-pic",
-      "placement":"right",
-      "title":"Your profile picture",
-      "content":"Upload a profile picture here."
-    },
-    {
-      "target":"inbox",
-      "placement":"bottom",
-      "title":"Your inbox",
-      "content":"Messages from other users will appear here."
+      "title":"Content inside the body tag is shown in 'Result'",
+      "yOffset": 20
     }
   ]
 }

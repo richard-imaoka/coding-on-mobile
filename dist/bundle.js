@@ -31627,9 +31627,14 @@ var HtmlContent = function (_React$Component) {
     value: function render() {
       return _react2.default.createElement(
         "div",
-        { className: this.className() },
+        { id: this.id(), className: this.className() },
         this.props.textContent
       );
+    }
+  }, {
+    key: "id",
+    value: function id() {
+      if (this.props.id) return this.props.id;else return "";
     }
   }, {
     key: "defaultClass",
@@ -32131,7 +32136,11 @@ var HtmlTerminalElement = function (_React$Component) {
         'div',
         { className: this.className() },
         _react2.default.createElement(_HtmlStartTag2.default, { tagName: this.props.element.localName, attributes: this.props.element.attributes }),
-        _react2.default.createElement(_HtmlContent2.default, { highlight: this.highlightContent(), textContent: this.props.element.textContent }),
+        _react2.default.createElement(_HtmlContent2.default, {
+          id: this.props.element.getAttribute("data-html-content-id"),
+          highlight: this.highlightContent(),
+          textContent: this.props.element.textContent
+        }),
         _react2.default.createElement(_HtmlEndTag2.default, { tagName: this.props.element.localName })
       );
     }
@@ -32230,7 +32239,11 @@ var preLoad = new _ajaxPreload2.default(currentStep, totalSteps, function () {
     _reactDom2.default.render(_react2.default.createElement(_App2.default, { store: _store2.default }), document.getElementById("app"));
     // Start the tour!
     var tour = _store2.default.getInstructionData();
-    if (tour !== undefined && Object.keys(tour).length !== 0) hopscotch.startTour(tour);else hopscotch.endTour();
+    var restartTour = _store2.default.restartTour();
+    if (restartTour) {
+      hopscotch.endTour();
+      if (tour !== undefined && Object.keys(tour).length !== 0) hopscotch.startTour(tour);
+    }
   });
 
   _store2.default.dispatch((0, _stepActions.gotoStep)(currentStep));
@@ -32689,7 +32702,7 @@ var _instructionSourceListReducer = require('./instructionSourceListReducer');
 var _stepActions = require('../actions/stepActions');
 
 function instruction() {
-  var state = arguments.length <= 0 || arguments[0] === undefined ? (0, _immutable.Map)({ instructionData: {}, instructionSourceList: (0, _immutable.List)(), instructionSource: "" }) : arguments[0];
+  var state = arguments.length <= 0 || arguments[0] === undefined ? (0, _immutable.Map)({ instructionData: {}, instructionSourceList: (0, _immutable.List)(), instructionSource: "", restartTour: false }) : arguments[0];
   var action = arguments.length <= 1 || arguments[1] === undefined ? undefined : arguments[1];
 
 
@@ -32697,10 +32710,10 @@ function instruction() {
     case _stepActions.GOTO_STEP:
       var jsonSource = state.get("instructionSourceList").get(action.step);
       var data = JSON.parse(jsonSource);
-      return state.set("instructionData", data);
+      return state.set("instructionData", data).set("restartTour", true);
     default:
       //console.log("CSS: undefined action received", action);
-      return state.set("instructionData", (0, _instructionDataReducer.instructionData)(state.get("instructionData"), action)).set("instructionSourceList", (0, _instructionSourceListReducer.instructionSourceList)(state.get("instructionSourceList"), action));
+      return state.set("instructionData", (0, _instructionDataReducer.instructionData)(state.get("instructionData"), action)).set("instructionSourceList", (0, _instructionSourceListReducer.instructionSourceList)(state.get("instructionSourceList"), action)).set("restartTour", false);
   }
 }
 
@@ -32942,6 +32955,10 @@ var _rootReducer = require('../reducers/rootReducer');
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 var store = (0, _redux.createStore)(_rootReducer.root);
+
+store.restartTour = function () {
+  return store.getState().instruction.get("restartTour");
+};
 
 store.getInstructionData = function () {
   return store.getState().instruction.get("instructionData");

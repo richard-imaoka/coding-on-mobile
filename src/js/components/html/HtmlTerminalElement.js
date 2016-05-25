@@ -8,7 +8,11 @@ export default class HtmlTerminalElement extends React.Component {
     return (
       <div className={this.className()}>
         <HtmlStartTag tagName  ={this.props.element.localName} attributes={this.props.element.attributes}/>
-        <HtmlContent  highlight={this.highlightContent()}      textContent={this.props.element.textContent}/>
+        <HtmlContent
+          id         ={this.props.element.getAttribute("data-html-content-id")}
+          highlight  ={this.highlightContent()}
+          textContent={this.props.element.textContent}
+        />
         <HtmlEndTag   tagName  ={this.props.element.localName}  />
       </div>
     );

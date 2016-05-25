@@ -3,8 +3,15 @@ import React, { Component, PropTypes } from 'react'
 export default class HtmlContent extends React.Component {
   render() {
     return (
-      <div className={this.className()}>{this.props.textContent}</div>
+      <div id={this.id()} className={this.className()}>{this.props.textContent}</div>
     );
+  }
+  
+  id() {
+    if(this.props.id)
+      return this.props.id;
+    else
+      return "";
   }
 
   defaultClass(){

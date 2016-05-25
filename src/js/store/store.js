@@ -5,13 +5,17 @@ import { root }    from '../reducers/rootReducer'
 const store = createStore(root);
 
 
+store.restartTour = function(){
+  return store.getState().instruction.get("restartTour");
+};
+
 store.getInstructionData = function(){
   return store.getState().instruction.get("instructionData");
-}
+};
 
 store.getHtmlData = function() {
   return store.getState().html.get("htmlData");
-}
+};
 
 store.getHtmlSource = function(){
   const state      = store.getState();
@@ -21,11 +25,11 @@ store.getHtmlSource = function(){
     return "";
   else
     return htmlSource;
-}
+};
 
 store.getCssData = function(){
   return store.getState().css.get("cssData").toJS();
-}
+};
 
 store.getCssSource = function(){
   const state   = store.getState();
@@ -34,7 +38,7 @@ store.getCssSource = function(){
     return "";
   else
     return css.stringify( cssData.toJS() );
-}
+};
 
 store.getSource = function() {
   const  htmlString = store.getHtmlSource();
@@ -44,10 +48,10 @@ store.getSource = function() {
 
 store.getProgress = function() {
   return store.getState().navigation.progress;
-}
+};
 
 store.getCurrentStep = function(){
   return store.getState().currentStep;
-}
+};
 
 export default store;
