@@ -32,14 +32,15 @@ const preLoad     = new AjaxPreload(currentStep, totalSteps, () => {
       window.history.pushState( {}, "" + currentStep, url );
 
     ReactDOM.render( <App store={store}/>, document.getElementById("app") );
+
     // Start the tour!
-    let tour        = store.getInstructionData();
-    let restartTour = store.restartTour();
-    if( restartTour ){
-      hopscotch.endTour();
-      if( tour !== undefined && Object.keys(tour).length !== 0  ) 
-        hopscotch.startTour(tour);
-    }
+    // let tour        = store.getInstructionData();
+    // let restartTour = store.restartTour();
+    // if( restartTour ){
+    //   hopscotch.endTour();
+    //   if( tour !== undefined && Object.keys(tour).length !== 0  )
+    //     hopscotch.startTour(tour);
+    // }
   })
 
   store.dispatch( gotoStep( currentStep ) );
