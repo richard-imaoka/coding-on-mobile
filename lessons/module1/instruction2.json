@@ -1,11 +1,2 @@
 {
-  "id":"welcome_tour",
-  "steps":[
-    {
-      "target":"hello-world",
-      "placement":"bottom",
-      "title":"Content inside the body tag is shown in 'Result'",
-      "yOffset": 20
-    }
-  ]
 }

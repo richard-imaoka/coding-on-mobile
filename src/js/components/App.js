@@ -28,6 +28,10 @@ export default class App extends React.Component {
           store={this.props.store}
           popup={this.props.store.getState().popup}
         />
+
+        <div className="css-slideup-editor">
+          <div><i className="fa fa-angle-double-down" aria-hidden="true"></i><i className="fa fa-angle-double-down" aria-hidden="true"></i></div>
+        </div>
       </div>
     )
    }

@@ -29707,8 +29707,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.popupEditor = popupEditor;
 exports.closeEditor = closeEditor;
+exports.slideUpEditor = slideUpEditor;
 var POPUP_EDITOR = exports.POPUP_EDITOR = 'POPUP_EDITOR';
 var CLOSE_EDITOR = exports.CLOSE_EDITOR = 'CLOSE_EDITOR';
+var SLIDEUP_EDITOR = exports.SLIDEUP_EDITOR = 'POPUP_EDITOR';
 
 function popupEditor(rectangle, offset, path, editorType, data) {
   return { type: POPUP_EDITOR, rectangle: rectangle, offset: offset, path: path, editorType: editorType, data: data };
@@ -29716,6 +29718,10 @@ function popupEditor(rectangle, offset, path, editorType, data) {
 
 function closeEditor() {
   return { type: CLOSE_EDITOR };
+}
+
+function slideUpEditor() {
+  return { type: SLIDEUP_EDITOR };
 }
 
 },{}],205:[function(require,module,exports){
@@ -30049,7 +30055,17 @@ var App = function (_React$Component) {
         _react2.default.createElement(_PopupEditor2.default, {
           store: this.props.store,
           popup: this.props.store.getState().popup
-        })
+        }),
+        _react2.default.createElement(
+          'div',
+          { className: 'css-slideup-editor' },
+          _react2.default.createElement(
+            'div',
+            null,
+            _react2.default.createElement('i', { className: 'fa fa-angle-double-down', 'aria-hidden': 'true' }),
+            _react2.default.createElement('i', { className: 'fa fa-angle-double-down', 'aria-hidden': 'true' })
+          )
+        )
       );
     }
 
@@ -32237,13 +32253,15 @@ var preLoad = new _ajaxPreload2.default(currentStep, totalSteps, function () {
     if (url !== window.location.href) window.history.pushState({}, "" + currentStep, url);
 
     _reactDom2.default.render(_react2.default.createElement(_App2.default, { store: _store2.default }), document.getElementById("app"));
+
     // Start the tour!
-    var tour = _store2.default.getInstructionData();
-    var restartTour = _store2.default.restartTour();
-    if (restartTour) {
-      hopscotch.endTour();
-      if (tour !== undefined && Object.keys(tour).length !== 0) hopscotch.startTour(tour);
-    }
+    // let tour        = store.getInstructionData();
+    // let restartTour = store.restartTour();
+    // if( restartTour ){
+    //   hopscotch.endTour();
+    //   if( tour !== undefined && Object.keys(tour).length !== 0  )
+    //     hopscotch.startTour(tour);
+    // }
   });
 
   _store2.default.dispatch((0, _stepActions.gotoStep)(currentStep));
