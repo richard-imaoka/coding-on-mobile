@@ -4,17 +4,18 @@ import { SLIDEUP_EDITOR, CLOSE_EDITOR, closeEditor } from '../../actions/popupEd
 export default class CssSlideUpEditor extends React.Component {
 
   render(){
-    // if(this.props.slideUp === undefined)
-    //   return(<div></div>);
-    // else
-      return(
-        <div className={this.className()}>
-          <div onClick={this._handleClick.bind(this)}>
-            <i className="fa fa-angle-double-down" ariaHidden="true"></i>
-            <i className="fa fa-angle-double-down" ariaHidden="true"></i>
-          </div>
+     return(
+      <div className={this.className()}>
+        <div className="css-slideup-close-bar" onClick={this._handleClick.bind(this)}>
+          <i className="fa fa-angle-double-down" ariaHidden="true"></i>
+          close editor
+          <i className="fa fa-angle-double-down" ariaHidden="true"></i>
         </div>
-      );
+        <div>
+          <input className="css-slideup-close-input"/>
+        </div>
+      </div>
+    );
   }
 
   className(){

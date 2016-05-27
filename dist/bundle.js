@@ -31364,17 +31364,20 @@ var CssSlideUpEditor = function (_React$Component) {
   _createClass(CssSlideUpEditor, [{
     key: 'render',
     value: function render() {
-      // if(this.props.slideUp === undefined)
-      //   return(<div></div>);
-      // else
       return _react2.default.createElement(
         'div',
         { className: this.className() },
         _react2.default.createElement(
           'div',
-          { onClick: this._handleClick.bind(this) },
+          { className: 'css-slideup-close-bar', onClick: this._handleClick.bind(this) },
           _react2.default.createElement('i', { className: 'fa fa-angle-double-down', ariaHidden: 'true' }),
+          'close editor',
           _react2.default.createElement('i', { className: 'fa fa-angle-double-down', ariaHidden: 'true' })
+        ),
+        _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement('input', { className: 'css-slideup-close-input' })
         )
       );
     }
