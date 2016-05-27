@@ -29999,13 +29999,11 @@ var _CssContainer = require('./css/CssContainer');
 
 var _CssContainer2 = _interopRequireDefault(_CssContainer);
 
+var _CssSlideUpEditor = require('./css/CssSlideUpEditor');
+
+var _CssSlideUpEditor2 = _interopRequireDefault(_CssSlideUpEditor);
+
 var _Result = require('./Result');
-
-var _PopupEditor = require('./PopupEditor');
-
-var _PopupEditor2 = _interopRequireDefault(_PopupEditor);
-
-var _popupEditorActions = require('../actions/popupEditorActions');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -30029,7 +30027,7 @@ var App = function (_React$Component) {
     value: function render() {
       return _react2.default.createElement(
         'div',
-        { onClick: this._handleClick.bind(this) },
+        null,
         _react2.default.createElement(
           'div',
           { id: 'logo-container' },
@@ -30052,31 +30050,8 @@ var App = function (_React$Component) {
         ),
         _react2.default.createElement(_HtmlContainer2.default, { data: this.props.store.getHtmlData() }),
         _react2.default.createElement(_CssContainer2.default, { store: this.props.store, data: this.props.store.getCssData() }),
-        _react2.default.createElement(_PopupEditor2.default, {
-          store: this.props.store,
-          popup: this.props.store.getState().popup
-        }),
-        _react2.default.createElement(
-          'div',
-          { className: 'css-slideup-editor' },
-          _react2.default.createElement(
-            'div',
-            null,
-            _react2.default.createElement('i', { className: 'fa fa-angle-double-down', 'aria-hidden': 'true' }),
-            _react2.default.createElement('i', { className: 'fa fa-angle-double-down', 'aria-hidden': 'true' })
-          )
-        )
+        _react2.default.createElement(_CssSlideUpEditor2.default, { store: this.props.store, data: this.props.store.getState().slideUp })
       );
-    }
-
-    //Called due to event-bubbling from inner elements, if event.stopPropagation(); is not called
-    //See what components call event.stopPropagation();
-    //TODO: Bad design? Knowing inner element's behavior...
-
-  }, {
-    key: '_handleClick',
-    value: function _handleClick() {
-      this.props.store.dispatch((0, _popupEditorActions.closeEditor)());
     }
   }]);
 
@@ -30085,7 +30060,7 @@ var App = function (_React$Component) {
 
 exports.default = App;
 
-},{"../actions/popupEditorActions":204,"./Navigation":210,"./PopupEditor":211,"./Result":212,"./css/CssContainer":214,"./html/HtmlContainer":224,"react":181}],210:[function(require,module,exports){
+},{"./Navigation":210,"./Result":212,"./css/CssContainer":214,"./css/CssSlideUpEditor":222,"./html/HtmlContainer":225,"react":181}],210:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -30665,7 +30640,7 @@ CssDeclaration.defaultProps = {
   declaration: { property: "", value: "" }
 };
 
-},{"../../ajax/cssData":207,"./CssProperty":218,"./CssValue":222,"immutable":48,"react":181}],216:[function(require,module,exports){
+},{"../../ajax/cssData":207,"./CssProperty":218,"./CssValue":223,"immutable":48,"react":181}],216:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31367,13 +31342,79 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _popupEditorActions = require('../../actions/popupEditorActions');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var CssSlideUpEditor = function (_React$Component) {
+  _inherits(CssSlideUpEditor, _React$Component);
+
+  function CssSlideUpEditor() {
+    _classCallCheck(this, CssSlideUpEditor);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(CssSlideUpEditor).apply(this, arguments));
+  }
+
+  _createClass(CssSlideUpEditor, [{
+    key: 'render',
+    value: function render() {
+      // if(this.props.slideUp === undefined)
+      //   return(<div></div>);
+      // else
+      return _react2.default.createElement(
+        'div',
+        { className: this.className() },
+        _react2.default.createElement(
+          'div',
+          { onClick: this._handleClick.bind(this) },
+          _react2.default.createElement('i', { className: 'fa fa-angle-double-down', ariaHidden: 'true' }),
+          _react2.default.createElement('i', { className: 'fa fa-angle-double-down', ariaHidden: 'true' })
+        )
+      );
+    }
+  }, {
+    key: 'className',
+    value: function className() {
+      if (this.props.data.action === _popupEditorActions.SLIDEUP_EDITOR) return "css-slideup-editor css-editor-slideUp";else if (this.props.data.action === _popupEditorActions.CLOSE_EDITOR) return "css-slideup-editor css-editor-slideDown";else return "css-slideup-editor";
+    }
+  }, {
+    key: '_handleClick',
+    value: function _handleClick() {
+      this.props.store.dispatch((0, _popupEditorActions.closeEditor)());
+    }
+  }]);
+
+  return CssSlideUpEditor;
+}(_react2.default.Component);
+
+exports.default = CssSlideUpEditor;
+
+},{"../../actions/popupEditorActions":204,"react":181}],223:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
 var _immutable = require('immutable');
 
 var _CssInput = require('./CssInput');
 
 var _CssInput2 = _interopRequireDefault(_CssInput);
 
-var _cssActions = require('../../actions/cssActions');
+var _popupEditorActions = require('../../actions/popupEditorActions');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31438,15 +31479,7 @@ var CssValue = function (_React$Component) {
   }, {
     key: 'toEdit',
     value: function toEdit() {
-      if (this.props.editable) this.setState({ edit: true });
-    }
-  }, {
-    key: 'unEdit',
-    value: function unEdit(value) {
-      this.setState({
-        edit: !this.state.edit
-      });
-      this.props.store.dispatch((0, _cssActions.updatePropertyValue)(this.props.path, value));
+      this.props.store.dispatch((0, _popupEditorActions.slideUpEditor)());
     }
   }]);
 
@@ -31472,7 +31505,7 @@ CssValue.defaultProps = {
   highlight: false
 };
 
-},{"../../actions/cssActions":197,"./CssInput":217,"immutable":48,"react":181}],223:[function(require,module,exports){
+},{"../../actions/popupEditorActions":204,"./CssInput":217,"immutable":48,"react":181}],224:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31553,7 +31586,7 @@ HtmlAttribute.propTypes = {
   highlight: _react.PropTypes.bool
 };
 
-},{"./HtmlIndent":229,"react":181}],224:[function(require,module,exports){
+},{"./HtmlIndent":230,"react":181}],225:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31608,7 +31641,7 @@ var HtmlContainer = function (_React$Component) {
 
 exports.default = HtmlContainer;
 
-},{"./HtmlEditor":227,"react":181}],225:[function(require,module,exports){
+},{"./HtmlEditor":228,"react":181}],226:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31679,7 +31712,7 @@ HtmlContent.defaultProps = {
   highlight: false
 };
 
-},{"react":181}],226:[function(require,module,exports){
+},{"react":181}],227:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31753,7 +31786,7 @@ HtmlDocType.propTypes = {
   name: _react.PropTypes.string.isRequired //data model of the component
 };
 
-},{"./HtmlIndent":229,"react":181}],227:[function(require,module,exports){
+},{"./HtmlIndent":230,"react":181}],228:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31808,7 +31841,7 @@ var HtmlEditor = function (_React$Component) {
 
 exports.default = HtmlEditor;
 
-},{"./HtmlDocType":226,"./HtmlParentElement":230,"react":181}],228:[function(require,module,exports){
+},{"./HtmlDocType":227,"./HtmlParentElement":231,"react":181}],229:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31877,7 +31910,7 @@ HtmlEndTag.defaultProps = {
   highlight: false
 };
 
-},{"react":181}],229:[function(require,module,exports){
+},{"react":181}],230:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31920,7 +31953,7 @@ var HtmlIndent = function (_React$Component) {
 exports.default = HtmlIndent;
 ;
 
-},{"react":181}],230:[function(require,module,exports){
+},{"react":181}],231:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32021,7 +32054,7 @@ HtmlParentElement.defaultProps = {
   highlight: false
 };
 
-},{"./HtmlEndTag":228,"./HtmlIndent":229,"./HtmlStartTag":231,"./HtmlTerminalElement":232,"react":181}],231:[function(require,module,exports){
+},{"./HtmlEndTag":229,"./HtmlIndent":230,"./HtmlStartTag":232,"./HtmlTerminalElement":233,"react":181}],232:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32103,7 +32136,7 @@ HtmlStartTag.defaultProps = {
   highlight: false
 };
 
-},{"./HtmlAttribute":223,"react":181}],232:[function(require,module,exports){
+},{"./HtmlAttribute":224,"react":181}],233:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32197,7 +32230,7 @@ HtmlTerminalElement.defaultProps = {
   highlight: false
 };
 
-},{"./HtmlContent":225,"./HtmlEndTag":228,"./HtmlStartTag":231,"react":181}],233:[function(require,module,exports){
+},{"./HtmlContent":226,"./HtmlEndTag":229,"./HtmlStartTag":232,"react":181}],234:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -32267,7 +32300,7 @@ var preLoad = new _ajaxPreload2.default(currentStep, totalSteps, function () {
   _store2.default.dispatch((0, _stepActions.gotoStep)(currentStep));
 });
 
-},{"../actions/cssSourceListActions":198,"../actions/htmlSourceListActions":200,"../actions/instructionSourceListActions":202,"../actions/stepActions":205,"../ajax/ajaxPreload":206,"../browserURL/history":208,"../components/App":209,"../store/store":249,"react":181,"react-dom":52}],234:[function(require,module,exports){
+},{"../actions/cssSourceListActions":198,"../actions/htmlSourceListActions":200,"../actions/instructionSourceListActions":202,"../actions/stepActions":205,"../ajax/ajaxPreload":206,"../browserURL/history":208,"../components/App":209,"../store/store":251,"react":181,"react-dom":52}],235:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32281,7 +32314,7 @@ function prettyPrint(jsonObj) {
   if (_immutable.Map.isMap(jsonObj)) console.log(JSON.stringify(jsonObj.toJS(), null, " "));else console.log(JSON.stringify(jsonObj, null, " "));
 }
 
-},{"immutable":48}],235:[function(require,module,exports){
+},{"immutable":48}],236:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32370,7 +32403,7 @@ function formatCommentLine(commentLine) {
   return commentLine.replace(/\s/g, "");
 }
 
-},{}],236:[function(require,module,exports){
+},{}],237:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32507,7 +32540,7 @@ function processCssData(data) {
   return ret;
 }
 
-},{"./cssBehaviorCommentParser":235}],237:[function(require,module,exports){
+},{"./cssBehaviorCommentParser":236}],238:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32539,7 +32572,7 @@ function cssDataReducer() {
   }
 }
 
-},{"../actions/cssActions":197,"immutable":48}],238:[function(require,module,exports){
+},{"../actions/cssActions":197,"immutable":48}],239:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32580,7 +32613,7 @@ function css() {
   }
 }
 
-},{"../actions/stepActions":205,"../parsers/cssDataParser":236,"./cssDataReducer":237,"./cssSourceListReducer":239,"css":4,"immutable":48}],239:[function(require,module,exports){
+},{"../actions/stepActions":205,"../parsers/cssDataParser":237,"./cssDataReducer":238,"./cssSourceListReducer":240,"css":4,"immutable":48}],240:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32607,7 +32640,7 @@ function cssSourceList() {
   }
 }
 
-},{"../actions/cssSourceListActions":198,"immutable":48}],240:[function(require,module,exports){
+},{"../actions/cssSourceListActions":198,"immutable":48}],241:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32625,7 +32658,7 @@ function htmlDataReducer() {
   }
 }
 
-},{}],241:[function(require,module,exports){
+},{}],242:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32658,7 +32691,7 @@ function html() {
   }
 }
 
-},{"../actions/stepActions":205,"./htmlDataReducer":240,"./htmlSourceListReducer":242,"immutable":48}],242:[function(require,module,exports){
+},{"../actions/stepActions":205,"./htmlDataReducer":241,"./htmlSourceListReducer":243,"immutable":48}],243:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32685,7 +32718,7 @@ function htmlSourceList() {
   }
 }
 
-},{"../actions/htmlSourceListActions":200,"immutable":48}],243:[function(require,module,exports){
+},{"../actions/htmlSourceListActions":200,"immutable":48}],244:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32703,7 +32736,7 @@ function instructionData() {
   }
 }
 
-},{}],244:[function(require,module,exports){
+},{}],245:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32735,7 +32768,7 @@ function instruction() {
   }
 }
 
-},{"../actions/stepActions":205,"./instructionDataReducer":243,"./instructionSourceListReducer":245,"immutable":48}],245:[function(require,module,exports){
+},{"../actions/stepActions":205,"./instructionDataReducer":244,"./instructionSourceListReducer":246,"immutable":48}],246:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32762,7 +32795,7 @@ function instructionSourceList() {
   }
 }
 
-},{"../actions/instructionSourceListActions":202,"immutable":48}],246:[function(require,module,exports){
+},{"../actions/instructionSourceListActions":202,"immutable":48}],247:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32785,7 +32818,7 @@ function navigation() {
   }
 }
 
-},{"../actions/navigationActions":203}],247:[function(require,module,exports){
+},{"../actions/navigationActions":203}],248:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32812,7 +32845,7 @@ function popup() {
   }
 }
 
-},{"../actions/popupEditorActions":204}],248:[function(require,module,exports){
+},{"../actions/popupEditorActions":204}],249:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32832,6 +32865,8 @@ var _navigationReducer = require('./navigationReducer');
 
 var _popupEditorReducer = require('./popupEditorReducer');
 
+var _slideUpEditorReducer = require('./slideUpEditorReducer');
+
 var _navigationActions = require('../actions/navigationActions');
 
 var _stepActions = require('../actions/stepActions');
@@ -32843,7 +32878,7 @@ var _cssSourceListActions = require('../actions/cssSourceListActions');
 var _instructionSourceListActions = require('../actions/instructionSourceListActions');
 
 function root() {
-  var state = arguments.length <= 0 || arguments[0] === undefined ? { currentStep: 1, totalSteps: 1, html: (0, _immutable.Map)(), css: (0, _immutable.Map)(), instruction: (0, _immutable.Map)(), navigation: {}, popup: {} } : arguments[0];
+  var state = arguments.length <= 0 || arguments[0] === undefined ? { currentStep: 1, totalSteps: 1, html: (0, _immutable.Map)(), css: (0, _immutable.Map)(), /*instruction: Map(),*/navigation: {}, slideUp: {}, popup: {} } : arguments[0];
   var action = arguments.length <= 1 || arguments[1] === undefined ? undefined : arguments[1];
 
   switch (action.type) {
@@ -32858,10 +32893,13 @@ function root() {
         return {
           currentStep: nextStep,
           totalSteps: state.totalSteps,
+          navigation: (0, _navigationReducer.navigation)(state.navigation, (0, _navigationActions.setProgress)(nextStep, state.totalSteps)),
+
           html: (0, _htmlReducer.html)(state.html, (0, _stepActions.gotoStep)(nextStep)),
           css: (0, _cssReducer.css)(state.css, (0, _stepActions.gotoStep)(nextStep)),
-          instruction: (0, _instructionReducer.instruction)(state.instruction, (0, _stepActions.gotoStep)(nextStep)),
-          navigation: (0, _navigationReducer.navigation)(state.navigation, (0, _navigationActions.setProgress)(nextStep, state.totalSteps)),
+          //instruction: instruction( state.instruction, gotoStep(nextStep) ),
+
+          slideUp: (0, _slideUpEditorReducer.slideUp)(state.slideUp, action),
           popup: (0, _popupEditorReducer.popup)(state.popup, action)
         };
       }
@@ -32877,10 +32915,13 @@ function root() {
         return {
           currentStep: prevStep,
           totalSteps: state.totalSteps,
+          navigation: (0, _navigationReducer.navigation)(state.navigation, (0, _navigationActions.setProgress)(prevStep, state.totalSteps)),
+
           html: (0, _htmlReducer.html)(state.html, (0, _stepActions.gotoStep)(prevStep)),
           css: (0, _cssReducer.css)(state.css, (0, _stepActions.gotoStep)(prevStep)),
-          instruction: (0, _instructionReducer.instruction)(state.instruction, (0, _stepActions.gotoStep)(prevStep)),
-          navigation: (0, _navigationReducer.navigation)(state.navigation, (0, _navigationActions.setProgress)(prevStep, state.totalSteps)),
+          //instruction: instruction( state.instruction, gotoStep(prevStep) ),
+
+          slideUp: (0, _slideUpEditorReducer.slideUp)(state.slideUp, action),
           popup: (0, _popupEditorReducer.popup)(state.popup, action)
         };
       }
@@ -32898,10 +32939,13 @@ function root() {
         return {
           currentStep: action.step,
           totalSteps: state.totalSteps,
+          navigation: (0, _navigationReducer.navigation)(state.navigation, (0, _navigationActions.setProgress)(action.step, state.totalSteps)),
+
           html: (0, _htmlReducer.html)(state.html, action),
           css: (0, _cssReducer.css)(state.css, action),
-          instruction: (0, _instructionReducer.instruction)(state.instruction, action),
-          navigation: (0, _navigationReducer.navigation)(state.navigation, (0, _navigationActions.setProgress)(action.step, state.totalSteps)),
+          //instruction: instruction( state.instruction, action ),
+
+          slideUp: (0, _slideUpEditorReducer.slideUp)(state.slideUp, action),
           popup: (0, _popupEditorReducer.popup)(state.popup, action)
         };
       }
@@ -32909,36 +32953,45 @@ function root() {
     case _htmlSourceListActions.SET_HTML_SOURCE_LIST:
       var htmlState = (0, _htmlReducer.html)(state.html, action);
       return {
+        html: htmlState,
+
         currentStep: state.currentStep,
         totalSteps: htmlState.get("htmlSourceList").size - 1,
-        html: htmlState,
+
         css: (0, _cssReducer.css)(state.css, action),
-        instruction: (0, _instructionReducer.instruction)(state.instruction, action),
+        //instruction: instruction( state.instruction, action ),
         navigation: (0, _navigationReducer.navigation)(state.navigation, action),
+        slideUp: (0, _slideUpEditorReducer.slideUp)(state.slideUp, action),
         popup: (0, _popupEditorReducer.popup)(state.popup, action)
       };
 
     case _cssSourceListActions.SET_CSS_SOURCE_LIST:
       var cssState = (0, _cssReducer.css)(state.css, action);
       return {
+        css: cssState,
+
         currentStep: state.currentStep,
         totalSteps: cssState.get("cssSourceList").size - 1,
+
         html: (0, _htmlReducer.html)(state.html, action),
-        css: cssState,
-        instruction: (0, _instructionReducer.instruction)(state.instruction, action),
+        //instruction: instruction( state.instruction, action ),
         navigation: (0, _navigationReducer.navigation)(state.navigation, action),
+        slideUp: (0, _slideUpEditorReducer.slideUp)(state.slideUp, action),
         popup: (0, _popupEditorReducer.popup)(state.popup, action)
       };
 
     case _instructionSourceListActions.SET_INSTRUCTION_SOURCE_LIST:
       var instructionState = (0, _instructionReducer.instruction)(state.instruction, action);
       return {
+        //instruction: instructionState,
+
         currentStep: state.currentStep,
         totalSteps: instructionState.get("instructionSourceList").size - 1,
+
         html: (0, _htmlReducer.html)(state.html, action),
         css: (0, _cssReducer.css)(state.css, action),
-        instruction: instructionState,
         navigation: (0, _navigationReducer.navigation)(state.navigation, action),
+        slideUp: (0, _slideUpEditorReducer.slideUp)(state.slideUp, action),
         popup: (0, _popupEditorReducer.popup)(state.popup, action)
       };
 
@@ -32948,14 +33001,42 @@ function root() {
         totalSteps: state.totalSteps,
         html: (0, _htmlReducer.html)(state.html, action),
         css: (0, _cssReducer.css)(state.css, action),
-        instruction: (0, _instructionReducer.instruction)(state.instruction, action),
+        //instruction: instruction( state.instruction, action ),
         navigation: (0, _navigationReducer.navigation)(state.navigation, action),
+        slideUp: (0, _slideUpEditorReducer.slideUp)(state.slideUp, action),
         popup: (0, _popupEditorReducer.popup)(state.popup, action)
       };
   }
 }
 
-},{"../actions/cssSourceListActions":198,"../actions/htmlSourceListActions":200,"../actions/instructionSourceListActions":202,"../actions/navigationActions":203,"../actions/stepActions":205,"./cssReducer":238,"./htmlReducer":241,"./instructionReducer":244,"./navigationReducer":246,"./popupEditorReducer":247,"immutable":48}],249:[function(require,module,exports){
+},{"../actions/cssSourceListActions":198,"../actions/htmlSourceListActions":200,"../actions/instructionSourceListActions":202,"../actions/navigationActions":203,"../actions/stepActions":205,"./cssReducer":239,"./htmlReducer":242,"./instructionReducer":245,"./navigationReducer":247,"./popupEditorReducer":248,"./slideUpEditorReducer":250,"immutable":48}],250:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.slideUp = slideUp;
+
+var _popupEditorActions = require("../actions/popupEditorActions");
+
+function slideUp() {
+  var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+  var action = arguments.length <= 1 || arguments[1] === undefined ? undefined : arguments[1];
+
+  switch (action.type) {
+    case _popupEditorActions.CLOSE_EDITOR:
+      console.log("action received:", action);
+      return { action: _popupEditorActions.CLOSE_EDITOR };
+    case _popupEditorActions.SLIDEUP_EDITOR:
+      console.log("action received:", action);
+      return { action: _popupEditorActions.SLIDEUP_EDITOR };
+    default:
+      //console.log("HTML: undefined action received", action);
+      return state;
+  }
+}
+
+},{"../actions/popupEditorActions":204}],251:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -33019,7 +33100,7 @@ store.getCurrentStep = function () {
 
 exports.default = store;
 
-},{"../reducers/rootReducer":248,"css":4,"redux":187}]},{},[197,198,199,200,201,202,203,204,205,206,207,209,210,211,212,233,234,237,238,239,240,241,242,243,244,245,246,247,248])
+},{"../reducers/rootReducer":249,"css":4,"redux":187}]},{},[197,198,199,200,201,202,203,204,205,206,207,209,210,211,212,234,235,238,239,240,241,242,243,244,245,246,247,248,249,250])
 
 
 //# sourceMappingURL=bundle.js.map

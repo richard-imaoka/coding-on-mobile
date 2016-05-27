@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { List } from  'immutable'
 import CssInput from './CssInput'
-import {updatePropertyValue} from '../../actions/cssActions'
+import {slideUpEditor} from '../../actions/popupEditorActions'
 
 export default class CssValue extends React.Component {
   render() {
@@ -45,15 +45,7 @@ export default class CssValue extends React.Component {
   }
 
   toEdit(){
-    if(this.props.editable)
-      this.setState({ edit: true });
-  }
-
-  unEdit(value){
-    this.setState({
-      edit: !this.state.edit
-    });
-    this.props.store.dispatch(updatePropertyValue(this.props.path, value));
+    this.props.store.dispatch(slideUpEditor());
   }
 };
 CssValue.propTypes = {

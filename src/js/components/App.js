@@ -2,14 +2,13 @@ import React, { Component, PropTypes } from 'react'
 import {Navigation}             from './Navigation'
 import HtmlContainer            from './html/HtmlContainer'
 import CssContainer             from './css/CssContainer'
+import CssSlideUpEditor         from './css/CssSlideUpEditor'
 import {Result}                 from './Result'
-import PopupEditor              from './PopupEditor'
-import {closeEditor}            from  '../actions/popupEditorActions'
 
 export default class App extends React.Component {
   render() {
     return (
-      <div onClick={this._handleClick.bind(this)}>
+      <div>
         
         <div id="logo-container">
           <div id="logo">CSS Learning</div>
@@ -23,23 +22,11 @@ export default class App extends React.Component {
 
         <HtmlContainer data={this.props.store.getHtmlData()} />
      
-        <CssContainer  store={this.props.store} data={this.props.store.getCssData()}/>
-        <PopupEditor
-          store={this.props.store}
-          popup={this.props.store.getState().popup}
-        />
+        <CssContainer store={this.props.store} data={this.props.store.getCssData()}/>
 
-        <div className="css-slideup-editor">
-          <div><i className="fa fa-angle-double-down" aria-hidden="true"></i><i className="fa fa-angle-double-down" aria-hidden="true"></i></div>
-        </div>
+        <CssSlideUpEditor  store={this.props.store} data={this.props.store.getState().slideUp} />
+
       </div>
     )
-   }
-
-  //Called due to event-bubbling from inner elements, if event.stopPropagation(); is not called
-  //See what components call event.stopPropagation();
-  //TODO: Bad design? Knowing inner element's behavior...
-  _handleClick(){
-    this.props.store.dispatch(closeEditor());
   }
 }
