@@ -1,0 +1,49 @@
+.html-editor {
+  padding         : 5px;
+  background-color: white;
+  font-family     : "Source Code Pro";
+  overflow        : auto;
+}
+
+.html-editor div {
+  flex-shrink: 0;
+}
+
+.html-tag{
+  display:         flex;
+}
+
+.html-attribute {
+  display: flex;
+}
+.html-tag-name {
+  color: #006699;
+}
+
+.html-attribute-name {
+  color: gray;
+}
+.html-attribute-value {
+  color: blue;
+}
+
+.html-indent{
+  width: 0.5em;
+}
+
+.html-line {
+  display:     flex;
+  line-height: 18px;
+}
+
+.html-block {
+  display: flex;
+}
+
+.html-doctype {
+  color: lightgray;
+}
+
+.html-highlight {
+  background-color: yellow;
+}

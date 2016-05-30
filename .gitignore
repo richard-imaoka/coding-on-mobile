@@ -3,4 +3,5 @@ node_modules
 debug.html
 ignore
 dist/bundle.js.map
+dist2
 dist/test

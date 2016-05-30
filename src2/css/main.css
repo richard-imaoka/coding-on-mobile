@@ -1,0 +1,12 @@
+body {
+  font-size:        16px;
+  background-color: beige;
+  margin:           0px;
+}
+
+.bar {
+  text-align:       center;
+  font-family:      Chewy;
+  font-size:        24px;
+  background-color: orange;
+}

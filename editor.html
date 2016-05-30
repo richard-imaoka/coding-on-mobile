@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CSS Learning</title>
+
+  <link rel="stylesheet" type="text/css" href="lib/css/awesomplete.css">
+  <link rel="stylesheet" type="text/css" href="lib/css/animate.css">
+  <link rel="stylesheet" type="text/css" href="lib/fonts/font-awesome/css/font-awesome.min.css" >
+
+  <link rel="stylesheet" type="text/css" href="src/css/logo.css">
+  <link rel="stylesheet" type="text/css" href="src/css/css-editor.css">
+  <link rel="stylesheet" type="text/css" href="src/css/html-editor.css">
+  <link rel="stylesheet" type="text/css" href="src/css/main.css">
+  <link rel="stylesheet" type="text/css" href="src/css/progress-bar.css">
+  <link rel="stylesheet" type="text/css" href="src/css/result.css">
+
+  <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Chewy' rel='stylesheet' type='text/css'>
+</head>
+
+<body id="body">
+
+  <div class="css-slideup-editor css-editor-slideUp">
+    <div class="css-slideup-close-bar" onClick={this._handleClick.bind(this)}>
+      <i class="fa fa-angle-double-down" ariaHidden="true"></i>
+      close editor
+      <i class="fa fa-angle-double-down" ariaHidden="true"></i>
+    </div>
+
+    <div>
+      <div style="display: flex; flex-direction: column">
+        <div style="flex-grow: 1;background-color: lightblue; padding: 0px 10px">
+          property
+        </div>
+        <div style="flex-grow: 1;background-color: black; padding: 0px 10px">
+          <input class="css-slideup-close-input"/>
+        </div>
+        <div style="flex-grow: 1;background-color: lightblue; padding: 0px 10px">
+          value
+        </div>
+        <div style="flex-grow: 1;background-color: black; padding: 0px 10px">
+          <input class="css-slideup-close-input"/>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+
+</html>
