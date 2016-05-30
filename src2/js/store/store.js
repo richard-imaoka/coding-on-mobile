@@ -1,17 +1,8 @@
 import { createStore } from 'redux'
 import * as css from 'css'
-import { root }    from '../reducers/rootReducer'
+import root     from '../reducers/rootReducer'
 
 const store = createStore(root);
-
-
-store.restartTour = function(){
-  return store.getState().instruction.get("restartTour");
-};
-
-store.getInstructionData = function(){
-  return store.getState().instruction.get("instructionData");
-};
 
 store.getHtmlData = function() {
   return store.getState().html.get("htmlData");
@@ -28,30 +19,23 @@ store.getHtmlSource = function(){
 };
 
 store.getCssData = function(){
-  return store.getState().css.get("cssData").toJS();
+  const state   = store.getState();
+  const cssData = state.css;
+  return cssData.toJS();
 };
 
 store.getCssSource = function(){
-  const state   = store.getState();
-  const cssData = state.css.get("cssData");
-  if( !cssData.size )
+  const cssData = store.getCssData();
+  if( Object.keys(cssData).length === 0 )
     return "";
   else
-    return css.stringify( cssData.toJS() );
+    return css.stringify( cssData );
 };
 
 store.getSource = function() {
   const  htmlString = store.getHtmlSource();
   const  src        = htmlString.replace('</head>', '<style>' + store.getCssSource() + '</style></head>');
   return src;
-};
-
-store.getProgress = function() {
-  return store.getState().navigation.progress;
-};
-
-store.getCurrentStep = function(){
-  return store.getState().currentStep;
 };
 
 export default store;

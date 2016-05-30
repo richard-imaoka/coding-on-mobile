@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { List } from 'immutable'
-import {popupEditor} from '../../actions/popupEditorActions'
+import {popupEditor} from '../../actions/slideUpActions'
 
 export default class CssProperty extends React.Component {
   render() {

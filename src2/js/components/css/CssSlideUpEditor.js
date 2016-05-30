@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { SLIDEUP_EDITOR, CLOSE_EDITOR, closeEditor } from '../../actions/popupEditorActions'
+import { SLIDEUP_EDITOR, CLOSE_EDITOR, closeEditor } from '../../actions/slideUpActions'
 
 export default class CssSlideUpEditor extends React.Component {
 

@@ -1,6 +1,6 @@
-import { SLIDEUP_EDITOR, CLOSE_EDITOR } from '../actions/popupEditorActions'
+import { SLIDEUP_EDITOR, CLOSE_EDITOR } from '../actions/slideUpActions'
 
-export function slideUp(state = {}, action = undefined){
+export default function slideUp(state = {}, action = undefined){
   switch(action.type) {
     case CLOSE_EDITOR:
       console.log("action received:", action);

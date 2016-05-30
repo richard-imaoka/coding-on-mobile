@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react'
-import {Navigation}             from './Navigation'
 import HtmlContainer            from './html/HtmlContainer'
 import CssContainer             from './css/CssContainer'
 import CssSlideUpEditor         from './css/CssSlideUpEditor'

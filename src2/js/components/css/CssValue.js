@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { List } from  'immutable'
 import CssInput from './CssInput'
-import {slideUpEditor} from '../../actions/popupEditorActions'
+import {slideUpEditor} from '../../actions/slideUpActions'
 
 export default class CssValue extends React.Component {
   render() {

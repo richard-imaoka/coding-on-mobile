@@ -3,7 +3,7 @@ import ReactDOM     from 'react-dom'
 import Awesomplete  from 'awesomplete'
 import CSSData      from '../../ajax/cssData'
 import {updatePropertyName} from '../../actions/cssActions'
-import {closeEditor}        from '../../actions/popupEditorActions'
+import {closeEditor}        from '../../actions/slideUpActions'
 
 export default class CssPropertyEditor extends React.Component {
   render() {
