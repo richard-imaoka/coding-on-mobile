@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import { SLIDEUP_EDITOR, CLOSE_EDITOR, closeEditor } from '../../actions/slideUpActions'
-import CssDeclarationEditor from './CssDeclarationEditor'
+
+import CssSlideUpEditorFactory  from './CssSlideUpEditorFactory'
+import CssSlideUpEditorCloseBar from './CssSlideUpEditorCloseBar'
 
 export default class CssSlideUpEditor extends React.Component {
 
@@ -8,13 +10,9 @@ export default class CssSlideUpEditor extends React.Component {
      return(
       <div className={this.className()}>
 
-        <div className="css-slideup-close-bar" onClick={this._handleClick.bind(this)}>
-          <i className="fa fa-angle-double-down" ariaHidden="true"></i>
-            close editor
-          <i className="fa fa-angle-double-down" ariaHidden="true"></i>
-        </div>
+        <CssSlideUpEditorCloseBar onClick={this._handleClick.bind(this)} />
 
-        <CssDeclarationEditor />
+        {CssSlideUpEditorFactory("CssDeclarationEditor")}
 
       </div>
     );
