@@ -12,16 +12,28 @@ export default class CssSlideUpEditor extends React.Component {
 
         <CssSlideUpEditorCloseBar onClick={this._handleClick.bind(this)} />
 
-        {CssSlideUpEditorFactory("CssDeclarationEditor")}
+        {
+          //Dynamically change the editor type, using the factory pattern
+          CssSlideUpEditorFactory(
+            //1st parameter = editor type
+            this.props.data.editorType,
+            //2nd parameter = props
+            {
+              store: this.props.store,
+              css  : this.props.css,
+              path : this.props.data.path
+            }
+          )
+        }
 
       </div>
     );
   }
 
   className(){
-    if( this.props.data.action === SLIDEUP_EDITOR )
+    if( this.props.data.actionType === SLIDEUP_EDITOR )
       return "css-slideup-editor css-editor-slideUp";
-    else if( this.props.data.action === CLOSE_EDITOR )
+    else if( this.props.data.actionType === CLOSE_EDITOR )
       return "css-slideup-editor css-editor-slideDown";
     else
       return "css-slideup-editor";

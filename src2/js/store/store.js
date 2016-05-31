@@ -21,15 +21,15 @@ store.getHtmlSource = function(){
 store.getCssData = function(){
   const state   = store.getState();
   const cssData = state.css;
-  return cssData.toJS();
+  return cssData;
 };
 
 store.getCssSource = function(){
   const cssData = store.getCssData();
-  if( Object.keys(cssData).length === 0 )
+  if( cssData.size === 0 )
     return "";
   else
-    return css.stringify( cssData );
+    return css.stringify( cssData.toJS() );
 };
 
 store.getSource = function() {

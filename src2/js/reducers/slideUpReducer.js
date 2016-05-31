@@ -4,10 +4,10 @@ export default function slideUp(state = {}, action = undefined){
   switch(action.type) {
     case CLOSE_EDITOR:
       console.log("action received:", action);
-      return { action: CLOSE_EDITOR };
+      return { actionType: CLOSE_EDITOR };
     case SLIDEUP_EDITOR:
       console.log("action received:", action);
-      return { action: SLIDEUP_EDITOR };
+      return { actionType: SLIDEUP_EDITOR, editorType: action.editorType, path: action.path };
     default:
       //console.log("HTML: undefined action received", action);
       return state;

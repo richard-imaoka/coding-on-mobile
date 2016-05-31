@@ -45,7 +45,7 @@ export default class CssValue extends React.Component {
   }
 
   toEdit(){
-    this.props.store.dispatch(slideUpEditor());
+    this.props.store.dispatch(slideUpEditor("CssDeclarationEditor", this.props.path.pop()));
   }
 };
 CssValue.propTypes = {

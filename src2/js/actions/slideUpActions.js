@@ -10,6 +10,6 @@ export function closeEditor(){
   return{ type: CLOSE_EDITOR };
 }
 
-export function slideUpEditor(){
-  return{ type: SLIDEUP_EDITOR };
+export function slideUpEditor(editorType, path){
+  return{ type: SLIDEUP_EDITOR, editorType: editorType, path: path };
 }
