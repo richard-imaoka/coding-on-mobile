@@ -22,7 +22,7 @@ export default class App extends React.Component {
 
         <CssContainer store={this.props.store} data={this.props.store.getCssData()}/>
 
-        <CssSlideUpEditor store={this.props.store} css={this.props.store.getCssData()} data={this.props.store.getState().slideUp} />
+        <CssSlideUpEditor store={this.props.store} css={this.props.store.getCssData()} data={this.props.store.getSlideUpData()} />
 
       </div>
     )

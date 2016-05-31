@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux'
+import { combineReducers } from 'redux-immutable'
 import css     from './cssReducer'
 import html    from './htmlReducer'
 import slideUp from './slideUpReducer'

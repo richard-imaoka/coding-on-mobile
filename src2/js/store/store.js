@@ -5,12 +5,12 @@ import root     from '../reducers/rootReducer'
 const store = createStore(root);
 
 store.getHtmlData = function() {
-  return store.getState().html.get("htmlData");
+  return store.getState().get("html").get("htmlData");
 };
 
 store.getHtmlSource = function(){
   const state      = store.getState();
-  const htmlSource = state.html.get("htmlSource");
+  const htmlSource = state.get("html").get("htmlSource");
 
   if( htmlSource === undefined )
     return "";
@@ -20,7 +20,7 @@ store.getHtmlSource = function(){
 
 store.getCssData = function(){
   const state   = store.getState();
-  const cssData = state.css;
+  const cssData = state.get("css");
   return cssData;
 };
 
@@ -37,5 +37,12 @@ store.getSource = function() {
   const  src        = htmlString.replace('</head>', '<style>' + store.getCssSource() + '</style></head>');
   return src;
 };
+
+
+store.getSlideUpData = function(){
+  const state   = store.getState();
+  const slideUp = state.get("slideUp");
+  return slideUp;
+}
 
 export default store;

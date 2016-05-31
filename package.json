@@ -10,7 +10,8 @@
     "react": "^0.14.8",
     "react-dom": "^0.14.8",
     "react-redux": "^4.4.1",
-    "redux": "^3.3.1"
+    "redux": "^3.3.1",
+    "redux-immutable": "^3.0.6"
   },
   "devDependencies": {
     "babel-core": "^6.7.4",
@@ -33,9 +34,9 @@
     "watchify": "^3.7.0"
   },
   "scripts": {
-    "default":  "gulp default",
+    "default": "gulp default",
     "default2": "gulp default2",
-    "test":     "gulp test"
+    "test": "gulp test"
   },
   "repository": {
     "type": "git",
