@@ -223,7 +223,7 @@
   text-align      : center;
 }
 
-.css-slideup-close-input {
+.css-slideup-input {
   display       : block;
   font-size     : 1em;
   width         : 100%;
@@ -232,6 +232,17 @@
   font-family   : "Source Code Pro";
   font-weight   : bold;
   background-color: white;
+}
+
+.css-slideup-container {
+  display:        flex;
+  flex-direction: column;
+}
+
+.css-slideup-row {
+  flex-grow:        1;
+  padding:          2px 10px;
+  background-color: lightblue;
 }
 
 

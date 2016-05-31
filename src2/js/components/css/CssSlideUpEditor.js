@@ -5,15 +5,36 @@ export default class CssSlideUpEditor extends React.Component {
 
   render(){
      return(
+
       <div className={this.className()}>
         <div className="css-slideup-close-bar" onClick={this._handleClick.bind(this)}>
           <i className="fa fa-angle-double-down" ariaHidden="true"></i>
-          close editor
+            close editor
           <i className="fa fa-angle-double-down" ariaHidden="true"></i>
         </div>
+
         <div>
-          <input className="css-slideup-close-input"/>
+          <div className="css-slideup-container">
+            <div className="css-slideup-row css-slideup-fieldname">
+              property
+            </div>
+            <div className="css-slideup-row">
+              <input className="css-slideup-input" />
+            </div>
+          </div>
         </div>
+
+        <div>
+          <div className="css-slideup-container">
+            <div className="css-slideup-row css-slideup-fieldname">
+              value
+            </div>
+            <div className="css-slideup-row">
+              <input className="css-slideup-input" />
+            </div>
+          </div>
+        </div>
+
       </div>
     );
   }
