@@ -5,7 +5,7 @@ import {slideUpEditor} from '../../actions/slideUpActions'
 export default class CssSelectors extends React.Component {
   render() {
     return (
-      <div onClick={this.toEdit.bind(this)} >
+      <div onTouchEnd={this.toEdit.bind(this)} >
         {this.selectorsExceptLast.map(s =>
           <div className="css-line" key={s}>
             <span className={this.className()}>{s}</span>&#44;

@@ -5,7 +5,9 @@ import {slideUpEditor} from '../../actions/slideUpActions'
 export default class CssProperty extends React.Component {
   render() {
     return(
-      <div className="css-editor-property" onClick={this.toEdit.bind(this)} >{this.props.property}</div>
+      <div className="css-editor-property"
+           onTouchEnd={this.toEdit.bind(this)}
+      >{this.props.property}</div>
     )
   }
 
