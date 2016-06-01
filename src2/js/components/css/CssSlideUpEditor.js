@@ -31,13 +31,15 @@ export default class CssSlideUpEditor extends React.Component {
   }
   className(){
     prettyPrint(this.props.data);
-    if( this.props.data.transition !== undefined
-      && this.props.data.transition.from === CLOSE_EDITOR
-      && this.props.data.transition.to   === SLIDEUP_EDITOR )
+    // if( this.props.data.transition !== undefined
+    //   && this.props.data.transition.from === CLOSE_EDITOR
+    //   && this.props.data.transition.to   === SLIDEUP_EDITOR )
+    if( this.props.data.actionType === SLIDEUP_EDITOR )
       return "css-slideup-editor css-editor-slideUp";
-    else if( this.props.data.transition !== undefined
-      && this.props.data.transition.from === SLIDEUP_EDITOR
-      && this.props.data.transition.to   === CLOSE_EDITOR )
+    // else if( this.props.data.transition !== undefined
+    //   && this.props.data.transition.from === SLIDEUP_EDITOR
+    //   && this.props.data.transition.to   === CLOSE_EDITOR )
+    else if( this.props.data.actionType === CLOSE_EDITOR )
       return "css-slideup-editor css-editor-slideDown";
     else
       return "css-slideup-editor";

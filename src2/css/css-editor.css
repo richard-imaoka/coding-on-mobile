@@ -221,6 +221,7 @@
 .css-slideup-close-bar {
   background-color: rgb(187, 186, 241);
   text-align      : center;
+  height          : 36px;
 }
 
 .css-slideup-input {
