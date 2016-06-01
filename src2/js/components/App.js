@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import HtmlContainer            from './html/HtmlContainer'
 import CssContainer             from './css/CssContainer'
-import CssSlideUpEditor         from './css/CssSlideUpEditor'
+import CssSlideUpEditor         from './editor/CssSlideUpEditor'
 import {Result}                 from './Result'
 
 export default class App extends React.Component {
