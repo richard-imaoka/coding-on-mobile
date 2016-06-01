@@ -1,10 +1,11 @@
 import React, { Component, PropTypes } from 'react'
 import { List } from 'immutable'
+import {slideUpEditor} from '../../actions/slideUpActions'
 
 export default class CssSelectors extends React.Component {
   render() {
     return (
-      <div>
+      <div onClick={this.toEdit.bind(this)} >
         {this.selectorsExceptLast.map(s =>
           <div className="css-line" key={s}>
             <span className={this.className()}>{s}</span>&#44;
@@ -32,6 +33,10 @@ export default class CssSelectors extends React.Component {
   componentWillMount(){
     this.selectorsExceptLast = List(this.props.selectors).pop().toJS();
     this.lastSelector        = this.props.selectors[ this.props.selectors.length - 1 ];
+  }
+
+  toEdit(){
+    this.props.store.dispatch(slideUpEditor("CssSelectorsEditor", this.props.path));
   }
 
 };
