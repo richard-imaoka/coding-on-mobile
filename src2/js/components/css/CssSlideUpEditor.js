@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { SLIDEUP_EDITOR, CLOSE_EDITOR, closeEditor } from '../../actions/slideUpActions'
-
+import prettyPrint from '../../es6/prettyprint'
 import CssSlideUpEditorFactory  from './CssSlideUpEditorFactory'
 import CssSlideUpEditorCloseBar from './CssSlideUpEditorCloseBar'
 
@@ -29,11 +29,15 @@ export default class CssSlideUpEditor extends React.Component {
       </div>
     );
   }
-
   className(){
-    if( this.props.data.actionType === SLIDEUP_EDITOR )
+    prettyPrint(this.props.data);
+    if( this.props.data.transition !== undefined
+      && this.props.data.transition.from === CLOSE_EDITOR
+      && this.props.data.transition.to   === SLIDEUP_EDITOR )
       return "css-slideup-editor css-editor-slideUp";
-    else if( this.props.data.actionType === CLOSE_EDITOR )
+    else if( this.props.data.transition !== undefined
+      && this.props.data.transition.from === SLIDEUP_EDITOR
+      && this.props.data.transition.to   === CLOSE_EDITOR )
       return "css-slideup-editor css-editor-slideDown";
     else
       return "css-slideup-editor";

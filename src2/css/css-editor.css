@@ -95,11 +95,11 @@
 
 @keyframes slideUp {
   from {
-    height: 0px;
+    transform: translate3d(0, 100%, 0);
   }
 
   to {
-    height: 200px;
+    transform: translate3d(0, 0, 0);
   }
 }
 
@@ -114,11 +114,11 @@
 
 @keyframes slideDown {
   from {
-    height: 200px;
+    transform: translate3d(0, 0, 0);
   }
 
   to {
-    height: 0px;
+    transform: translate3d(0, 100%, 0);
   }
 }
 
@@ -215,7 +215,7 @@
 
   bottom:   0px;
   width:    100%;
-  height:   0px; /* hidden by default */
+  height:   200px; /* hidden by default */
 }
 
 .css-slideup-close-bar {

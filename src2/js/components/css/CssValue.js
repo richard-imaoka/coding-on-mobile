@@ -1,47 +1,12 @@
 import React, { Component, PropTypes } from 'react'
 import { List } from  'immutable'
-import CssInput from './CssInput'
 import {slideUpEditor} from '../../actions/slideUpActions'
 
 export default class CssValue extends React.Component {
   render() {
-    if(this.state.edit)
-      return (
-        <CssInput
-          list={this.props.list}
-          item={this.props.item}
-          defaultValue={this.props.value}
-          onInputComplete={this.unEdit.bind(this)}
-        />
-      );
-    // else if(this.props.tooltip)
-    //   return(
-    //     <div className="css-editor-value" onClick={this.toEdit.bind(this)}><span className="css-tooltip"><span className="css-flashed">{this.props.tooltip}</span></span>{this.props.value}</div>
-    //   );
-    // else
       return(
-        <div className={this.className()} onClick={this.toEdit.bind(this)}>{this.props.value}</div>
+        <div className="css-editor-value" onClick={this.toEdit.bind(this)}>{this.props.value}</div>
       );
-  }
-
-  componentWillMount() {
-    this.setState({
-      edit:  false
-    });
-    //console.log('CSSValue: value = ' + this.props.value + ' editable? ' + this.props.editable);
-    //console.log('CSSValue: value= ' + this.props.value + ' path? ' + this.props.path);
-    //console.log('CSSValue: value= ' + this.props.value + ' value? ' + this.props.value);
-  }
-
-  defaultClass(){
-    return "css-editor-value"; 
-  }
-
-  className() {
-    let clazz = this.defaultClass();
-    if(this.props.highlight) clazz += " css-editor-highlight";
-    if(this.props.grayout  ) clazz += " css-editor-grayout";
-    return clazz;
   }
 
   toEdit(){
