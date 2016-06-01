@@ -1,5 +1,6 @@
 import React from 'react'
 import prettyPrint from '../../es6/prettyprint'
+import CssSlideUpInput from './CssSlideUpInput'
 
 
 export default class CssDeclarationEditor extends React.Component {
@@ -19,7 +20,7 @@ export default class CssDeclarationEditor extends React.Component {
               property
             </div>
             <div className="css-slideup-row">
-              <input className="css-slideup-input" value={property}/>
+              <CssSlideUpInput defaultValue={property}/>
             </div>
           </div>
         </div>
@@ -30,7 +31,7 @@ export default class CssDeclarationEditor extends React.Component {
               value
             </div>
             <div className="css-slideup-row">
-              <input className="css-slideup-input" value={value} />
+              <CssSlideUpInput defaultValue={value}/>
             </div>
           </div>
         </div>
