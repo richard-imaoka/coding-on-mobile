@@ -18,9 +18,9 @@ export default class CssRuleEditor extends React.Component {
                 </div>
             )
           }
-        </div>      
+        </div>
       </div>
-    );
+    ); 
   }
 }
 

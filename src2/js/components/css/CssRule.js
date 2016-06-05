@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { List }      from 'immutable'
 import CssSelectors   from './CssSelectors'
 import CssDeclaration from './CssDeclaration'
+import {slideUpEditor} from '../../actions/slideUpActions'
 
 export default class CssRule extends React.Component {
   render() {
@@ -29,9 +30,13 @@ export default class CssRule extends React.Component {
             grayout    ={this.grayout()}
           />
         )}
-        <div className="css-line">&#125;</div>
+        <div className="css-line" onTouchEnd={this.toEdit.bind(this)} >&#125;</div>
       </div>
     )
+  }
+
+  toEdit(){
+    this.props.store.dispatch(slideUpEditor("CssRuleEditor", this.props.path));
   }
 
   defaultClass(){
